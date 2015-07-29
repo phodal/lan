@@ -2,22 +2,41 @@
   "name": "lan",
   "version": "0.0.1",
   "description": "A Internet of Things Framework",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "homepage": "https://github.com/phodal/lan",
   "repository": {
     "type": "git",
     "url": "https://github.com/phodal/lan.git"
   },
+  "author": "Phodal Huang",
+  "files": [
+    "dist"
+  ],
+  "main": "index.js",
   "keywords": [
     "iot",
     "lan"
   ],
-  "author": "Phodal Huang",
+  "scripts": {
+    "test": "gulp",
+    "prepublish": "gulp prepublish"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/phodal/lan/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-jscs": "^1.1.0",
+    "gulp-jshint": "^1.5.3",
+    "gulp-mocha": "^2.0.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^0.4.5",
+    "jshint-stylish": "^1.0.0",
+    "gulp-coveralls": "^0.1.0",
+    "gulp-babel": "^5.1.0",
+    "babel-core": "^5.5.0"
   },
   "homepage": "https://github.com/phodal/lan"
 }
