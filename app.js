@@ -19,7 +19,7 @@ configure = function () {
 
 	app.use('/', routes);
 
-	app = loader.load(app, 'http_api');
+	app = loader.load(app, 'http');
 	return app;
 };
 
