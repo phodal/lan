@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var loader = require('./loader');
 var app = express();
+var mqtt = require("mqtt");
 
 configure = function () {
 	app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +21,7 @@ configure = function () {
 	app.use('/', routes);
 
 	app = loader.load(app, 'http');
+	app = loader.load(app, 'mqtt');
 	return app;
 };
 
@@ -27,6 +29,10 @@ start = module.exports.start = function (opts, callback) {
 	configure();
 	app.listen(8080, function () {
 		console.log("http web server listening on port %d mode", 8080);
+	});
+
+	mqtt.createServer(app.mqtt).listen(1883, function () {
+		console.log("oap-mqtt-rest mqtt server listening on port %d", 1883);
 	});
 	return app;
 };
