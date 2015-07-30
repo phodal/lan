@@ -8,6 +8,7 @@ var loader = require('./loader');
 var app = express();
 var mqtt = require("mqtt");
 var coap = require("coap");
+var configure, start;
 
 configure = function () {
 	app.set('views', path.join(__dirname + '/server', 'views'));

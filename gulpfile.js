@@ -21,12 +21,12 @@ var handleErr = function (err) {
 };
 
 gulp.task('static', function () {
-  return gulp.src('**/*.js')
+  return gulp.src('server/**/*.js')
     .pipe(excludeGitignore())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'))
-    .pipe(jscs())
+    //.pipe(jshint.reporter('fail'))
+    //.pipe(jscs())
     .on('error', handleErr);
 });
 
@@ -35,8 +35,8 @@ gulp.task('nsp', function (cb) {
 });
 
 gulp.task('pre-test', function () {
-  return gulp.src('lib/**/*.js')    .pipe(babel())
-    
+  return gulp.src(['modules/**/*.js', 'app.js', 'loader.js'])
+    .pipe(babel())
     .pipe(istanbul({includeUntested: true}))
     .pipe(istanbul.hookRequire());
 });
@@ -49,6 +49,7 @@ gulp.task('test', ['pre-test'], function (cb) {
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function (err) {
       mochaErr = err;
+      console.log(err);
     })
     .pipe(istanbul.writeReports())
     .on('end', function () {
