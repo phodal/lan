@@ -27,7 +27,7 @@ configure = function () {
 	return app;
 };
 
-start = module.exports.start = function (opts, callback) {
+start = function (opts, callback) {
 	configure();
 	app.listen(8080, function () {
 		console.log("http server run on http://localhost:8080");
@@ -47,4 +47,6 @@ if (require.main.filename === __filename) {
 	start();
 }
 
-module.exports = app;
+module.exports.app = app;
+module.exports.configure = configure;
+module.exports.start = start;

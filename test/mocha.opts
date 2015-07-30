@@ -1,0 +1,7 @@
+--require chai
+--require sinon
+--ui bdd
+--growl
+--colors
+--globals s
+--require test/spec_helper
