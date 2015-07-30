@@ -17,6 +17,7 @@
     "lan"
   ],
   "scripts": {
+    "test": "gulp test",
     "start": "node ./bin/www"
   },
   "license": "MIT",
