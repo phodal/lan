@@ -3,21 +3,21 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var routes = require('./routes/index');
+var routes = require('./server/index');
 var loader = require('./loader');
 var app = express();
 var mqtt = require("mqtt");
 var coap = require("coap");
 
 configure = function () {
-	app.set('views', path.join(__dirname, 'views'));
+	app.set('views', path.join(__dirname + '/server', 'views'));
 	app.set('view engine', 'jade');
 
 	app.use(logger('dev'));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(cookieParser());
-	app.use(express.static(path.join(__dirname, 'public')));
+	app.use(express.static(path.join(__dirname + '/server', 'public')));
 
 	app.use('/', routes);
 
@@ -30,7 +30,7 @@ configure = function () {
 start = module.exports.start = function (opts, callback) {
 	configure();
 	app.listen(8080, function () {
-		console.log("http server listening on port %d mode", 8080);
+		console.log("http server run on http://localhost:8080");
 	});
 
 	coap.createServer(app.coap).listen(5683, function () {
