@@ -9,10 +9,19 @@
 ##Setup
 
 1.Install dependencies
- 
-    npm install 
+
+    npm install
 
 2.Run
 
     node app.js
-    
+
+Inspired by
+[https://github.com/mcollina/qest](https://github.com/mcollina/qest)
+
+##License
+
+© 2015 [Phodal Huang][phodal]. This code is distributed under the MIT
+license.
+
+[phodal]:http://www.phodal.com/
