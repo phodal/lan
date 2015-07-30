@@ -12,7 +12,7 @@ module.exports = function (app) {
 			return {status: 'subscribe'};
 		});
 		client.on('publish', function (packet) {
-			console.log(payload);
+			console.log(packet);
 			return {status: 'publish'};
 		});
 		client.on('pingreq', function (packet) {
