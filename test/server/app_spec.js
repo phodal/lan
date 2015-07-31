@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 var mqtt = require('mqtt');
 var Model = require('../../models/basic');
+var request = require('request');
 
 describe('Application', function () {
 	var models;
@@ -16,11 +17,19 @@ describe('Application', function () {
 		var model = new Model();
 		sinon.spy(model, "findOrCreate");
 
-		client.on('connect', function(){
+		client.on('connect', function () {
 			client.publish('hello', 'coap');
 			client.end();
 			expect(model.findOrCreate.calledOnce);
 			done();
 		});
+	});
+	
+	it('should able connect to http server', function (done) {
+		request('http://localhost:8080', function (error, response, body) {
+			if (response.statusCode === 200) {
+				done();
+			}
+		})
 	});
 });

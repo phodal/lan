@@ -33,6 +33,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "mqtt": "^1.3.5",
+    "request": "^2.60.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
