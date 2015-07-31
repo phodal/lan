@@ -7,6 +7,5 @@ node_js:
 notifications:
   email: false
 before_install: npm install -g gulp
-before_script: node app.js &
 install: npm install
 after_success: CODECLIMATE_REPO_TOKEN=9338786ef61d320210d94fa289f33d566f3c1a111a38c9e96acdb4c77493d363 codeclimate-test-reporter < coverage/lcov.info
