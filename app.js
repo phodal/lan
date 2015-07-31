@@ -9,6 +9,7 @@ var app = express();
 var mqtt = require("mqtt");
 var coap = require("coap");
 var configure, start;
+var WebSocketServer = require('ws').Server;
 
 configure = function () {
 	app.set('views', path.join(__dirname + '/server', 'views'));
@@ -25,6 +26,7 @@ configure = function () {
 	app = loader.load(app, 'http');
 	app = loader.load(app, 'mqtt');
 	app = loader.load(app, 'coap');
+	app = loader.load(app, 'websocket');
 	return app;
 };
 
@@ -33,6 +35,10 @@ start = function (opts, callback) {
 	app.listen(8899, function () {
 		console.log("http server run on http://localhost:8899");
 	});
+
+
+	var server = new WebSocketServer({ port: 8080 });
+	app.websocket(server);
 
 	coap.createServer(app.coap).listen(5683, function () {
 		console.log("coap server listening on port %d", 5683);
