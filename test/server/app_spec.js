@@ -4,6 +4,7 @@ var sinon = require('sinon');
 var mqtt = require('mqtt');
 var Model = require('../../models/basic');
 var request = require('request');
+var coap = require('coap');
 
 describe('Application', function () {
 	var models;
@@ -24,12 +25,25 @@ describe('Application', function () {
 			done();
 		});
 	});
-	
 	it('should able connect to http server', function (done) {
 		request('http://localhost:8080', function (error, response, body) {
 			if (response.statusCode === 200) {
 				done();
 			}
 		})
+	});
+
+	it('should able connect to coap server', function (done) {
+		var req = coap.request('coap://localhost/hello');
+		var result = {"method":"get"};
+
+		req.on('response', function(res) {
+			var response_result = JSON.parse(res.payload.toString());
+			if(response_result.method === result.method){
+				done();
+			}
+		});
+
+		req.end();
 	});
 });
