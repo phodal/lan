@@ -7,10 +7,26 @@ var request = require('request');
 var coap = require('coap');
 
 describe('Application', function () {
-	var models;
-	models = null;
+	var app, server, coapServer, mqttServer;
 	before(function () {
-		helper.globalSetup();
+		app = helper.globalSetup();
+		server = app.listen(8899, function () {
+			console.log("http server run on http://localhost:8899");
+		});
+
+		coapServer = coap.createServer(app.coap).listen(5683, function () {
+			console.log("coap server listening on port %d", 5683);
+		});
+
+		mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
+			console.log("mqtt server listening on port %d", 1883);
+		});
+	});
+
+	after(function(){
+		server.close();
+		coapServer.close();
+		mqttServer.close();
 	});
 
 	describe("MQTT Server", function () {

@@ -10,17 +10,14 @@ module.exports = function (app) {
 		});
 		client.on('subscribe', function (packet) {
 			console.log('subscribe');
-			console.log(packet);
 			return {status: 'subscribe'};
 		});
 		client.on('publish', function (packet) {
-			console.log(packet);
 			model.findOrCreate();
 			return {status: 'publish'};
 		});
 		client.on('pingreq', function (packet) {
 			console.log('pingreq');
-			console.log(packet);
 			return {status: 'pingreq'};
 		});
 		client.on('disconnect', function () {
