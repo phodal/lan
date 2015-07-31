@@ -30,8 +30,8 @@ configure = function () {
 
 start = function (opts, callback) {
 	configure();
-	app.listen(8080, function () {
-		console.log("http server run on http://localhost:8080");
+	app.listen(8848, function () {
+		console.log("http server run on http://localhost:8848");
 	});
 
 	coap.createServer(app.coap).listen(5683, function () {

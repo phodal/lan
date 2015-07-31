@@ -25,8 +25,9 @@ describe('Application', function () {
 			done();
 		});
 	});
+
 	it('should able connect to http server', function (done) {
-		request('http://localhost:8080', function (error, response, body) {
+		request('http://localhost:8848', function (error, response, body) {
 			if (response.statusCode === 200) {
 				done();
 			}
