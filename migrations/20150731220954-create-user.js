@@ -1,6 +1,4 @@
 'use strict';
-var bcrypt = require('bcrypt');
-
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Users', {

@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
@@ -14,5 +16,22 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+
+  function hashPasswordHook(user, options, done) {
+    if (!user.changed('password')) {
+      done();
+    }
+    bcrypt.hash(user.get('password'), 10, function(err, hash) {
+      if (err) {
+        done(err);
+      }
+      user.set('password', hash);
+      done();
+    });
+  }
+  
+  User.beforeCreate(hashPasswordHook);
+  User.beforeUpdate(hashPasswordHook);
+
   return User;
 };
