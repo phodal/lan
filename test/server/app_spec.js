@@ -26,12 +26,21 @@ describe('Application', function () {
 		});
 	});
 
-	it('should able connect to http server', function (done) {
-		request('http://localhost:8848', function (error, response, body) {
-			if (response.statusCode === 200) {
-				done();
-			}
-		})
+	describe("HTTP Server", function () {
+		it('should able connect to http server', function (done) {
+			request('http://localhost:8899', function (error, response, body) {
+				if (response.statusCode === 200) {
+					done();
+				}
+			})
+		});
+		it('should able return response', function (done) {
+			request('http://localhost:8899/topics/test', function (error, response, body) {
+				if (body === '{"topic":"test"}') {
+					done();
+				}
+			})
+		});
 	});
 
 	it('should able connect to coap server', function (done) {
