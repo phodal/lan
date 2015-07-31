@@ -4,6 +4,8 @@ node_js:
   - '0.10'
   - '0.12'
   - 'iojs'
+notifications:
+  email: false
 before_install: npm install -g gulp
 before_script: node app.js &
 install: npm install
