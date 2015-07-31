@@ -10,20 +10,12 @@ describe('Application', function () {
 	var app, server, coapServer, mqttServer;
 	before(function () {
 		app = helper.globalSetup();
-		server = app.listen(8899, function () {
-			console.log("http server run on http://localhost:8899");
-		});
-
-		coapServer = coap.createServer(app.coap).listen(5683, function () {
-			console.log("coap server listening on port %d", 5683);
-		});
-
-		mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
-			console.log("mqtt server listening on port %d", 1883);
-		});
+		server = app.listen(8899, function () {});
+		coapServer = coap.createServer(app.coap).listen(5683, function () {});
+		mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {});
 	});
 
-	after(function(){
+	after(function () {
 		server.close();
 		coapServer.close();
 		mqttServer.close();
@@ -53,9 +45,28 @@ describe('Application', function () {
 				}
 			})
 		});
-		it('should able return response', function (done) {
+		it('should able get response', function (done) {
 			request('http://localhost:8899/topics/test', function (error, response, body) {
 				if (body === '{"topic":"test"}') {
+					done();
+				}
+			})
+		});
+
+		it('should able put response', function (done) {
+			request.put('http://localhost:8899/topics/test', function (error, response, body) {
+				if (response.statusCode === 204) {
+					done();
+				}
+			})
+		});
+
+		it('should able post response', function (done) {
+			request({
+				uri: 'http://localhost:8899/topics/test',
+				method: 'POST'
+			}, function (error, response, body) {
+				if (response.statusCode === 204) {
 					done();
 				}
 			})
@@ -65,11 +76,11 @@ describe('Application', function () {
 	describe("CoAP Server", function () {
 		it('should able connect to coap server', function (done) {
 			var req = coap.request('coap://localhost/hello');
-			var result = {"method":"get"};
+			var result = {"method": "get"};
 
-			req.on('response', function(res) {
+			req.on('response', function (res) {
 				var response_result = JSON.parse(res.payload.toString());
-				if(response_result.method === result.method){
+				if (response_result.method === result.method) {
 					done();
 				}
 			});
