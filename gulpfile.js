@@ -10,6 +10,7 @@ var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
 var coveralls = require('gulp-coveralls');
 var babel = require('gulp-babel');
+var shell = require('gulp-shell');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -41,7 +42,7 @@ gulp.task('pre-test', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test'], function (cb) {
+gulp.task('test', ['cleanDev', 'pre-test'], function (cb) {
   var mochaErr;
 
   gulp.src('test/**/*.js')
@@ -66,6 +67,11 @@ gulp.task('coveralls', ['test'], function () {
     .pipe(coveralls());
 });
 
+gulp.task('cleanDev', shell.task([
+  'rm db.development.sqlite',
+  'sequelize db:migrate'
+]));
+
 gulp.task('babel', function () {
   return gulp.src('lib/**/*.js')
     .pipe(babel())
@@ -73,4 +79,4 @@ gulp.task('babel', function () {
 });
 
 gulp.task('prepublish', ['nsp', 'babel']);
-gulp.task('default', ['static', 'test', 'coveralls']);
+gulp.task('default', ['cleanDev', 'static', 'test', 'coveralls']);
