@@ -7,12 +7,14 @@ function MongoPersistence () {
 }
 
 MongoPersistence.prototype.insert = function(payload) {
+  console.log(payload);
+
   MongoClient.connect(url, function(err, db) {
     console.log("Connected correctly to server");
     var insertDocuments = function(db, callback) {
       var collection = db.collection('documents');
       collection.insert(payload, function(err, result) {
-        console.log("Inserted 3 documents into the document collection");
+        console.log("Inserted 1 documents into the document collection:", payload);
         callback(result);
       });
     };

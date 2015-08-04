@@ -6,6 +6,19 @@
 
 > A CoAP,MQTT,HTTP Server of Internet of Things.
 
+
+
+##Test Function
+
+
+###HTTP PUT
+
+    curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
+
+
+
+
+
 ##Setup
 
 1.Install dependencies
