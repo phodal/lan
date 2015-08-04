@@ -1,3 +1,6 @@
+var Database = require('../persistence/mongo');
+var db = new Database();
+
 module.exports = function (app) {
 	app.get(/^\/topics\/(.+)$/, function (req, res) {
 		var topic = req.params[0];
@@ -14,6 +17,7 @@ module.exports = function (app) {
 			payload = req.body.payload;
 		}
 		//数据库操作
+    db.insert();
 		return res.sendStatus(204);
 	}
 
