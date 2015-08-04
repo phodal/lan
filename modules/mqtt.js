@@ -1,3 +1,15 @@
+var Database = require('../persistence/mongo');
+var db = new Database();
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 module.exports = function (app) {
 	return function (client) {
 		client.on('connect', function (packet) {
@@ -11,7 +23,11 @@ module.exports = function (app) {
 			return {status: 'subscribe'};
 		});
 		client.on('publish', function (packet) {
-			return {status: 'publish'};
+      var payload = packet.payload.toString();
+      if(!isJson(payload)){
+        payload = {'data': payload};
+      }
+      db.insert(payload);
 		});
 		client.on('pingreq', function (packet) {
 			console.log('pingreq');
