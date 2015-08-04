@@ -6,6 +6,7 @@ node_js:
   - 'iojs'
 notifications:
   email: false
+services: mongodb
 before_install: npm install -g gulp sequelize-cli
 before_script: sequelize db:migrate
 install: npm install
