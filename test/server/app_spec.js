@@ -40,8 +40,21 @@ describe('Application', function () {
 			})
 		});
 		it('should able get response', function (done) {
-			request('http://localhost:8899/topics/test', function (error, response, body) {
-				if (body === '{"topic":"test"}') {
+			request({
+        uri: 'http://localhost:8899/topics/test',
+        method: 'PUT',
+        multipart: [
+          {
+            'content-type': 'application/json',
+            body: JSON.stringify({
+              foo: 'bar',
+              _attachments: {'message.txt': {follows: true, length: 18, 'content_type': 'text/plain'}}
+            })
+          },
+          { body: 'I am an attachment' }]
+      }, function (error, response, body) {
+        console.log(body);
+				if (response.statusCode) {
 					done();
 				}
 			})

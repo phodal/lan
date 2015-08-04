@@ -9,15 +9,9 @@ module.exports = function (app) {
 	});
 
 	function update(req, res) {
-		var topic = req.params[0];
-		var payload;
-		if (req.is("json")) {
-			payload = req.body;
-		} else {
-			payload = req.body.payload;
-		}
-		//数据库操作
-    db.insert();
+		//var topic = req.params[0];
+    console.log("===================");
+    db.insert(req.body);
 		return res.sendStatus(204);
 	}
 
