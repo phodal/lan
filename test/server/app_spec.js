@@ -45,7 +45,7 @@ describe('Application', function () {
 
 		it('should able put response', function (done) {
 			request({
-        uri: 'http://root:root@localhost:8899/topics/test',
+        uri: 'http://phodal:phodal@localhost:8899/topics/test',
         method: 'PUT',
         multipart: [
           {
@@ -67,8 +67,8 @@ describe('Application', function () {
 		it('should able put response', function (done) {
 			request.put('http://localhost:8899/topics/test', {
         'auth': {
-          'username': 'root',
-          'password': 'root',
+          'username': 'phodal',
+          'password': 'phodal',
           'sendImmediately': true
         }
       }, function (error, response, body) {
@@ -83,8 +83,8 @@ describe('Application', function () {
 				uri: 'http://localhost:8899/topics/test',
 				method: 'POST',
         'auth': {
-          'username': 'root',
-          'password': 'root',
+          'username': 'phodal',
+          'password': 'phodal',
           'sendImmediately': true
         }
 			}, function (error, response, body) {
