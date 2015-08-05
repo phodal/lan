@@ -13,11 +13,13 @@
 
 ###HTTP PUT
 
+
+
     curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
+with authenticate
 
-
-
+    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
 ##Setup
 
