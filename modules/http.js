@@ -11,6 +11,9 @@ module.exports = function (app) {
 	});
 
 	function update(req, res) {
+    if(!req.headers.authorization) {
+      return res.sendStatus(403);
+    }
     var encoded = req.headers.authorization.split(' ')[1];
     var decoded = new Buffer(encoded, 'base64').toString('utf8');
     console.log(decoded);
