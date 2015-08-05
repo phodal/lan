@@ -20,7 +20,10 @@ describe('Application', function () {
 
 	describe("MQTT Server", function () {
 		it('should able connect to mqtt server', function (done) {
-			var client = mqtt.connect('mqtt://127.0.0.1');
+      var client = mqtt.createClient(1883, '127.0.0.1', {
+        username: 'root',
+        password: 'root'
+      });
 
 			client.on('connect', function () {
 				client.publish('hello', 'coap');
@@ -39,9 +42,10 @@ describe('Application', function () {
 				}
 			})
 		});
-		it('should able get response', function (done) {
+
+		it('should able put response', function (done) {
 			request({
-        uri: 'http://localhost:8899/topics/test',
+        uri: 'http://root:root@localhost:8899/topics/test',
         method: 'PUT',
         multipart: [
           {
@@ -61,7 +65,13 @@ describe('Application', function () {
 		});
 
 		it('should able put response', function (done) {
-			request.put('http://localhost:8899/topics/test', function (error, response, body) {
+			request.put('http://localhost:8899/topics/test', {
+        'auth': {
+          'username': 'root',
+          'password': 'root',
+          'sendImmediately': true
+        }
+      }, function (error, response, body) {
 				if (response.statusCode === 204) {
 					done();
 				}
@@ -71,7 +81,12 @@ describe('Application', function () {
 		it('should able post response', function (done) {
 			request({
 				uri: 'http://localhost:8899/topics/test',
-				method: 'POST'
+				method: 'POST',
+        'auth': {
+          'username': 'root',
+          'password': 'root',
+          'sendImmediately': true
+        }
 			}, function (error, response, body) {
 				if (response.statusCode === 204) {
 					done();
