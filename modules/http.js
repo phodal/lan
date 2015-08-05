@@ -1,8 +1,6 @@
 var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var model = require('../models');
 
 module.exports = function (app) {

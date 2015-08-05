@@ -1,10 +1,15 @@
 var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
+var model = require('../models');
 
 module.exports = function (app) {
 	return function (client) {
+    var auth = {};
+
 		client.on('connect', function (packet) {
+      auth['name'] = packet.username;
+      auth['password'] = packet.password.toString();
 			client.id = packet.client;
 			return client.connack({
 				returnCode: 0
@@ -15,11 +20,22 @@ module.exports = function (app) {
 			return {status: 'subscribe'};
 		});
 		client.on('publish', function (packet) {
-      var payload = packet.payload.toString();
-      if(!isJson(payload)){
-        payload = {'data': payload};
-      }
-      db.insert(payload);
+      model.User.findOne({where: {name: auth.name}}).then(function (user) {
+        if(!user){
+          return {};
+        }
+        user.comparePassword(auth.password, function(err, result){
+          if(result) {
+            var payload = {'name': user.name, 'token': user.uid,'data': packet.payload.toString()};
+            db.insert(payload);
+          } else {
+            return {
+              'status': 'failure',
+              'error': 'password or username error'
+            };
+          }
+        });
+      });
 		});
 		client.on('pingreq', function (packet) {
 			console.log('pingreq');

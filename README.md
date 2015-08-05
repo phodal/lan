@@ -21,6 +21,17 @@ with authenticate
 
     curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
+
+###MQTT
+
+
+    mosquitto_pub -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
+    
+with authenticate
+
+    mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
+
+
 ##Setup
 
 1.Install dependencies
