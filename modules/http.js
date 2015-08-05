@@ -1,6 +1,8 @@
 var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function (app) {
 	app.get(/^\/topics\/(.+)$/, function (req, res) {
