@@ -42,8 +42,10 @@ module.exports = function(sequelize, DataTypes) {
       beforeUpdate: hashPasswordHook
     },
     instanceMethods: {
-      comparePassword: function(password, callback) {
-        bcrypt.compare(password, this.password, callback);
+      comparePassword: function(password, done) {
+        return bcrypt.compare(password, this.password, function(err, res) {
+          return done(err, res);
+        });
       }
     }
   });
