@@ -37,7 +37,7 @@ start = function (opts, callback) {
 	});
 
 
-	var server = new WebSocketServer({ port: 8080 });
+	var server = new WebSocketServer({ port: 8898 });
 	app.websocket(server);
 
 	coap.createServer(app.coap).listen(5683, function () {
