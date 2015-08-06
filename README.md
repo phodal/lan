@@ -7,13 +7,19 @@
 > A CoAP,MQTT,HTTP Server of Internet of Things.
 
 
+##Setup
+
+1.Install
+
+    npm install
+    
+2.Run
+     
+    node app.js 
 
 ##Test Function
 
-
 ###HTTP PUT
-
-
 
     curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
@@ -31,7 +37,10 @@ with authenticate
 
     mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
 
+###CoAP
 
+    coap-client -m get coap://127.0.0.1:5683/topics/zero -T
+    
 ##Setup
 
 1.Install dependencies
