@@ -3,13 +3,14 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mqtt = require("mqtt");
+var coap = require("coap");
+var WebSocketServer = require('ws').Server;
+
 var routes = require('./server/index');
 var loader = require('./loader');
 var app = express();
-var mqtt = require("mqtt");
-var coap = require("coap");
 var configure, start;
-var WebSocketServer = require('ws').Server;
 
 configure = function () {
 	app.set('views', path.join(__dirname + '/server', 'views'));
