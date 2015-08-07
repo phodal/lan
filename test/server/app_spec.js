@@ -57,7 +57,6 @@ describe('Application', function () {
           },
           { body: 'I am an attachment' }]
       }, function (error, response, body) {
-        console.log(body);
 				if (response.statusCode) {
 					done();
 				}
@@ -77,6 +76,20 @@ describe('Application', function () {
 				}
 			})
 		});
+
+    it('should not able put response when password error', function (done) {
+      request.put('http://localhost:8899/topics/test', {
+        'auth': {
+          'username': 'phodal',
+          'password': 'root',
+          'sendImmediately': true
+        }
+      }, function (error, response, body) {
+        if (response.statusCode === 404) {
+          done();
+        }
+      })
+    });
 
 		it('should able post response', function (done) {
 			request({
