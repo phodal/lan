@@ -13,7 +13,6 @@ function getAuthInfo(req) {
 }
 module.exports = function (app) {
   app.get(/^\/topics\/(.+)$/, function (req, res) {
-    console.log(req.headers.authorization);
     if (!req.headers.authorization) {
       res.statusCode = 401;
       res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
