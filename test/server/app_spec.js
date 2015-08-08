@@ -36,7 +36,14 @@ describe('Application', function () {
 
 	describe("HTTP Server", function () {
 		it('should able connect to http server', function (done) {
-			request('http://localhost:8899', function (error, response, body) {
+			request('http://localhost:8899',{
+          'auth': {
+            'username': 'phodal',
+            'uuid': '84e824cb-bfae-4d95-a76d-51103c556057',
+            'sendImmediately': true
+          }
+        },
+        function (error, response, body) {
 				if (response.statusCode === 200) {
 					done();
 				}
