@@ -3,3 +3,12 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form(name="add-estimation", method="post", class="form-group")
+    div.input
+      span.label Title
+      input(type="text", name="title")
+    div.input
+      span.label Description
+      textarea(name="description", cols="40", rows="5")
+    div.actions
+      input(type="submit", value="add")

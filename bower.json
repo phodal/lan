@@ -1,0 +1,8 @@
+{
+  "name": "lan",
+  "version": "0.0.0",
+  "homepage": "https://github.com/phodal/lan",
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
