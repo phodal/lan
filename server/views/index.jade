@@ -1,14 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  form(name="add-estimation", method="post", class="form-group")
-    div.input
-      span.label Title
-      input(type="text", name="title")
-    div.input
-      span.label Description
-      textarea(name="description", cols="40", rows="5")
+  h2 Welcome to #{title} User Dashboard
+  form(name="add-estimation", method="post")
+    div(class="form-group")
+      label(from="name") Name
+      input(type="text", name="title", class="form-control")
+
+    div(class="form-group")
+      label(from="password") Password
+      input(type="password", name="password", class="form-control")
+
+    div(class="form-group")
+      label(from="phone") Phone
+      input(type="phone", name="phone", class="form-control")
+
+    div(class="form-group")
+      label(from="alias") Alias
+      input(type="alias", name="alias", class="form-control")
+
+
     div.actions
-      input(type="submit", value="add")
+      br
+      input(type="submit", value="add", class="btn btn-primary")
