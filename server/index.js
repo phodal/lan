@@ -14,20 +14,20 @@ router.post('/register', function (req, res) {
   models.User.create({
     name: req.body.name,
     password: req.body.password,
-    uuid: '84e824cb-bfae-4d95-a76d-51103c556057',
     phone: req.body.phone,
     alias: req.body.alias
   }).then(function (user, err) {
     if (err) {
       return res.redirect('/');
     }
-    models.User.findOne({where: {name: req.body.name}})
-      .then(function (currentUser) {
-        console.log(currentUser);
-        passport.authenticate('local')(req, res, function () {
-          res.redirect('304', '/register');
-        });
+
+    console.log(user.uid);
+    passport.authenticate('local')(req, res, function () {
+      res.render('success', {
+        title: 'Create Success',
+        account: user
       });
+    })
   });
 });
 
