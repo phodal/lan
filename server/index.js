@@ -6,11 +6,12 @@ var models = require('../models/');
 /* GET home page. */
 router.get('/', function (req, res) {
   'use strict';
-  res.render('index', {title: 'Lan'});
+  res.render('index', {
+    title: 'Welcome to Lan User Manager'
+  });
 });
 
 router.post('/register', function (req, res) {
-  console.log(req.body);
   models.User.create({
     name: req.body.name,
     password: req.body.password,
@@ -24,7 +25,7 @@ router.post('/register', function (req, res) {
       return res.render('register', {account: user});
     }
 
-    console.log(user)
+    console.log(user);
 
     passport.authenticate('local')(req, res, function () {
       res.redirect('/');
