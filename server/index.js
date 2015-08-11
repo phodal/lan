@@ -3,11 +3,10 @@ var router = express.Router();
 var passport = require('passport');
 var models = require('../models/');
 
-/* GET home page. */
 router.get('/', function (req, res) {
   'use strict';
   res.render('index', {
-    title: 'Welcome to Lan User Manager'
+    title: 'Welcome to Lan'
   });
 });
 
@@ -19,22 +18,21 @@ router.post('/register', function (req, res) {
     phone: req.body.phone,
     alias: req.body.alias
   }).then(function (user, err) {
-
-    console.log(err);
     if (err) {
-      return res.render('register', {account: user});
+      return res.redirect('/');
     }
-
-    console.log(user);
-
-    passport.authenticate('local')(req, res, function () {
-      res.redirect('/');
-    });
+    models.User.findOne({where: {name: req.body.name}})
+      .then(function (currentUser) {
+        console.log(currentUser);
+        passport.authenticate('local')(req, res, function () {
+          res.redirect('304', '/register');
+        });
+      });
   });
 });
 
-router.get('/register', function(req, res) {
-  res.render('register', { });
+router.get('/register', function (req, res) {
+  res.render('register', {title: 'Welcome Lan Account Manager'});
 });
 
 module.exports = router;

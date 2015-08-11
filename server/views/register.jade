@@ -1,4 +1,26 @@
 extends layout
 
 block content
-  h2 Welcome #{account}
+  h2 #{title}
+  form(role='form', method="post", action="/register")
+    div(class="form-group")
+      label(from="name") Name
+      input(type="text", name="name", class="form-control")
+
+    div(class="form-group")
+      label(from="password") Password
+      input(type="password", name="password", class="form-control")
+
+    div(class="form-group")
+      label(from="phone") Phone
+      input(type="phone", name="phone", class="form-control")
+
+    div(class="form-group")
+      label(from="alias") Alias
+      input(type="alias", name="alias", class="form-control")
+
+
+    div.actions
+      br
+      input(type="submit", value="add", class="btn btn-primary")
+
