@@ -11,6 +11,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/register', function (req, res) {
+  'use strict';
   models.User.create({
     name: req.body.name,
     password: req.body.password,
@@ -27,11 +28,12 @@ router.post('/register', function (req, res) {
         title: 'Create Success',
         account: user
       });
-    })
+    });
   });
 });
 
 router.get('/register', function (req, res) {
+  'use strict';
   res.render('register', {title: 'Welcome Lan Account Manager'});
 });
 
