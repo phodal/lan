@@ -6,9 +6,11 @@
 
 > A CoAP,MQTT,HTTP Server of Internet of Things.
 
-##Test Function
+##Test With Tool
 
-###HTTP PUT/POST
+
+
+###HTTP PUT/POST - cUrl
 
     curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
@@ -17,7 +19,7 @@ with authenticate
     curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
 
 
-###MQTT PUT/POST
+###MQTT PUT/POST - Mosquitto
 
 
     mosquitto_pub -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
@@ -26,7 +28,7 @@ with authenticate
 
     mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
 
-###CoAP PUT/POST
+###CoAP PUT/POST - libcoap
 
     coap-client -m get coap://127.0.0.1:5683/topics/zero -T
     
