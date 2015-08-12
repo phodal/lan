@@ -9,6 +9,8 @@ var WebSocketServer = require('ws').Server;
 
 var routes = require('./server/index');
 var loader = require('./loader');
+var passport = require('passport');
+
 var app = express();
 var configure, start;
 
@@ -20,6 +22,8 @@ configure = function () {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(cookieParser());
+  app.use(passport.initialize());
+  app.use(passport.session());
 	app.use(express.static(path.join(__dirname + '/server', 'public')));
 
 	app.use('/', routes);
