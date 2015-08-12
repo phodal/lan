@@ -33,7 +33,6 @@ module.exports = function (sequelize, DataTypes) {
             where: {name: value}
           }).done(function (error, user) {
             if (error) {
-              console.log(error);
               return next(error)
             }
             if (user) {

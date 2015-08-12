@@ -2,8 +2,12 @@ var helper = require('../spec_helper');
 var mqtt = require('mqtt');
 var request = require('request');
 var coap = require('coap');
+var Browser = require('zombie');
+var website = "http://localhost:8899/";
+var browser = new Browser({site: website});
+var assert = require('chai').assert;
 
-describe('Application', function () {
+describe('Application Services Test', function () {
   var app, server, coapServer, mqttServer;
   before(function () {
     var models = require('../../models');
@@ -29,6 +33,17 @@ describe('Application', function () {
     server.close();
     coapServer.close();
     mqttServer.close();
+  });
+
+
+  describe("Authenticate", function () {
+    it("should able load the home page", function (done) {
+      browser.visit('/', function (error) {
+        assert.ifError(error);
+        browser.assert.success();
+      });
+      done();
+    });
   });
 
   describe("MQTT Server", function () {

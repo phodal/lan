@@ -44,7 +44,9 @@
     "sequelize-cli": "^1.7.4",
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.0.9",
-    "ws": "^0.7.2"
+    "underscore": "^1.8.3",
+    "ws": "^0.7.2",
+    "zombie": "^4.0.8"
   },
   "devDependencies": {
     "async": "^1.4.0",

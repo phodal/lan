@@ -60,8 +60,7 @@ router.post('/register', function (req, res) {
     .then(function (err) {
       console.log(err);
       if (err) {
-        console.log(err.errors);
-        return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors})
+        return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
       }
       models.User.create(userInfo).then(function (user, err) {
         if (err) {
@@ -77,7 +76,7 @@ router.post('/register', function (req, res) {
           });
         });
       });
-    })
+    });
 });
 
 router.get('/register', function (req, res) {
