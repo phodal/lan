@@ -10,6 +10,42 @@ router.get('/', function (req, res) {
   });
 });
 
+
+router.get('/login', function (req, res) {
+  'use strict';
+  res.render('login/index', {title: 'Login'});
+});
+
+
+router.post('/login', function (req, res) {
+  'use strict';
+
+  var userInfo = {
+    name: req.body.name,
+    password: req.body.password
+  };
+
+  models.User.findOne({where: {name: userInfo.name}}).then(function (user) {
+    if (!user) {
+      return res.sendStatus(403);
+    }
+    user.comparePassword(userInfo.password, function (err, result) {
+      if (result) {
+        console.log(user.uid);
+        return res.render('login/success', {
+          title: 'Welcome' + user.name,
+          uid: user.uid,
+          userName: user.name,
+          phone: user.phone,
+          alias: user.alias
+        });
+      } else {
+        return res.sendStatus(404);
+      }
+    });
+  });
+});
+
 router.post('/register', function (req, res) {
   'use strict';
   var userInfo = {
@@ -35,7 +71,7 @@ router.post('/register', function (req, res) {
         console.log(user.uid);
         passport.authenticate('local')(req, res, function () {
           res.render('success', {
-            title: 'Create Success',
+            title: 'Create Success,' + user.name,
             account: user,
             uid: user.uid
           });

@@ -1,10 +1,12 @@
-extends layout
+extends ../layout
 
 block content
   div(class='panel panel-defaul')
     div(class='panel-heading')
       h3 #{title}
     div(class="panel-body")
-      p #{account.name}
-      p #{uid}
+      p User Name: #{userName}
+      p Alias Name: #{alias}
+      p Phone: #{phone}
+      p UUID: #{uid}
 
