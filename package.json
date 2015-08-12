@@ -64,7 +64,6 @@
     "gulp-mocha": "^2.0.0",
     "gulp-nsp": "^0.4.5",
     "gulp-plumber": "^1.0.0",
-    "gulp-shell": "^0.4.2",
     "jshint-stylish": "^1.0.0",
     "mocha": "^2.2.5",
     "mysql": "^2.8.0",

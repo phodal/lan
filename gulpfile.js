@@ -10,7 +10,7 @@ var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
 var coveralls = require('gulp-coveralls');
 var babel = require('gulp-babel');
-var shell = require('gulp-shell');
+var shell = require('shelljs');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -67,10 +67,14 @@ gulp.task('coveralls', ['test'], function () {
     .pipe(coveralls());
 });
 
-gulp.task('cleanDev', shell.task([
-  'rm db.development.sqlite',
-  'sequelize db:migrate'
-]));
+gulp.task('cleanDev', function(){
+  var localDBFile = 'db.development.sqlite';
+  if(shell.test('-f', localDBFile)){
+    console.log('====================');
+    shell.rm(localDBFile);
+  }
+  shell.exec('sequelize db:migrate');
+});
 
 gulp.task('babel', function () {
   return gulp.src('lib/**/*.js')
