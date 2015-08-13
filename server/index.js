@@ -47,7 +47,7 @@ router.post('/login', function (req, res) {
 });
 
 router.get(/^\/users\/(.+)$/, function (req, res) {
-  console.log(req.params[0]);
+  'use strict';
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
       return res.sendStatus(403);
@@ -57,7 +57,7 @@ router.get(/^\/users\/(.+)$/, function (req, res) {
       title: user.name + '\'s Profile',
       user: user
     });
-  })
+  });
 });
 
   router.post('/register', function (req, res) {

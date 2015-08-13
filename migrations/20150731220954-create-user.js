@@ -17,6 +17,9 @@ module.exports = {
       expiration: {
         type: Sequelize.DATE
       },
+      isAdmin: {
+        type: Sequelize.BOOLEAN
+      },
       uid: {
         type: Sequelize.UUID
       },

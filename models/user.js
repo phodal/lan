@@ -52,7 +52,16 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     expiration: DataTypes.DATE,
-    uid: DataTypes.UUID,
+    uid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true
+    },
+    isAdmin: {
+      type:DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     phone: DataTypes.STRING,
     alias: DataTypes.STRING
   }, {
