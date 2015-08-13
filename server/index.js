@@ -46,42 +46,56 @@ router.post('/login', function (req, res) {
   });
 });
 
-router.post('/register', function (req, res) {
-  'use strict';
-  var userInfo = {
-    name: req.body.name,
-    password: req.body.password,
-    phone: req.body.phone,
-    alias: req.body.alias
-  };
+router.get(/^\/users\/(.+)$/, function (req, res) {
+  console.log(req.params[0]);
+  models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
+    if (!user) {
+      return res.sendStatus(403);
+    }
 
-  models.User.build(userInfo)
-    .validate()
-    .then(function (err) {
-      console.log(err);
-      if (err) {
-        return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
-      }
-      models.User.create(userInfo).then(function (user, err) {
+    return res.render('user/index', {
+      title: user.name + '\'s Profile',
+      user: user
+    });
+  })
+});
+
+  router.post('/register', function (req, res) {
+    'use strict';
+    var userInfo = {
+      name: req.body.name,
+      password: req.body.password,
+      phone: req.body.phone,
+      alias: req.body.alias
+    };
+
+    models.User.build(userInfo)
+      .validate()
+      .then(function (err) {
+        console.log(err);
         if (err) {
-          return res.redirect('/');
+          return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
         }
+        models.User.create(userInfo).then(function (user, err) {
+          if (err) {
+            return res.redirect('/');
+          }
 
-        console.log(user.uid);
-        passport.authenticate('local')(req, res, function () {
-          res.render('success', {
-            title: 'Create Success,' + user.name,
-            account: user,
-            uid: user.uid
+          console.log(user.uid);
+          passport.authenticate('local')(req, res, function () {
+            res.render('success', {
+              title: 'Create Success,' + user.name,
+              account: user,
+              uid: user.uid
+            });
           });
         });
       });
-    });
-});
+  });
 
-router.get('/register', function (req, res) {
-  'use strict';
-  res.render('register', {title: 'Welcome Lan Account Manager', errors: ''});
-});
+  router.get('/register', function (req, res) {
+    'use strict';
+    res.render('register', {title: 'Welcome Lan Account Manager', errors: ''});
+  });
 
-module.exports = router;
+  module.exports = router;
