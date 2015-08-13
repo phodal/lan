@@ -4,11 +4,14 @@
 [![Code Climate](https://codeclimate.com/github/phodal/lan/badges/gpa.svg)](https://codeclimate.com/github/phodal/lan)
 [![Test Coverage](https://codeclimate.com/github/phodal/lan/badges/coverage.svg)](https://codeclimate.com/github/phodal/lan/coverage)
 
-> A CoAP,MQTT,HTTP Server of Internet of Things.
+> A CoAP,MQTT,HTTP,WebSocket Server of Internet of Things.
+
+A similar project before this: [Ponte](https://github.com/eclipse/ponte)
+
+![Lan Struct](iot.jpg)
+
 
 ##Test With Tool
-
-
 
 ###HTTP PUT/POST - cUrl
 
