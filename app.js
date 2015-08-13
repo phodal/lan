@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var mqtt = require("mqtt");
 var coap = require("coap");
 var WebSocketServer = require('ws').Server;
+var session = require('express-session');
 
 var routes = require('./server/index');
 var loader = require('./loader');
@@ -17,8 +18,26 @@ var configure, start;
 configure = function () {
 	app.set('views', path.join(__dirname + '/server', 'views'));
 	app.set('view engine', 'jade');
+  app.set('trust proxy', 1);
+  app.use(session({
+    secret: 'keyboard cat', //Change this in Production
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }));
 
-	app.use(logger('dev'));
+  app.use(function(req, res, next){
+    var err = req.session.error
+      , msg = req.session.success;
+    delete req.session.error;
+    delete req.session.success;
+    res.locals.message = '';
+    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+    next();
+  });
+
+  app.use(logger('dev'));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(cookieParser());

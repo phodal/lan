@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+  title #{title}
   h2 #{title}
   form(role='form', method="post", action="/login")
     div(class="form-group")

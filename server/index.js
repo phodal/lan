@@ -10,7 +10,6 @@ router.get('/', function (req, res) {
   });
 });
 
-
 router.get('/login', function (req, res) {
   'use strict';
   res.render('login/index', {title: 'Login'});
@@ -31,13 +30,19 @@ router.post('/login', function (req, res) {
     }
     user.comparePassword(userInfo.password, function (err, result) {
       if (result) {
-        console.log(user.uid);
-        return res.render('login/success', {
-          title: 'Welcome' + user.name,
-          uid: user.uid,
-          userName: user.name,
-          phone: user.phone,
-          alias: user.alias
+        req.session.regenerate(function () {
+          req.session.user = user;
+          req.session.success = 'Authenticated as ' + user.name
+            + ' click to <a href="/logout">logout</a>. '
+            + ' You may now access <a href="/restricted">/restricted</a>.';
+
+          return res.render('login/success', {
+            title: 'Welcome ' + user.name,
+            uid: user.uid,
+            userName: user.name,
+            phone: user.phone,
+            alias: user.alias
+          });
         });
       } else {
         return res.sendStatus(404);
@@ -46,7 +51,23 @@ router.post('/login', function (req, res) {
   });
 });
 
-router.get(/^\/users\/(.+)$/, function (req, res) {
+router.get('/logout', function(req, res){
+  req.session.destroy(function(){
+    res.redirect('/');
+  });
+});
+
+
+function restrict(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    req.session.error = 'Access denied!';
+    res.redirect('/login');
+  }
+}
+
+router.get(/^\/users\/(.+)$/,restrict, function (req, res) {
   'use strict';
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
@@ -60,42 +81,42 @@ router.get(/^\/users\/(.+)$/, function (req, res) {
   });
 });
 
-  router.post('/register', function (req, res) {
-    'use strict';
-    var userInfo = {
-      name: req.body.name,
-      password: req.body.password,
-      phone: req.body.phone,
-      alias: req.body.alias
-    };
+router.post('/register', function (req, res) {
+  'use strict';
+  var userInfo = {
+    name: req.body.name,
+    password: req.body.password,
+    phone: req.body.phone,
+    alias: req.body.alias
+  };
 
-    models.User.build(userInfo)
-      .validate()
-      .then(function (err) {
-        console.log(err);
+  models.User.build(userInfo)
+    .validate()
+    .then(function (err) {
+      console.log(err);
+      if (err) {
+        return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
+      }
+      models.User.create(userInfo).then(function (user, err) {
         if (err) {
-          return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
+          return res.redirect('/');
         }
-        models.User.create(userInfo).then(function (user, err) {
-          if (err) {
-            return res.redirect('/');
-          }
 
-          console.log(user.uid);
-          passport.authenticate('local')(req, res, function () {
-            res.render('success', {
-              title: 'Create Success,' + user.name,
-              account: user,
-              uid: user.uid
-            });
+        console.log(user.uid);
+        passport.authenticate('local')(req, res, function () {
+          res.render('success', {
+            title: 'Create Success,' + user.name,
+            account: user,
+            uid: user.uid
           });
         });
       });
-  });
+    });
+});
 
-  router.get('/register', function (req, res) {
-    'use strict';
-    res.render('register', {title: 'Welcome Lan Account Manager', errors: ''});
-  });
+router.get('/register', function (req, res) {
+  'use strict';
+  res.render('register', {title: 'Welcome Lan Account Manager', errors: ''});
+});
 
-  module.exports = router;
+module.exports = router;
