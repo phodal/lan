@@ -10,6 +10,29 @@ A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
 ![Lan Struct](iot.jpg)
 
+##TODO
+
+1. add account center (Phodal, Ongoing...)
+
+2. add Auth support for WebSocket
+
+3. example for Arduino、NodeMCU、51 ...
+
+4. add RSA Support for WebSocket、MQTT、HTTP、CoAP
+
+5. add get data support
+
+6. create docker image for deploy
+
+7. configureable
+
+###Done
+
+1. basic auth for WebSocket,MQTT,HTTP,CoAP
+
+2. setup database
+
+3. module loader
 
 ##Test With Tool
 
