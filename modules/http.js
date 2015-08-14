@@ -26,8 +26,12 @@ module.exports = function (app) {
       }
       user.comparePassword(userInfo.password, function (err, result) {
         if (result) {
-          var topic = req.params[0];
-          return res.json({'username': userInfo.username, 'topic': topic});
+          var userName = req.params[0];
+          var options = {name: userName, token: user.uid};
+
+          db.query(options, function (dbResult) {
+            return res.json({'username': userInfo.username, 'topic': dbResult});
+          });
         } else {
           return res.sendStatus(404);
         }
