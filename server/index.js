@@ -12,6 +12,11 @@ router.get('/', function (req, res) {
 
 router.get('/login', function (req, res) {
   'use strict';
+  //console.log("===========", req.isAuthenticated());
+  //if(req.isAuthenticated()){
+  //  res.redirect('/');
+  //}
+
   res.render('login/index', {title: 'Login'});
 });
 
@@ -26,49 +31,47 @@ router.post('/login', function (req, res) {
 
   models.User.findOne({where: {name: userInfo.name}}).then(function (user) {
     if (!user) {
-      return res.sendStatus(403);
+      req.session.messages = "not such user";
+      return res.redirect('/login');
     }
     user.comparePassword(userInfo.password, function (err, result) {
-      if (result) {
-        req.session.regenerate(function () {
-          req.session.user = user;
-          req.session.success = 'Authenticated as ' + user.name
-            + ' click to <a href="/logout">logout</a>. '
-            + ' You may now access <a href="/restricted">/restricted</a>.';
+        if (result) {
 
-          return res.render('login/success', {
-            title: 'Welcome ' + user.name,
-            uid: user.uid,
-            userName: user.name,
-            phone: user.phone,
-            alias: user.alias
+          passport.authenticate('local')(req, res, function () {
+            req.logIn(user, function (err) {
+              console.log('----------------');
+              console.log(err);
+
+              req.session.messages = "Login successfully";
+              return res.render('login/success', {
+                title: 'Welcome ' + user.name,
+                uid: user.uid,
+                userName: user.name,
+                phone: user.phone,
+                alias: user.alias
+              });
+            });
           });
-        });
-      } else {
-        return res.sendStatus(404);
+        }  else {
+          return res.sendStatus(404);
+        }
       }
-    });
+    );
   });
 });
 
-router.get('/logout', function(req, res){
-  req.session.destroy(function(){
-    res.redirect('/');
-  });
-});
-
-
-function restrict(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    req.session.error = 'Access denied!';
-    res.redirect('/login');
+router.get('/logout', function (req, res) {
+  if (req.isAuthenticated()) {
+    req.logout();
+    //req.session.messages = req.i18n.__("Log out successfully");
+    req.session.messages = "Log out successfully";
   }
-}
+  res.redirect('/');
+});
 
-router.get(/^\/users\/(.+)$/,restrict, function (req, res) {
+router.get(/^\/users\/(.+)$/, passport.authenticate('local'), function (req, res) {
   'use strict';
+  console.log(req.session.messages);
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
       return res.sendStatus(403);

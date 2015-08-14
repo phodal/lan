@@ -11,6 +11,7 @@ var session = require('express-session');
 var routes = require('./server/index');
 var loader = require('./loader');
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 var configure, start;
@@ -18,31 +19,59 @@ var configure, start;
 configure = function () {
 	app.set('views', path.join(__dirname + '/server', 'views'));
 	app.set('view engine', 'jade');
+
   app.set('trust proxy', 1);
   app.use(session({
     secret: 'keyboard cat', //Change this in Production
-    resave: false,
-    saveUninitialized: true,
+    //resave: false,
+    //saveUninitialized: true,
     cookie: { secure: true }
   }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-  app.use(function(req, res, next){
-    var err = req.session.error
-      , msg = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
-    res.locals.message = '';
-    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
-    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
-    next();
+  var models = require('./models/');
+  passport.serializeUser(function(user, done) {
+    console.log("--------------");
+    console.log(user.uid);
+    done(null, user.uid);
   });
+
+  passport.deserializeUser(function(uid, done) {
+    models.User.find({where: {uid: uid}}).success(function(user){
+      done(null, user);
+    }).error(function(err){
+      console.log(id, err);
+      done(err, null);
+    });
+  });
+
+  passport.use(new LocalStrategy(
+    {
+      usernameField: 'name',
+      passwordField: 'password'
+    },
+    function(username, password, done) {
+      models.User.find({ where: { name: username }}).success(function(user) {
+        console.log(user.name);
+        if (!user) {
+          done(null, false, { message: 'Unknown user' });
+        } else if (password != user.password) {
+          done(null, false, { message: 'Invalid password'});
+        } else {
+          done(null, user);
+        }
+      }).error(function(err){
+        done(err);
+      });
+    }
+  ));
 
   app.use(logger('dev'));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(cookieParser());
-  app.use(passport.initialize());
-  app.use(passport.session());
+
 	app.use(express.static(path.join(__dirname + '/server', 'public')));
 
 	app.use('/', routes);
