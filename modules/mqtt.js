@@ -5,7 +5,17 @@ var model = require('../models');
 
 module.exports = function (app) {
 	return function (client) {
-    var auth = {};
+    var listeners, unsubscribeAll, auth = {};
+    listeners = {};
+    unsubscribeAll = function () {
+      var listener, topic, _results;
+      _results = [];
+      for (topic in listeners) {
+        listener = listeners[topic];
+        _results.push(Data.unsubscribe(topic, listener));
+      }
+      return _results;
+    };
 
 		client.on('connect', function (packet) {
       auth['name'] = packet.username;
@@ -38,24 +48,21 @@ module.exports = function (app) {
       });
 		});
 		client.on('pingreq', function (packet) {
-			console.log('pingreq');
-			return {status: 'pingreq'};
+      return client.pingresp();
 		});
 		client.on('disconnect', function () {
-			console.log('disconnect');
-			return {status: 'disconnect'};
+      return client.stream.end();
 		});
 		client.on('error', function (error) {
-			console.log(error);
-			return {};
+      return client.stream.end();
 		});
 		client.on('close', function (err) {
-			console.log('close');
-			return {};
+      return unsubscribeAll();
 		});
 		return client.on('unsubscribe', function (packet) {
-			console.log('unsubscribe');
-			return {};
+      return client.unsuback({
+        messageId: packet.messageId
+      });
 		});
 	};
 };
