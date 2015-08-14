@@ -38,8 +38,8 @@ module.exports = function (app) {
 
             db.query(options, function (dbResult) {
               console.log(dbResult);
-              res.code = '2.05';
-              res.end(dbResult);
+              res.code = '2.06';
+              res.end({result: dbResult});
               return;
             });
           } else {

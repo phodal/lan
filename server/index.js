@@ -31,7 +31,7 @@ router.post('/login', function (req, res) {
 
   models.User.findOne({where: {name: userInfo.name}}).then(function (user) {
     if (!user) {
-      req.session.messages = "not such user";
+      req.session.messages = 'not such user';
       return res.redirect('/login');
     }
     user.comparePassword(userInfo.password, function (err, result) {
@@ -42,7 +42,7 @@ router.post('/login', function (req, res) {
               console.log('----------------');
               console.log(err);
 
-              req.session.messages = "Login successfully";
+              req.session.messages = 'Login successfully';
               return res.render('login/success', {
                 title: 'Welcome ' + user.name,
                 uid: user.uid,
@@ -52,7 +52,7 @@ router.post('/login', function (req, res) {
               });
             });
           });
-        }  else {
+        } else {
           return res.sendStatus(404);
         }
       }
@@ -61,10 +61,11 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/logout', function (req, res) {
+  'use strict';
   if (req.isAuthenticated()) {
     req.logout();
     //req.session.messages = req.i18n.__("Log out successfully");
-    req.session.messages = "Log out successfully";
+    req.session.messages = 'Log out successfully';
   }
   res.redirect('/');
 });

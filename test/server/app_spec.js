@@ -165,11 +165,13 @@ describe('Application Services Test', function () {
   describe("CoAP Server", function () {
     it('should able connect to coap server', function (done) {
       var req = coap.request('coap://localhost/hello');
-      var result = {"method": "get"};
 
+      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal')]);
       req.on('response', function (res) {
-        var response_result = JSON.parse(res.payload.toString());
-        if (response_result.method === result.method) {
+        console.log('-------------');
+        console.log(res.code, res.payload.toString());
+        console.log('-------------');
+        if (res.code === '2.06') {
           done();
         }
       });
