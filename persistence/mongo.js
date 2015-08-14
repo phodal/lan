@@ -27,14 +27,13 @@ MongoPersistence.prototype.query = function(queryOptions, queryCB) {
     var findDocuments = function(db, query, callback) {
       var collection = db.collection('documents');
       collection.find(query, {'data': true, '_id': false}).toArray(function(err, docs) {
-        console.log(docs);
         callback(docs);
       });
     };
 
     findDocuments(db, queryOptions, function(result) {
       db.close();
-      queryCB(result)
+      queryCB(result);
     });
   });
 };

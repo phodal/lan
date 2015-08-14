@@ -5,36 +5,61 @@ var model = require('../models');
 
 module.exports = function (app) {
   return function (req, res) {
-    console.log(req.method);
+    var other = function () {
+      res.code = '4.04';
+      res.end(JSON.stringify({method: "not support"}));
+    };
+
+    if (!req.options) {
+      other();
+    }
+    var existBlock = false;
+    for (var i = 1; i < req.options.length; i++) {
+      if (req.options[i].name === 'Block2') {
+        existBlock = true;
+      }
+    }
+    if (!existBlock) {
+      other();
+    }
+    var username = req.options[1].value.toString();
+    var password = req.options[2].value.toString();
+    console.log("info", username, password);
+
     var handlerGet = function () {
-      res.code = '2.05';
-      res.end(JSON.stringify({method: 'get'}));
+      model.User.findOne({where: {name: username}}).then(function (user) {
+        if (!user) {
+          return other();
+        }
+        user.comparePassword(password, function (err, result) {
+          if (result) {
+            console.log(username, user.uid);
+            var options = {name: username, token: user.uid};
+
+            db.query(options, function (dbResult) {
+              console.log(dbResult);
+              res.code = '2.05';
+              res.end(dbResult);
+              return;
+            });
+          } else {
+            res.code = '4.04';
+            res.end({});
+            return;
+          }
+        });
+      });
     };
 
     var handPost = function () {
-      if(!req.options) {
-        other();
-      }
-      var existBlock = false;
-      for (var i = 1; i < req.options.length; i++) {
-        if (req.options[i].name === 'Block2') {
-          existBlock = true;
-        }
-      }
-      if(!existBlock) {
-        other();
-      }
-      var username = req.options[1].value.toString();
-      var password = req.options[2].value.toString();
-
       model.User.findOne({where: {name: username}}).then(function (user) {
-        if(!user){
+        if (!user) {
           return other();
         }
-        user.comparePassword(password, function(err, result){
+        user.comparePassword(password, function (err, result) {
           console.log(result);
-          if(result) {
-            var payload = {'name': user.name, 'token': user.uid,'data': req.payload.toString()};
+          if (result) {
+            var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
             db.insert(payload);
             res.code = '2.06';
             res.end(JSON.stringify({method: 'post/put'}));
@@ -44,11 +69,6 @@ module.exports = function (app) {
         });
       });
 
-    };
-
-    var other = function () {
-      res.code = '4.04';
-      res.end(JSON.stringify({method: "not support"}));
     };
 
     switch (req.method) {
