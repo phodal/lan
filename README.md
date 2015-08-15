@@ -64,11 +64,22 @@ with authenticate
     
 ##Setup
 
+``require``: Install
+
+1. ``MongoDB``
+2. ``Sqlite`` or ``MySQL``
+
+Then.
+
 1.Install dependencies
 
     npm install
 
-2.Run
+2.Setup Database
+
+    sequelize db:migrate 
+
+3.Run
 
     node app.js
 
