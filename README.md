@@ -6,6 +6,8 @@
 
 > A CoAP,MQTT,HTTP,WebSocket Server of Internet of Things.
 
+Node Version: ``0.12.7``
+
 A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
 ![Lan Struct](iot.jpg)
