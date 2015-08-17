@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     if (!user.changed('password')) {
       done();
     }
-    encrypt.hash(user.get('password'), 10, function (err, hash) {
+    encrypt.hash(user.get('password'), function (err, hash) {
       if (err) {
         done(err);
       }
