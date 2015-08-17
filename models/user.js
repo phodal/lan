@@ -1,4 +1,5 @@
-var encrypt = require('./encrypt/bcrypt');
+//var encrypt = require('./encrypt/bcrypt');
+var encrypt = require('./encrypt/crypto');
 var uuid = require('node-uuid');
 
 'use strict';
