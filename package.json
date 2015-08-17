@@ -25,7 +25,6 @@
     "url": "https://github.com/phodal/lan/issues"
   },
   "dependencies": {
-    "bcrypt": "^0.8.4",
     "body-parser": "~1.13.2",
     "bookshelf": "^0.8.1",
     "coap": "^0.10.5",

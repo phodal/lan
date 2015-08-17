@@ -36,6 +36,10 @@ A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
 ##Configure(in design)
 
+Use ``bcrypt``, please install it 
+
+    npm install --save bcrypt
+
 Current design:
 
 	{
