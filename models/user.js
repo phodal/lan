@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var encrypt = require('./encrypt/bcrypt');
 var uuid = require('node-uuid');
 
 'use strict';
@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     if (!user.changed('password')) {
       done();
     }
-    bcrypt.hash(user.get('password'), 10, function (err, hash) {
+    encrypt.hash(user.get('password'), 10, function (err, hash) {
       if (err) {
         done(err);
       }
@@ -79,7 +79,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     instanceMethods: {
       comparePassword: function (password, done) {
-        return bcrypt.compare(password, this.password, function (err, res) {
+        return encrypt.validate(password, this.password, function (err, res) {
           return done(err, res);
         });
       }
