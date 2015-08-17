@@ -34,6 +34,18 @@ A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
 3. module loader
 
+##Configure(in design)
+
+Current design:
+
+	{
+		useRegister: false
+		encrypt: 'bcrypt',
+		authDB: 'sqlite3',
+		dataDB: 'MongoDB',
+		modules: ['coap', 'http', 'mqtt', 'websocket']
+	}
+
 ##Test With Tool
 
 ###HTTP PUT/POST - cUrl
