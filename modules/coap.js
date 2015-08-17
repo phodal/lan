@@ -12,6 +12,7 @@ module.exports = function (app) {
 
     if (!req.options) {
       other();
+      return;
     }
     var existBlock = false;
     for (var i = 1; i < req.options.length; i++) {
@@ -21,6 +22,7 @@ module.exports = function (app) {
     }
     if (!existBlock) {
       other();
+      return;
     }
     var username = req.options[1].value.toString();
     var password = req.options[2].value.toString();
@@ -29,7 +31,9 @@ module.exports = function (app) {
     var handlerGet = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
         if (!user) {
-          return other();
+          res.code = '4.03';
+          res.end({method: "not auth"});
+          return;
         }
         user.comparePassword(password, function (err, result) {
           if (result) {
@@ -37,13 +41,12 @@ module.exports = function (app) {
             var options = {name: username, token: user.uid};
 
             db.query(options, function (dbResult) {
-              console.log(dbResult);
               res.code = '2.06';
               res.end({result: dbResult});
               return;
             });
           } else {
-            res.code = '4.04';
+            res.code = '4.03';
             res.end({});
             return;
           }
@@ -54,7 +57,8 @@ module.exports = function (app) {
     var handPost = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
         if (!user) {
-          return other();
+          other();
+          return;
         }
         user.comparePassword(password, function (err, result) {
           console.log(result);
@@ -64,7 +68,8 @@ module.exports = function (app) {
             res.code = '2.06';
             res.end(JSON.stringify({method: 'post/put'}));
           } else {
-            return other();
+            other();
+            return
           }
         });
       });
