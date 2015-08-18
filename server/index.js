@@ -14,7 +14,7 @@ router.get('/login', function (req, res) {
   'use strict';
   console.log("===========", req.isAuthenticated());
   if(!req.isAuthenticated()){
-    res.render('login/index', {title: 'Login'});
+    res.render('login/index', {title: 'Lan Login'});
   } else {
     res.render('login/success', {
       title: "Already login " + req.user.name,
@@ -105,7 +105,7 @@ router.post('/register', function (req, res) {
     .then(function (err) {
       console.log(err);
       if (err) {
-        return res.render('register', {user: userInfo, title: 'Something Error', errors: err.errors});
+        return res.render('user/register', {user: userInfo, title: 'Something Error', errors: err.errors});
       }
       models.User.create(userInfo).then(function (user, err) {
         if (err) {
@@ -126,7 +126,7 @@ router.post('/register', function (req, res) {
 
 router.get('/register', function (req, res) {
   'use strict';
-  res.render('register', {title: 'Welcome Lan Account Manager', errors: ''});
+  res.render('user/register', {title: 'Lan Account Manager', errors: ''});
 });
 
 module.exports = router;

@@ -1,6 +1,8 @@
-extends layout
+extends ../layout
 
 block content
+  include ../nav.jade
+
   h2 #{title}
   #{errors.message}
   form(role='form', method="post", action="/register")
