@@ -20,19 +20,20 @@ Lan -> Server Layer:
 
 ##TODO
 
-1. add account center (Phodal, Ongoing...)
 
-2. add Auth support for WebSocket
+1. add get data support (HTTP Done, CoAP Done, )
 
-3. example for Arduino、NodeMCU、51 ...
+2. pub/sub support
 
-4. add RSA Support for WebSocket、MQTT、HTTP、CoAP
+3. Sync token to Mongodb
 
-5. add get data support
+4. add Auth support for WebSocket
 
-6. create docker image for deploy
+5. example for Arduino、NodeMCU、51 ...
 
-7. configureable
+6. add RSA Support for WebSocket、MQTT、HTTP、CoAP
+
+7. create docker image for deploy
 
 ###Done
 
@@ -42,6 +43,10 @@ Lan -> Server Layer:
 
 3. module loader
 
+4. add account register/login
+
+5. configureable
+6. 
 ##Configure(in design)
 
 Change ``config/config.json`` to setup Database.
