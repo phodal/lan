@@ -1,7 +1,9 @@
 {
   "useRegister": true,
-  "encrypt": "bcrypt",
+  "encrypt": "crypto",
   "authDB": "sqlite3",
   "dataDB": "MongoDB",
-  "modules": ["coap", "http", "mqtt", "websocket"]
+  "modules": [
+    "coap", "http", "mqtt", "websocket"
+  ]
 }

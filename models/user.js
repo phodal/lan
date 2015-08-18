@@ -1,5 +1,6 @@
 //var encrypt = require('./encrypt/bcrypt');
-var encrypt = require('./encrypt/crypto');
+var config = require('config');
+var encrypt = require('./encrypt/' + config.get('encrypt'));
 var uuid = require('node-uuid');
 
 'use strict';
