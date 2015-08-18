@@ -1,8 +1,6 @@
 extends ../layout
 title #{title}
 block content
-  include ../nav.jade
-
   div.container
     h2 #{title}
     form(role='form', method="post", action="/login")
