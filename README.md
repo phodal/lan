@@ -44,17 +44,16 @@ Lan -> Server Layer:
 
 ##Configure(in design)
 
-Use ``bcrypt``, please install it 
+Change ``config/config.json`` to setup Database.
+
+Use ``bcrypt``, please install it .
 
     npm install --save bcrypt
 
 Current design:
 
 	{
-		useRegister: false
 		encrypt: 'bcrypt',
-		authDB: 'sqlite3',
-		dataDB: 'MongoDB',
 		modules: ['coap', 'http', 'mqtt', 'websocket']
 	}
 
