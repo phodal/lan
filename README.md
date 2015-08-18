@@ -8,9 +8,15 @@
 
 Node Version: ``0.12.7``
 
+IoT Architecture: 
+
+![IoT Struct](docs/struct_full.png)
+
 A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
-![Lan Struct](iot.jpg)
+Lan:
+
+![Lan Struct](docs/iot.jpg)
 
 ##TODO
 
