@@ -15,59 +15,64 @@ var LocalStrategy = require('passport-local').Strategy;
 var config = require('config');
 var _ = require('underscore');
 
-var app = express();
+var app = exports.app = express();
 var configure, start;
+
+var model = require('./models/');
+
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'name',
+    passwordField: 'password'
+  },
+  function (username, password, done) {
+    model.User.find({where: {name: username}}).then(function (user) {
+      if (!user) {
+        done(null, false, {message: 'Unknown user'});
+      } else {
+        user.comparePassword(password, function (err, result) {
+          if (result) {
+            done(null ,true);
+          } else {
+            done(null, false, {message: "Password || Username error"})
+          }
+        });
+      }
+    }).error(function (err) {
+      done(err);
+    });
+  }
+));
+
+passport.serializeUser(function (user, done) {
+  done(null, user.uid);
+});
+
+passport.deserializeUser(function (uid, done) {
+  model.User.find({where: {uid: uid}})
+    .then(function (user) {
+    done(null, user);
+  }).error(function (err) {
+    console.log(id, err);
+    done(err, null);
+  });
+});
 
 configure = function () {
   app.set('views', path.join(__dirname + '/server', 'views'));
   app.set('view engine', 'jade');
-
-  app.set('trust proxy', 1);
+  app.use(require('morgan')('combined'));
+  app.use(require('cookie-parser')());
+  app.use(require('body-parser').urlencoded({ extended: true }));
   app.use(session({
-    secret: 'keyboard cat', //Change this in Production
-    //resave: false,
-    //saveUninitialized: true,
-    cookie: {secure: true}
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
   }));
+
   app.use(passport.initialize());
   app.use(passport.session());
 
-  var models = require('./models/');
-  passport.serializeUser(function (user, done) {
-    console.log("--------------");
-    console.log(user.uid);
-    done(null, user.uid);
-  });
-
-  passport.deserializeUser(function (uid, done) {
-    models.User.find({where: {uid: uid}}).success(function (user) {
-      done(null, user);
-    }).error(function (err) {
-      console.log(id, err);
-      done(err, null);
-    });
-  });
-
-  passport.use(new LocalStrategy(
-    {
-      usernameField: 'name',
-      passwordField: 'password'
-    },
-    function (username, password, done) {
-      models.User.find({where: {name: username}}).success(function (user) {
-        console.log(user.name);
-        if (!user) {
-          done(null, false, {message: 'Unknown user'});
-        } else if (password != user.password) {
-          done(null, false, {message: 'Invalid password'});
-        } else {
-          done(null, user);
-        }
-      }).error(function (err) {
-        done(err);
-      });
-    }
-  ));
 
   app.use(logger('dev'));
   app.use(bodyParser.json());
