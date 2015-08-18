@@ -68,7 +68,7 @@ gulp.task('coveralls', ['test'], function () {
 });
 
 gulp.task('cleanDev', function(){
-  var localDBFile = 'db.development.sqlite';
+  var localDBFile = 'db.test.sqlite';
   if(shell.test('-f', localDBFile)){
     console.log('====================');
     shell.rm(localDBFile);
