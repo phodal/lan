@@ -46,7 +46,7 @@ Lan -> Server Layer:
 4. add account register/login
 
 5. configureable
-6. 
+
 ##Configure(in design)
 
 Change ``config/config.json`` to setup Database.
@@ -61,6 +61,59 @@ Current design:
 		encrypt: 'bcrypt',
 		modules: ['coap', 'http', 'mqtt', 'websocket']
 	}
+
+
+##安装(Setup)
+
+``必装``:
+
+1. MongoDB
+2. Sqlite 或者 MySQL
+
+然后:
+
+1.Clone
+
+	git clone https://github.com/phodal/lan
+
+2.安装依赖
+
+    npm install
+    
+3.修改config下的配置
+
+    /config.json 数据库配置
+    /default.json Lan系统配置   
+
+4.数据库初始化
+
+    sequelize db:migrate
+    
+5.运行
+ 
+    npm start    
+    
+##Setup
+
+``require``: Install
+
+1. ``MongoDB``
+2. ``Sqlite`` or ``MySQL``
+
+Then.
+
+1.Install dependencies
+
+    npm install
+
+2.Setup Database
+
+    sequelize db:migrate 
+
+3.Run
+
+    npm start
+    
 
 ##Test With Tool
 
@@ -89,27 +142,7 @@ with authenticate
 with authenticate
 
 ``Use CoAP Option for Authenticate``      
-    
-##Setup
 
-``require``: Install
-
-1. ``MongoDB``
-2. ``Sqlite`` or ``MySQL``
-
-Then.
-
-1.Install dependencies
-
-    npm install
-
-2.Setup Database
-
-    sequelize db:migrate 
-
-3.Run
-
-    node app.js
 
 Inspired by
 [https://github.com/mcollina/qest](https://github.com/mcollina/qest)
