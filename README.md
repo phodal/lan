@@ -14,7 +14,7 @@ IoT Architecture:
 
 A similar project before this: [Ponte](https://github.com/eclipse/ponte)
 
-Lan:
+Lan -> Server Layer:
 
 ![Lan Struct](docs/iot.jpg)
 
