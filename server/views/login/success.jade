@@ -1,13 +1,14 @@
 extends ../layout
+title #{title}
 
 block content
-  title #{title}
-  div(class='panel panel-default')
-    div(class='panel-heading')
-      h3 #{title}
-    div(class="panel-body")
-      p User Name: #{userName}
-      p Alias Name: #{alias}
-      p Phone: #{phone}
-      p UUID: #{uid}
+  div.container
+    div(class='panel panel-default')
+      div(class='panel-heading')
+        h3 #{title}
+      div(class="panel-body")
+        p User Name: #{userName}
+        p Alias Name: #{alias}
+        p Phone: #{phone}
+        p UUID: #{uid}
 
