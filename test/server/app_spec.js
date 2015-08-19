@@ -7,6 +7,8 @@ var assert = require('chai').assert;
 
 describe('Application Services Test', function () {
   var app, server, coapServer, mqttServer;
+  app = helper.globalSetup();
+
   before(function () {
     var models = require('../../models');
     models.User.create({
@@ -18,7 +20,6 @@ describe('Application Services Test', function () {
       alias: 'fengda'
     });
 
-    app = helper.globalSetup();
     server = app.listen(8899, function () {
     });
     coapServer = coap.createServer(app.coap).listen(5683, function () {
@@ -32,51 +33,56 @@ describe('Application Services Test', function () {
     coapServer.close();
     mqttServer.close();
   });
-
+  var supertest = require('supertest');
+  var agent = supertest.agent(app);
 
   describe("Authenticate", function () {
-    var supertest = require('supertest');
-    var agent = supertest.agent(app);
 
     it("should able load the home page", function (done) {
-      supertest(app)
+      agent
         .get('/')
         .expect('Content-Type', /html/)
         .expect(200, done);
     });
 
     it("should redirect when visit profile without login", function (done) {
-      supertest(app)
+      agent
         .get('/users/root')
         .expect(302, done);
     });
 
     it("should able to register with lan", function (done) {
-      supertest(app)
+       agent
         .post('/register')
         .send({ name: 'lan', password: 'lan', phone: '1234567890', alias: "something" })
         .expect(200, done);
     });
 
     it("should able to login with lan", function (done) {
-      supertest(app)
+       agent
         .post('/login')
         .send({ name: 'lan', password: 'lan' })
         .expect(200, done);
     });
-
+    //
     //it("should able to visit user profile", function (done) {
-    //  supertest(app)
+    //   agent
     //    .post('/login')
     //    .send({ name: 'lan', password: 'lan' });
     //
-    //  supertest(app)
+    //   agent
     //    .get('/users/lan')
-    //    .expect(302, done);
+    //     .end(function(err, res) {
+    //       should.exist(err);
+    //       res.should.have.status(302);
+    //       res.redirects.should.eql([]);
+    //       res.header.location.should.equal('/dashboard');
+    //       done();
+    //     });
     //});
 
     it("should redirect to homepage", function (done) {
-      supertest(app)
+       agent
         .get('/logout')
         .expect(302, done);
     });
