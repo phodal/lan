@@ -45,11 +45,17 @@ describe('Application Services Test', function () {
         .expect(200, done);
     });
 
+    it("should redirect when visit profile without login", function (done) {
+      supertest(app)
+        .get('/users/root')
+        .expect(302, done);
+    });
+
     it("should able to register with lan", function (done) {
       supertest(app)
         .post('/register')
         .send({ name: 'lan', password: 'lan', phone: '1234567890', alias: "something" })
-        .expect(304, done);
+        .expect(200, done);
     });
 
     it("should able to login with lan", function (done) {
@@ -57,6 +63,22 @@ describe('Application Services Test', function () {
         .post('/login')
         .send({ name: 'lan', password: 'lan' })
         .expect(200, done);
+    });
+
+    //it("should able to visit user profile", function (done) {
+    //  supertest(app)
+    //    .post('/login')
+    //    .send({ name: 'lan', password: 'lan' });
+    //
+    //  supertest(app)
+    //    .get('/users/lan')
+    //    .expect(302, done);
+    //});
+
+    it("should redirect to homepage", function (done) {
+      supertest(app)
+        .get('/logout')
+        .expect(302, done);
     });
   });
 

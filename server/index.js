@@ -78,7 +78,7 @@ router.get('/logout', function (req, res) {
 router.get(/^\/users\/(.+)$/, function (req, res) {
   'use strict';
   if(!req.isAuthenticated()){
-    res.render('login/index', {title: 'Lan Login'});
+    res.redirect('/login');
   }
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
