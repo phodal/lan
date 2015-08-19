@@ -1,0 +1,6 @@
+{
+  "encrypt": "crypto",
+  "modules": [
+    "coap", "http", "mqtt"
+  ]
+}
