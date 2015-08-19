@@ -35,9 +35,17 @@ module.exports = function (app) {
       });
     });
     client.on('subscribe', function (packet) {
-      console.log('subscribe');
-      db.subscribe(packet.username, function (result) {
-        return result;
+
+      client.suback({
+        messageId: packet.messageId
+      });
+
+      db.subscribe(userInfo.name, function (result) {
+        console.log("mqtt subscribe:", result);
+        return client.publish({
+          topic: userInfo.name,
+          payload: result
+        });
       });
     });
     client.on('publish', function (packet) {
