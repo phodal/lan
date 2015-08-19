@@ -20,10 +20,7 @@ Lan -> Server Layer:
 
 ##TODO
 
-
-1. add get data support (HTTP Done, CoAP Done, )
-
-2. pub/sub support
+2. pub/sub support (Phodal)
 
 3. Sync token to Mongodb
 
@@ -46,6 +43,8 @@ Lan -> Server Layer:
 4. add account register/login
 
 5. configureable
+
+6. add get data support
 
 ##Configure(in design)
 
