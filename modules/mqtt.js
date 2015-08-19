@@ -5,17 +5,11 @@ var model = require('../models');
 
 module.exports = function (app) {
 	return function (client) {
-    var listeners, unsubscribeAll, auth = {};
-    listeners = {};
-    unsubscribeAll = function () {
-      var listener, topic, _results;
-      _results = [];
-      for (topic in listeners) {
-        listener = listeners[topic];
-        _results.push(Data.unsubscribe(topic, listener));
-      }
-      return _results;
+    var auth = {};
+    var unsubscribeAll = function() {
+
     };
+
 
 		client.on('connect', function (packet) {
       auth['name'] = packet.username;

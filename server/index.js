@@ -12,17 +12,16 @@ router.get('/', function (req, res) {
 
 router.get('/login', function (req, res) {
   'use strict';
-  console.log("===========", req.isAuthenticated());
   if(!req.isAuthenticated()){
     res.render('login/index', {title: 'Lan Login'});
   } else {
     res.render('login/success', {
-      title: "Already login " + req.user.name,
+      title: 'Already login ' + req.user.name,
       uid: req.user.uid,
       userName: req.user.name,
       phone: req.user.phone,
       alias: req.user.alias
-    })
+    });
   }
 });
 
