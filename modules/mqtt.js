@@ -10,8 +10,10 @@ module.exports = function (app) {
 
     };
 
-
 		client.on('connect', function (packet) {
+      if(packet.username === undefined || packet.password === undefined) {
+        return client.stream.end();
+      }
       auth['name'] = packet.username;
       auth['password'] = packet.password.toString();
 			client.id = packet.client;
@@ -20,8 +22,14 @@ module.exports = function (app) {
 			});
 		});
 		client.on('subscribe', function (packet) {
-			console.log('subscribe');
-			return {status: 'subscribe'};
+      if(packet.username === undefined || packet.password === undefined) {
+        return client.unsuback({
+          messageId: packet.messageId
+        });
+      }
+			db.subscribe(packet.username, function(result){
+        return result;
+      });
 		});
 		client.on('publish', function (packet) {
       model.User.findOne({where: {name: auth.name}}).then(function (user) {
