@@ -75,9 +75,11 @@ router.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-router.get(/^\/users\/(.+)$/, passport.authenticate('local'), function (req, res) {
+router.get(/^\/users\/(.+)$/, function (req, res) {
   'use strict';
-  console.log(req.session.messages);
+  if(!req.isAuthenticated()){
+    res.render('login/index', {title: 'Lan Login'});
+  }
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
       return res.sendStatus(403);
