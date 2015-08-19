@@ -2,9 +2,7 @@ var helper = require('../spec_helper');
 var mqtt = require('mqtt');
 var request = require('request');
 var coap = require('coap');
-var Browser = require('zombie');
 var website = "http://localhost:8899/";
-var browser = new Browser({site: website});
 var assert = require('chai').assert;
 
 describe('Application Services Test', function () {
@@ -37,12 +35,28 @@ describe('Application Services Test', function () {
 
 
   describe("Authenticate", function () {
+    var supertest = require('supertest');
+    var agent = supertest.agent(app);
+
     it("should able load the home page", function (done) {
-      browser.visit('/', function (error) {
-        assert.ifError(error);
-        browser.assert.success();
-      });
-      done();
+      supertest(app)
+        .get('/')
+        .expect('Content-Type', /html/)
+        .expect(200, done);
+    });
+
+    it("should able to register with lan", function (done) {
+      supertest(app)
+        .post('/register')
+        .send({ name: 'lan', password: 'lan', phone: '1234567890', alias: "something" })
+        .expect(304, done);
+    });
+
+    it("should able to login with lan", function (done) {
+      supertest(app)
+        .post('/login')
+        .send({ name: 'lan', password: 'lan' })
+        .expect(200, done);
     });
   });
 

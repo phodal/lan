@@ -43,6 +43,7 @@
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.0.9",
+    "supertest": "^1.0.1",
     "underscore": "^1.8.3",
     "ws": "^0.7.2"
   },
