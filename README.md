@@ -78,6 +78,7 @@ Current design:
 2.安装依赖
 
     npm install
+    bower install 
     
 3.修改config下的配置
 
@@ -118,11 +119,15 @@ Then.
 
 ###HTTP PUT/POST - cUrl
 
-    curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
+    curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
 with authenticate
 
-    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/test
+    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
+    
+Get 
+    
+    curl --user root:root -X GET -H "Content-Type: application/json" http://localhost:8899/topics/root
 
 
 ###MQTT PUT/POST - Mosquitto
