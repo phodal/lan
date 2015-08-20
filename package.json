@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "test": "gulp test",
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "license": "MIT",
   "bugs": {

@@ -3,16 +3,12 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mqtt = require("mqtt");
-var coap = require("coap");
-var WebSocketServer = require('ws').Server;
 var session = require('express-session');
 
 var routes = require('./server/index');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var config = require('config');
-var _ = require('underscore');
 
 var app = exports.app = express();
 var configure, start;
@@ -97,36 +93,5 @@ configure = function () {
   return app;
 };
 
-start = function (opts, callback) {
-  configure();
-  app.listen(8899, function () {
-    console.log("http server run on http://localhost:8899");
-  });
-
-
-  if (_.include(app.config.get('modules'), 'websocket')) {
-    var server = new WebSocketServer({port: 8898});
-    app.websocket(server);
-  }
-
-  if (_.include(app.config.get('modules'), 'coap')) {
-    coap.createServer(app.coap).listen(5683, function () {
-      console.log("coap server listening on port %d", 5683);
-    });
-  }
-
-  if (_.include(app.config.get('modules'), 'mqtt')) {
-    mqtt.createServer(app.mqtt).listen(1883, function () {
-      console.log("mqtt server listening on port %d", 1883);
-    });
-  }
-  return app;
-};
-
-if (require.main.filename === __filename) {
-  start();
-}
-
 module.exports.app = app;
 module.exports.configure = configure;
-module.exports.start = start;
