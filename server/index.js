@@ -78,7 +78,7 @@ router.get('/logout', function (req, res) {
 router.get(/^\/users\/(.+)$/, function (req, res) {
   'use strict';
   if(!req.isAuthenticated()){
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {
     if (!user) {
@@ -104,7 +104,6 @@ router.post('/register', function (req, res) {
   models.User.build(userInfo)
     .validate()
     .then(function (err) {
-      console.log(err);
       if (err) {
         return res.render('user/register', {user: userInfo, title: 'Something Error', errors: err.errors});
       }

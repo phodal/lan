@@ -67,6 +67,16 @@ describe('Application Services Test', function () {
         .expect(200, done);
     });
 
+    it("should unable to register with lan", function (done) {
+      agent
+        .post('/register')
+        .send({name: 'root', password: 'root', phone: '1234567890', alias: "something"})
+        .end(function (err, res){
+          console.log(res);
+          done();
+        })
+    });
+
     it("should able to login with lan", function (done) {
       agent
         .post('/login')
