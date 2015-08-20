@@ -275,6 +275,45 @@ describe('Application Services Test', function () {
       req.end();
     });
 
+    it('should unable connect to coap server when username error', function (done) {
+      var req = coap.request('coap://localhost/hello');
+
+      req.setOption('Block2', [new Buffer('phodal1'), new Buffer('phodal')]);
+      req.on('response', function (res) {
+        if (res.code === '4.03') {
+          done();
+        }
+      });
+
+      req.end();
+    });
+
+    it('should unable connect to coap server when not exist auth', function (done) {
+      var req = coap.request('coap://localhost/hello');
+
+      req.on('response', function (res) {
+        console.log(res.code);
+        if (res.code === '4.04') {
+          done();
+        }
+      });
+
+      req.end();
+    });
+
+    it('should unable connect to coap server when password error', function (done) {
+      var req = coap.request('coap://localhost/hello');
+
+      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal1')]);
+      req.on('response', function (res) {
+        if (res.code === '4.03') {
+          done();
+        }
+      });
+
+      req.end();
+    });
+
     it('should return not support when try delete method', function (done) {
       var request = coap.request;
       var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'DELETE'});
@@ -324,7 +363,7 @@ describe('Application Services Test', function () {
       req.setOption('Block2', [new Buffer('phodal'), new Buffer('root')]);
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
-        if (res.code === '4.04') {
+        if (res.code === '4.03') {
           done();
         }
       });
@@ -332,7 +371,7 @@ describe('Application Services Test', function () {
       req.end();
     });
 
-    it('should abe to put data with auth', function (done) {
+    it('should able to put data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
       var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'PUT'});
@@ -352,7 +391,28 @@ describe('Application Services Test', function () {
       });
 
       req.end();
+    });
 
+    it('should able to put data with username error', function (done) {
+      var request = coap.request;
+      var bl = require('bl');
+      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'PUT'});
+
+      var payload = {
+        title: 'this is a test payload',
+        body: 'containing nothing useful'
+      };
+
+      req.setHeader("Accept", "application/json");
+      req.setOption('Block2', [new Buffer('phodal1'), new Buffer('root')]);
+      req.write(JSON.stringify(payload));
+      req.on('response', function (res) {
+        if (res.code === '4.03') {
+          done();
+        }
+      });
+
+      req.end();
     });
   });
 

@@ -57,8 +57,8 @@ module.exports = function (app) {
     var handPost = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
         if (!user) {
-          other();
-          return;
+          res.code = '4.03';
+          return res.end(JSON.stringify({error: "not auth"}));
         }
         user.comparePassword(password, function (err, result) {
           console.log(result);
@@ -66,10 +66,10 @@ module.exports = function (app) {
             var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
             db.insert(payload);
             res.code = '2.06';
-            res.end(JSON.stringify({method: 'post/put'}));
+            return res.end(JSON.stringify({method: 'post/put'}));
           } else {
-            other();
-            return
+            res.code = '4.03';
+            return res.end(JSON.stringify({error: "not auth"}));
           }
         });
       });
