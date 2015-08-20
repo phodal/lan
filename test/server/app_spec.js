@@ -4,6 +4,8 @@ var request = require('request');
 var coap = require('coap');
 var website = "http://localhost:8899/";
 var assert = require('chai').assert;
+var should = require('should');
+var supertest = require('supertest');
 
 describe('Application Services Test', function () {
   var app, server, coapServer, mqttServer;
@@ -33,10 +35,10 @@ describe('Application Services Test', function () {
     coapServer.close();
     mqttServer.close();
   });
-  var supertest = require('supertest');
-  var agent = supertest.agent(app);
 
   describe("Authenticate", function () {
+    var agent = supertest.agent(app);
+    var agent2 = supertest.agent(app);
 
     it("should able load the home page", function (done) {
       agent
@@ -52,37 +54,30 @@ describe('Application Services Test', function () {
     });
 
     it("should able to register with lan", function (done) {
-       agent
+      agent
         .post('/register')
-        .send({ name: 'lan', password: 'lan', phone: '1234567890', alias: "something" })
+        .send({name: 'lan', password: 'lan', phone: '1234567890', alias: "something"})
         .expect(200, done);
     });
 
     it("should able to login with lan", function (done) {
-       agent
+      agent
         .post('/login')
-        .send({ name: 'lan', password: 'lan' })
+        .send({name: 'lan', password: 'lan'})
         .expect(200, done);
     });
-    //
-    //it("should able to visit user profile", function (done) {
-    //   agent
-    //    .post('/login')
-    //    .send({ name: 'lan', password: 'lan' });
-    //
-    //   agent
-    //    .get('/users/lan')
-    //     .end(function(err, res) {
-    //       should.exist(err);
-    //       res.should.have.status(302);
-    //       res.redirects.should.eql([]);
-    //       res.header.location.should.equal('/dashboard');
-    //       done();
-    //     });
-    //});
+
+    it("should able to visit user profile", function (done) {
+      agent
+        .get('/users/lan')
+        .end(function (err, res) {
+          res.statusCode.should.be.equal(200);
+          done();
+        });
+    });
 
     it("should redirect to homepage", function (done) {
-       agent
+      agent2
         .get('/logout')
         .expect(302, done);
     });

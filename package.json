@@ -42,6 +42,7 @@
     "request": "^2.60.0",
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.3.0",
+    "should": "^7.0.4",
     "sqlite3": "^3.0.9",
     "supertest": "^1.0.1",
     "underscore": "^1.8.3",
