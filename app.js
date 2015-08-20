@@ -9,7 +9,6 @@ var WebSocketServer = require('ws').Server;
 var session = require('express-session');
 
 var routes = require('./server/index');
-var loader = require('./loader');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var config = require('config');
@@ -19,6 +18,13 @@ var app = exports.app = express();
 var configure, start;
 
 var model = require('./models/');
+
+var loader = function (app, key) {
+  var loadPath;
+  loadPath = __dirname + ("/modules/");
+  app[key] = require(loadPath + key)(app);
+  return app;
+};
 
 passport.use(new LocalStrategy(
   {
@@ -86,7 +92,7 @@ configure = function () {
 
   var modules = app.config.get('modules');
   for (var i = 0; i < modules.length; i++) {
-    app = loader.load(app, modules[i]);
+    app = loader(app, modules[i]);
   }
   return app;
 };
