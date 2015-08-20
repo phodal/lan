@@ -47,6 +47,13 @@ describe('Application Services Test', function () {
         .expect(200, done);
     });
 
+    it("should able goto register page", function (done) {
+      agent
+        .get('/register')
+        .expect('Content-Type', /html/)
+        .expect(200, done);
+    });
+
     it("should redirect when visit profile without login", function (done) {
       agent
         .get('/users/root')
