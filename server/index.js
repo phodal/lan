@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
 
 router.get('/login', function (req, res) {
   'use strict';
-  if(!req.isAuthenticated()){
+  if (!req.isAuthenticated()) {
     res.render('login/index', {title: 'Lan Login'});
   } else {
     res.render('login/success', {
@@ -77,7 +77,7 @@ router.get('/logout', function (req, res) {
 
 router.get(/^\/users\/(.+)$/, function (req, res) {
   'use strict';
-  if(!req.isAuthenticated()){
+  if (!req.isAuthenticated()) {
     return res.redirect('/login');
   }
   models.User.findOne({where: {name: req.params[0]}}).then(function (user) {

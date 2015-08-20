@@ -22,7 +22,7 @@ module.exports = function (app) {
     var userInfo = getAuthInfo(req);
     model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
       if (!user) {
-        return res.sendStatus(404);
+        return res.sendStatus(403);
       }
       user.comparePassword(userInfo.password, function (err, result) {
         if (result) {
@@ -33,7 +33,7 @@ module.exports = function (app) {
             return res.json({'username': userInfo.username, 'topic': dbResult});
           });
         } else {
-          return res.sendStatus(404);
+          return res.sendStatus(403);
         }
       });
     });
@@ -47,7 +47,7 @@ module.exports = function (app) {
 
     model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
       if (!user) {
-        return res.sendStatus(404);
+        return res.sendStatus(403);
       }
       user.comparePassword(userInfo.password, function (err, result) {
         if (result) {
@@ -55,7 +55,7 @@ module.exports = function (app) {
           db.insert(payload);
           return res.sendStatus(204);
         } else {
-          return res.sendStatus(404);
+          return res.sendStatus(403);
         }
       });
     });

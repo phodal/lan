@@ -144,6 +144,33 @@ describe('Application Services Test', function () {
         })
     });
 
+    it('should unable connect to http server when username error', function (done) {
+      request.get('http://localhost:8899/topics/test', {
+          'auth': {
+            'username': 'root1',
+            'password': 'phodal'
+          }
+        },
+        function (error, response, body) {
+          if (response.statusCode === 403) {
+            done();
+          }
+        })
+    });
+
+    it('should unable connect to http server when password error', function (done) {
+      request.get('http://localhost:8899/topics/test', {
+          'auth': {
+            'username': 'root',
+            'password': 'phodal'
+          }
+        },
+        function (error, response, body) {
+          if (response.statusCode === 403) {
+            done();
+          }
+        })
+    });
 
     it('should return 401 when user not auth', function (done) {
       request('http://localhost:8899/topics/test',
@@ -186,6 +213,20 @@ describe('Application Services Test', function () {
         if (response.statusCode === 204) {
           done();
         }
+      });
+    });
+
+    it('should able put response when username error', function (done) {
+      request.put('http://localhost:8899/topics/test', {
+        'auth': {
+          'username': 'phodal1',
+          'password': 'phodal',
+          'sendImmediately': true
+        }
+      }, function (error, response, body) {
+        if (response.statusCode === 403) {
+          done();
+        }
       })
     });
 
@@ -197,7 +238,7 @@ describe('Application Services Test', function () {
           'sendImmediately': true
         }
       }, function (error, response, body) {
-        if (response.statusCode === 404) {
+        if (response.statusCode === 403) {
           done();
         }
       })
@@ -226,9 +267,6 @@ describe('Application Services Test', function () {
 
       req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal')]);
       req.on('response', function (res) {
-        console.log('-------------');
-        console.log(res.code, res.payload.toString());
-        console.log('-------------');
         if (res.code === '2.06') {
           done();
         }
