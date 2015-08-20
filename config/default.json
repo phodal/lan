@@ -3,6 +3,9 @@
   "db_url": "mongodb://localhost:27017/lan",
   "db_collection": "documents",
   "modules": [
-    "coap", "http", "mqtt", "websocket"
+    "coap",
+    "http",
+    "mqtt",
+    "websocket"
   ]
 }

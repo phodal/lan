@@ -12,8 +12,9 @@ start = function (opts, callback) {
 
 
   if (_.include(app.config.get('modules'), 'websocket')) {
-    var server = new WebSocketServer({port: 8898});
-    app.websocket(server);
+    var webSocketServer = new WebSocketServer({port: 8898});
+    app.websocket(webSocketServer);
+    console.log("websocket server listening on port %d", 8898);
   }
 
   if (_.include(app.config.get('modules'), 'coap')) {

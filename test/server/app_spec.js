@@ -6,9 +6,11 @@ var website = "http://localhost:8899/";
 var assert = require('chai').assert;
 var should = require('should');
 var supertest = require('supertest');
+var WebSocket = require('ws');
+var WebSocketServer = WebSocket.Server;
 
 describe('Application Services Test', function () {
-  var app, server, coapServer, mqttServer;
+  var app, server, coapServer, mqttServer, webSocketServer;
   app = helper.globalSetup();
 
   before(function () {
@@ -28,9 +30,12 @@ describe('Application Services Test', function () {
     });
     mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
     });
+    webSocketServer = new WebSocketServer({port: 8898});
+    app.websocket(webSocketServer);
   });
 
   after(function () {
+    webSocketServer.close();
     server.close();
     coapServer.close();
     mqttServer.close();
@@ -72,7 +77,6 @@ describe('Application Services Test', function () {
         .post('/register')
         .send({name: 'root', password: 'root', phone: '1234567890', alias: "something"})
         .end(function (err, res){
-          console.log(res);
           done();
         })
     });
@@ -311,6 +315,23 @@ describe('Application Services Test', function () {
 
       req.end();
 
+    });
+  });
+
+  describe('WebSocket', function () {
+    it('basic connection', function (done) {
+      var ws = new WebSocket('ws://localhost:8898/');
+
+      ws.on('open', function open() {
+        ws.send('something');
+        console.log('open');
+      });
+
+      ws.on('message', function(data) {
+        if(data==="connection") {
+          done();
+        }
+      });
     });
   });
 });
