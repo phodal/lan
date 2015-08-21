@@ -7,7 +7,7 @@ module.exports = function (app) {
   return function (req, res) {
     var other = function () {
       res.code = '4.04';
-      res.end(JSON.stringify({method: "not support"}));
+      return res.end(JSON.stringify({method: "not support"}));
     };
 
     if (!req.options) {
@@ -26,14 +26,12 @@ module.exports = function (app) {
     }
     var username = req.options[1].value.toString();
     var password = req.options[2].value.toString();
-    console.log("info", username, password);
 
     var handlerGet = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
         if (!user) {
           res.code = '4.03';
-          res.end({method: "not auth"});
-          return;
+          return res.end({method: "not auth"});
         }
         user.comparePassword(password, function (err, result) {
           if (result) {
@@ -42,13 +40,11 @@ module.exports = function (app) {
 
             db.query(options, function (dbResult) {
               res.code = '2.06';
-              res.end({result: dbResult});
-              return;
+              return res.end({result: dbResult});
             });
           } else {
             res.code = '4.03';
-            res.end({});
-            return;
+            return res.end({});
           }
         });
       });
