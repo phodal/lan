@@ -39,12 +39,10 @@
     "node-uuid": "^1.4.3",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
-    "request": "^2.60.0",
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.3.0",
     "should": "^7.0.4",
     "sqlite3": "^3.0.9",
-    "supertest": "^1.0.1",
     "underscore": "^1.8.3",
     "ws": "^0.7.2"
   },
@@ -55,7 +53,6 @@
     "bluebird": "^2.9.34",
     "chai": "^3.2.0",
     "codeclimate-test-reporter": "^0.1.0",
-    "db-migrate": "^0.9.18",
     "gulp": "^3.6.0",
     "gulp-babel": "^5.1.0",
     "gulp-coveralls": "^0.1.0",
@@ -72,6 +69,7 @@
     "shelljs": "^0.5.1",
     "sinon": "^1.15.4",
     "sequelize-cli": "^1.7.4",
-    "zombie": "4.0.8"
+    "request": "^2.60.0",
+    "supertest": "^1.0.1"
   }
 }

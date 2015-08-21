@@ -88,6 +88,14 @@ describe('Application Services Test', function () {
         .expect(200, done);
     });
 
+
+    it("should unable to login with lanting", function (done) {
+      agent
+        .post('/login')
+        .send({name: 'lanting', password: 'lan'})
+        .expect(302, done);
+    });
+
     it("should able to visit user profile", function (done) {
       agent
         .get('/users/lan')
