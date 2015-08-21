@@ -120,7 +120,9 @@ describe('Application Services Test', function () {
       });
 
       client.on('connect', function () {
-        client.publish('hello', 'coap');
+        client.publish('root', 'coap');
+        client.subscribe('root');
+        client.unsubscribe('root');
         client.end();
         done();
       });
