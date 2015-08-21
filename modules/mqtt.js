@@ -35,7 +35,6 @@ module.exports = function (app) {
       });
     });
     client.on('subscribe', function (packet) {
-      console.log('subscribe');
       db.subscribe(packet.username, function (result) {
         return result;
       });

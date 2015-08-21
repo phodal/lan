@@ -6,34 +6,55 @@ var config = require('config');
 //var url = 'mongodb://localhost:27017/myproject';
 var url = config.get('db_url');
 
-function MongoPersistence () {
+function MongoPersistence() {
 
 }
 
-MongoPersistence.prototype.insert = function(payload) {
-  MongoClient.connect(url, function(err, db) {
-    var insertDocuments = function(db, callback) {
+MongoPersistence.prototype.insert = function (payload) {
+  MongoClient.connect(url, function (err, db) {
+    var insertDocuments = function (db, callback) {
       var collection = db.collection(config.get('db_collection'));
-      collection.insert(payload, function(err, result) {
+      collection.insert(payload, function (err, result) {
         callback(result);
       });
     };
-    insertDocuments(db, function() {
+    insertDocuments(db, function () {
       db.close();
     });
   });
 };
 
-MongoPersistence.prototype.query = function(queryOptions, queryCB) {
-  MongoClient.connect(url, function(err, db) {
-    var findDocuments = function(db, query, callback) {
+MongoPersistence.prototype.query = function (queryOptions, queryCB) {
+  MongoClient.connect(url, function (err, db) {
+    var findDocuments = function (db, query, callback) {
       var collection = db.collection(config.get('db_collection'));
-      collection.find(query, {'data': true, '_id': false}).toArray(function(err, docs) {
+      collection.find(query, {'data': true, '_id': false}).toArray(function (err, docs) {
         callback(docs);
       });
     };
 
-    findDocuments(db, queryOptions, function(result) {
+    findDocuments(db, queryOptions, function (result) {
+      db.close();
+      queryCB(result);
+    });
+  });
+};
+
+MongoPersistence.prototype.subscribe = function (queryOptions, queryCB) {
+  MongoClient.connect(url, function (err, db) {
+    var subDocuments = function (db, query, callback) {
+      var collection = db.collection(config.get('db_collection'));
+      console.log("== open tailable cursor");
+      collection.find({}, {tailable: true, awaitdata: true, numberOfRetries: -1, oplogReplay: true})
+        //.sort({$natural: 1})
+        //.limit(1)
+        .each(function (err, doc) {
+          console.log(doc);
+          callback(doc)
+        })
+    };
+
+    subDocuments(db, queryOptions, function (result) {
       db.close();
       queryCB(result);
     });
