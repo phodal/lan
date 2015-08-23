@@ -6,7 +6,7 @@ var model = require('../models');
 module.exports = function (app) {
   return function (req, res) {
     var other = function () {
-      res.code = '4.04';
+      res.code = '4.00';
       return res.end(JSON.stringify({method: "not support"}));
     };
 
@@ -40,7 +40,8 @@ module.exports = function (app) {
             var options = {name: username, token: user.uid};
 
             db.query(options, function (dbResult) {
-              res.code = '2.06';
+              console.log(dbResult);
+              res.code = '2.05';
               return res.end(JSON.stringify({result: dbResult}));
             });
           } else {
@@ -62,7 +63,7 @@ module.exports = function (app) {
           if (result) {
             var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
             db.insert(payload);
-            res.code = '2.06';
+            res.code = '2.01';
             return res.end(JSON.stringify({method: 'post/put'}));
           } else {
             res.code = '4.03';

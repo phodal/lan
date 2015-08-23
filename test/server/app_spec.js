@@ -278,7 +278,7 @@ describe('Application Services Test', function () {
       var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/root:root', method: 'GET'});
 
       req.on('response', function (res) {
-        if (res.code === '2.06') {
+        if (res.code === '2.05') {
           done();
         }
       });
@@ -302,8 +302,7 @@ describe('Application Services Test', function () {
       var req = coap.request('coap://localhost/hello');
 
       req.on('response', function (res) {
-        console.log(res.code);
-        if (res.code === '4.04') {
+        if (res.code === '4.00') {
           done();
         }
       });
@@ -336,7 +335,7 @@ describe('Application Services Test', function () {
       req.end();
     });
 
-    it('should abe to post data with auth', function (done) {
+    it('should able to post data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
       var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal:phodal', method: 'POST'});
@@ -349,7 +348,7 @@ describe('Application Services Test', function () {
       req.setHeader("Accept", "application/json");
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
-        if (res.code === '2.06') {
+        if (res.code === '2.01') {
           done();
         }
       });
@@ -391,7 +390,7 @@ describe('Application Services Test', function () {
       req.setHeader("Accept", "application/json");
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
-        if (res.code === '2.06') {
+        if (res.code === '2.01') {
           done();
         }
       });

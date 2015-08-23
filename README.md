@@ -141,7 +141,7 @@ with authenticate
 
 ###CoAP PUT/POST - libcoap
 
-    coap-client -m get coap://127.0.0.1:5683/topics/zero -T
+    coap-client -m get coap://127.0.0.1:5683/topic/root:root
     
 with authenticate
 
