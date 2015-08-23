@@ -60,7 +60,6 @@ module.exports = function (app) {
           return res.end(JSON.stringify({error: "not auth"}));
         }
         user.comparePassword(password, function (err, result) {
-          console.log(result);
           if (result) {
             var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
             db.insert(payload);

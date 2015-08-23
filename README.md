@@ -117,35 +117,34 @@ Then.
 
 ##Test With Tool
 
-###HTTP PUT/POST - cUrl
+###HTTP 
 
-    curl -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
-with authenticate
-
-    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
     
 Get 
     
     curl --user root:root -X GET -H "Content-Type: application/json" http://localhost:8899/topics/root
 
+PUT/POST - cUrl
+    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
-###MQTT PUT/POST - Mosquitto
+
+###MQTT 
 
 
-    mosquitto_pub -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
-    
-with authenticate
+PUT/POST - Mosquitto
 
     mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
 
-###CoAP PUT/POST - libcoap
+###CoAP 
+
+GET
+
+    coap-client -e "{message: 'hello,world}" -m put coap://127.0.0.1/topic?root:root
+
+PUT/POST - libcoap
 
     coap-client -m get coap://127.0.0.1:5683/topic/root:root
-    
-with authenticate
-
-``Use CoAP Option for Authenticate``      
 
 
 Inspired by
