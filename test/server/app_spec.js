@@ -275,7 +275,7 @@ describe('Application Services Test', function () {
     it('should able connect to coap server', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/root:root', method: 'GET'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'GET', query: 'root:root'});
 
       req.on('response', function (res) {
         if (res.code === '2.05') {
@@ -287,7 +287,7 @@ describe('Application Services Test', function () {
     });
 
     it('should unable connect to coap server when username error', function (done) {
-      var req = coap.request('coap://localhost/topic/phodal1:phodal');
+      var req = coap.request('coap://localhost/topic?phodal1:phodal');
 
       req.on('response', function (res) {
         if (res.code === '4.03') {
@@ -311,7 +311,7 @@ describe('Application Services Test', function () {
     });
 
     it('should unable connect to coap server when password error', function (done) {
-      var req = coap.request('coap://localhost/topic/phodal:root');
+      var req = coap.request('coap://localhost/topic?phodal:root');
 
       req.on('response', function (res) {
         if (res.code === '4.03') {
@@ -338,7 +338,7 @@ describe('Application Services Test', function () {
     it('should able to post data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal:phodal', method: 'POST'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:phodal'});
 
       var payload = {
         title: 'this is a test payload',
@@ -359,7 +359,7 @@ describe('Application Services Test', function () {
     it('should not able to post data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal:root', method: 'POST'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:root'});
 
       var payload = {
         title: 'this is a test payload',
@@ -380,7 +380,7 @@ describe('Application Services Test', function () {
     it('should able to put data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal:phodal', method: 'PUT'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'phodal:phodal'});
 
       var payload = {
         title: 'this is a test payload',
@@ -401,7 +401,7 @@ describe('Application Services Test', function () {
     it('should able to put data with username error', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/root:phodal', method: 'PUT'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'root:phodal'});
 
       var payload = {
         title: 'this is a test payload',

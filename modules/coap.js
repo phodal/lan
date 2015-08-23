@@ -17,7 +17,8 @@ module.exports = function (app) {
     var existBlock = false;
     var uriPathAuth = "";
     for (var i = 1; i < req.options.length; i++) {
-      if (req.options[i].name === 'Uri-Path') {
+      if (req.options[i].name === 'Uri-Query') {
+        console.log(req.options[i].value.toString());
         uriPathAuth = req.options[i].value.toString();
         existBlock = true;
       }
