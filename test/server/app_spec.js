@@ -273,9 +273,10 @@ describe('Application Services Test', function () {
 
   describe("CoAP Server", function () {
     it('should able connect to coap server', function (done) {
-      var req = coap.request('coap://localhost/hello');
+      var request = coap.request;
+      var bl = require('bl');
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/root?root', method: 'GET'});
 
-      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal')]);
       req.on('response', function (res) {
         if (res.code === '2.06') {
           done();
@@ -286,9 +287,8 @@ describe('Application Services Test', function () {
     });
 
     it('should unable connect to coap server when username error', function (done) {
-      var req = coap.request('coap://localhost/hello');
+      var req = coap.request('coap://localhost/topic/phodal?phodal');
 
-      req.setOption('Block2', [new Buffer('phodal1'), new Buffer('phodal')]);
       req.on('response', function (res) {
         if (res.code === '4.03') {
           done();
@@ -312,9 +312,8 @@ describe('Application Services Test', function () {
     });
 
     it('should unable connect to coap server when password error', function (done) {
-      var req = coap.request('coap://localhost/hello');
+      var req = coap.request('coap://localhost/topic/phodal?root');
 
-      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal1')]);
       req.on('response', function (res) {
         if (res.code === '4.03') {
           done();
@@ -340,7 +339,7 @@ describe('Application Services Test', function () {
     it('should abe to post data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'POST'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal?phodal', method: 'POST'});
 
       var payload = {
         title: 'this is a test payload',
@@ -348,7 +347,6 @@ describe('Application Services Test', function () {
       };
 
       req.setHeader("Accept", "application/json");
-      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal')]);
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
         if (res.code === '2.06') {
@@ -362,7 +360,7 @@ describe('Application Services Test', function () {
     it('should not able to post data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'POST'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal?root', method: 'POST'});
 
       var payload = {
         title: 'this is a test payload',
@@ -370,7 +368,6 @@ describe('Application Services Test', function () {
       };
 
       req.setHeader("Accept", "application/json");
-      req.setOption('Block2', [new Buffer('phodal'), new Buffer('root')]);
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
         if (res.code === '4.03') {
@@ -384,7 +381,7 @@ describe('Application Services Test', function () {
     it('should able to put data with auth', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'PUT'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal?phodal', method: 'PUT'});
 
       var payload = {
         title: 'this is a test payload',
@@ -392,7 +389,6 @@ describe('Application Services Test', function () {
       };
 
       req.setHeader("Accept", "application/json");
-      req.setOption('Block2', [new Buffer('phodal'), new Buffer('phodal')]);
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
         if (res.code === '2.06') {
@@ -406,7 +402,7 @@ describe('Application Services Test', function () {
     it('should able to put data with username error', function (done) {
       var request = coap.request;
       var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'PUT'});
+      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/root?phodal', method: 'PUT'});
 
       var payload = {
         title: 'this is a test payload',
@@ -414,7 +410,6 @@ describe('Application Services Test', function () {
       };
 
       req.setHeader("Accept", "application/json");
-      req.setOption('Block2', [new Buffer('phodal1'), new Buffer('root')]);
       req.write(JSON.stringify(payload));
       req.on('response', function (res) {
         if (res.code === '4.03') {

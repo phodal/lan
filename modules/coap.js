@@ -14,7 +14,6 @@ module.exports = function (app) {
       other();
       return;
     }
-    console.log(req.options);
     var existBlock = false;
     var uriPathAuth = "";
     for (var i = 1; i < req.options.length; i++) {
