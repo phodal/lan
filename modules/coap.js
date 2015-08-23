@@ -26,8 +26,8 @@ module.exports = function (app) {
       other();
       return;
     }
-    var username = uriPathAuth.split("?")[0];
-    var password = uriPathAuth.split("?")[1];
+    var username = uriPathAuth.split(":")[0];
+    var password = uriPathAuth.split(":")[1];
 
     var handlerGet = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
