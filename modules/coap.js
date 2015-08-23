@@ -14,9 +14,12 @@ module.exports = function (app) {
       other();
       return;
     }
+    console.log(req.options);
     var existBlock = false;
+    var uriPathAuth = "";
     for (var i = 1; i < req.options.length; i++) {
-      if (req.options[i].name === 'Block2') {
+      if (req.options[i].name === 'Uri-Path') {
+        uriPathAuth = req.options[i].value.toString();
         existBlock = true;
       }
     }
@@ -24,23 +27,22 @@ module.exports = function (app) {
       other();
       return;
     }
-    var username = req.options[1].value.toString();
-    var password = req.options[2].value.toString();
+    var username = uriPathAuth.split("?")[0];
+    var password = uriPathAuth.split("?")[1];
 
     var handlerGet = function () {
       model.User.findOne({where: {name: username}}).then(function (user) {
         if (!user) {
           res.code = '4.03';
-          return res.end({method: "not auth"});
+          return res.end(JSON.stringify({method: "not auth"}));
         }
         user.comparePassword(password, function (err, result) {
           if (result) {
-            console.log(username, user.uid);
             var options = {name: username, token: user.uid};
 
             db.query(options, function (dbResult) {
               res.code = '2.06';
-              return res.end({result: dbResult});
+              return res.end(JSON.stringify({result: dbResult}));
             });
           } else {
             res.code = '4.03';
