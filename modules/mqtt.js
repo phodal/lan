@@ -12,6 +12,7 @@ module.exports = function (app) {
     };
 
     client.on('connect', function (packet) {
+      client.id = packet.client;
       if (packet.username === undefined || packet.password === undefined) {
         return client.connack({
           returnCode: -1
@@ -34,10 +35,13 @@ module.exports = function (app) {
         });
       });
     });
+
     client.on('subscribe', function (packet) {
-      db.subscribe(packet.username, function (result) {
-        console.log(result);
-        return client.stream.end();
+      db.subscribe({name: userInfo.name, token: userInfo.uid}, function (result) {
+         return client.publish({
+           topic: userInfo.name.toString(),
+           payload: JSON.stringify(result)
+         });
       });
     });
     client.on('publish', function (packet) {

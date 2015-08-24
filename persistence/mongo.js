@@ -44,12 +44,10 @@ MongoPersistence.prototype.subscribe = function (queryOptions, queryCB) {
   MongoClient.connect(url, function (err, db) {
     var subDocuments = function (db, query, callback) {
       var collection = db.collection(config.get('db_collection'));
-      console.log("== open tailable cursor");
-      collection.find({}, {tailable: true, awaitdata: true, numberOfRetries: -1, oplogReplay: true})
-        //.sort({$natural: 1})
-        //.limit(1)
-        .each(function (err, doc) {
-          console.log(doc);
+      collection.find(query)
+        .sort({$natural: 1})
+        .limit(1)
+        .toArray(function (err, doc) {
           callback(doc)
         })
     };
