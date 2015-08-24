@@ -156,9 +156,13 @@ PUT/POST - cUrl
 ###MQTT 
 
 
-PUT/POST - Mosquitto
+Publish - Mosquitto
 
     mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
+
+Subscribe - Mosquitto
+
+    mosquitto_sub -t message -h localhost -u root -P root
 
 ###CoAP 
 
