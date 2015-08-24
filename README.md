@@ -20,9 +20,9 @@ Lan -> Server Layer:
 
 ##TODO
 
-2. pub/sub support (Phodal)
+2. pub/sub support (Phodal Ongoing)
 
-3. Sync token to Mongodb
+3. Sync token to Mongodb(MQ or Cron)
 
 4. add Auth support for WebSocket
 
@@ -56,11 +56,27 @@ Use ``bcrypt``, please install it .
 
 Current design:
 
-	{
-		encrypt: 'bcrypt',
-		modules: ['coap', 'http', 'mqtt', 'websocket']
-	}
+```javascript
+{
+  "encrypt": "crypto",
+  "db_url": "mongodb://localhost:27017/lan",
+  "db_collection": "documents",
+  "modules": [
+    "coap",
+    "http",
+    "mqtt",
+    "websocket"
+  ],
+  "port": {
+    "http": 8899,
+    "websocket": 8898,
+    "coap": 5683,
+    "mqtt": 1883
+  }
+}
+```
 
+encrypt: ``crypto``, ``bcrypt``
 
 ##安装(Setup)
 
