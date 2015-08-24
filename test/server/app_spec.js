@@ -11,7 +11,7 @@ var WebSocketServer = WebSocket.Server;
 var env = require("../../app.js");
 
 describe('Application Services Test', function () {
-  var app, server, coapServer, mqttServer, webSocketServer;
+  var app, server;
   app = env.configure();
 
   before(function () {

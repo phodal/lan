@@ -26,7 +26,7 @@ describe('HTTP Services Test', function () {
   describe("HTTP Server", function () {
     it('should able open homepage', function (done) {
       request.get('http://localhost:8899/',
-        function (error, response, body) {
+        function (error, response) {
           if (response.statusCode === 200) {
             done();
           }
@@ -40,7 +40,7 @@ describe('HTTP Services Test', function () {
             'password': 'root'
           }
         },
-        function (error, response, body) {
+        function (error, response) {
           if (response.statusCode === 200) {
             done();
           }
@@ -54,7 +54,7 @@ describe('HTTP Services Test', function () {
             'password': 'phodal'
           }
         },
-        function (error, response, body) {
+        function (error, response) {
           if (response.statusCode === 403) {
             done();
           }
@@ -68,7 +68,7 @@ describe('HTTP Services Test', function () {
             'password': 'phodal'
           }
         },
-        function (error, response, body) {
+        function (error, response) {
           if (response.statusCode === 403) {
             done();
           }
@@ -77,7 +77,7 @@ describe('HTTP Services Test', function () {
 
     it('should return 401 when user not auth', function (done) {
       request('http://localhost:8899/topics/test',
-        function (error, response, body) {
+        function (error, response) {
           if (response.statusCode === 401) {
             done();
           }
@@ -98,7 +98,7 @@ describe('HTTP Services Test', function () {
             })
           },
           {body: 'I am an attachment'}]
-      }, function (error, response, body) {
+      }, function (error, response) {
         if (response.statusCode) {
           done();
         }
@@ -112,7 +112,7 @@ describe('HTTP Services Test', function () {
           'password': 'phodal',
           'sendImmediately': true
         }
-      }, function (error, response, body) {
+      }, function (error, response) {
         if (response.statusCode === 204) {
           done();
         }
@@ -126,7 +126,7 @@ describe('HTTP Services Test', function () {
           'password': 'phodal',
           'sendImmediately': true
         }
-      }, function (error, response, body) {
+      }, function (error, response) {
         if (response.statusCode === 403) {
           done();
         }
@@ -140,7 +140,7 @@ describe('HTTP Services Test', function () {
           'password': 'root',
           'sendImmediately': true
         }
-      }, function (error, response, body) {
+      }, function (error, response) {
         if (response.statusCode === 403) {
           done();
         }
@@ -156,7 +156,7 @@ describe('HTTP Services Test', function () {
           'password': 'phodal',
           'sendImmediately': true
         }
-      }, function (error, response, body) {
+      }, function (error, response) {
         if (response.statusCode === 204) {
           done();
         }
