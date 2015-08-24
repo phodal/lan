@@ -78,6 +78,13 @@ Current design:
 
 encrypt: ``crypto``, ``bcrypt``
 
+
+##Docker
+
+``Require``: Docker
+
+    docker build .
+
 ##安装(Setup)
 
 ``必装``:
