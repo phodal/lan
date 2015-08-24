@@ -110,6 +110,7 @@ encrypt: ``crypto``, ``bcrypt``
 
 4.数据库初始化
 
+    npm install -g sequelize-cli
     sequelize db:migrate
     
 5.运行

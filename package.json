@@ -39,7 +39,6 @@
     "node-uuid": "^1.4.3",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
-    "sequelize-cli": "^1.7.4",
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.0.9",
