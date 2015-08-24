@@ -11,25 +11,16 @@ var WebSocketServer = WebSocket.Server;
 var env = require("../../app.js");
 
 describe('HTTP Services Test', function () {
-  var app, server, coapServer, mqttServer, webSocketServer;
+  var app, server;
   app = env.configure();
 
   before(function () {
     server = app.listen(8899, function () {
     });
-    coapServer = coap.createServer(app.coap).listen(5683, function () {
-    });
-    mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
-    });
-    webSocketServer = new WebSocketServer({port: 8898});
-    app.websocket(webSocketServer);
   });
 
   after(function () {
-    webSocketServer.close();
     server.close();
-    coapServer.close();
-    mqttServer.close();
   });
 
   describe("HTTP Server", function () {

@@ -27,19 +27,10 @@ describe('Application Services Test', function () {
 
     server = app.listen(8899, function () {
     });
-    coapServer = coap.createServer(app.coap).listen(5683, function () {
-    });
-    mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
-    });
-    webSocketServer = new WebSocketServer({port: 8898});
-    app.websocket(webSocketServer);
   });
 
   after(function () {
-    webSocketServer.close();
     server.close();
-    coapServer.close();
-    mqttServer.close();
   });
 
   describe("Authenticate", function () {
