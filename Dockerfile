@@ -1,5 +1,4 @@
 # Pull base image.
-# Pull base image.
 FROM ubuntu:14.04
 
 
@@ -23,37 +22,23 @@ WORKDIR /data
 CMD ["mongod"]
 
 # Expose ports.
-#   - 27017: process
-#   - 28017: http
-EXPOSE 27017
+EXPOSE 27017:27017
 EXPOSE 28017
-EXPOSE 5683:udp
-EXPOSE 1883
-EXPOSE 8899:http
-EXPOSE 8898
+EXPOSE 5683:5683
+EXPOSE 1883:1883
+EXPOSE 8899:8899
+EXPOSE 8898:8898
 
 # Install Node.js
-RUN \
-  cd /tmp && \
-  wget http://nodejs.org/dist/node-latest.tar.gz && \
-  tar xvzf node-latest.tar.gz && \
-  rm -f node-latest.tar.gz && \
-  cd node-v* && \
-  ./configure && \
-  CXX="g++ -Wno-unused-local-typedefs" make && \
-  CXX="g++ -Wno-unused-local-typedefs" make install && \
-  cd /tmp && \
-  rm -rf /tmp/node-v* && \
-  npm install -g npm && \
-  printf '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
-
+RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
+RUN apt-get install -y nodejs
 # Define working directory.
 
 RUN cd /home
 RUN git clone http://github.com/phodal/lan /home/lan
 
 WORKDIR /home/lan
-RUN npm install
+RUN npm install --production
 RUN npm install -g sequelize-cli
 RUN npm install -g forever
 RUN sequelize db:migrate
