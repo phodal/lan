@@ -7,5 +7,11 @@
     "http",
     "mqtt",
     "websocket"
-  ]
+  ],
+  "port": {
+    "http": 8899,
+    "websocket": 8898,
+    "coap": 5683,
+    "mqtt": 1883
+  }
 }
