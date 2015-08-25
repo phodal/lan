@@ -112,12 +112,17 @@ router.post('/register', function (req, res) {
           return res.redirect('/');
         }
 
-        console.log(user.uid);
-        passport.authenticate('local')(req, res, function () {
-          res.render('success', {
-            title: 'Create Success,' + user.name,
-            account: user,
-            uid: user.uid
+        models.Message.create({
+          name: user.name,
+          userId: user.id,
+          uuid: user.uid
+        }).then(function(message, err){
+          passport.authenticate('local')(req, res, function () {
+            res.render('success', {
+              title: 'Create Success,' + user.name,
+              account: user,
+              uid: user.uid
+            });
           });
         });
       });
