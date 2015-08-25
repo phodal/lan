@@ -1,4 +1,3 @@
-//var encrypt = require('./encrypt/bcrypt');
 var config = require('config');
 var encrypt = require('./encrypt/' + config.get('encrypt'));
 var uuid = require('node-uuid');
@@ -23,11 +22,33 @@ module.exports = function (sequelize, DataTypes) {
     done();
   }
 
+  var Message = sequelize.define('Message', {
+    name: DataTypes.STRING,
+    user_id: {
+      type:DataTypes.STRING,
+      references: {
+        model: "User",
+        key: "id"
+      }
+    },
+    uuid: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
+    }
+  });
+
   var User = sequelize.define('User', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      references: {
+        model: Message, // Can be both a string representing the table name, or a reference to the model
+        key:   "name"
+      },
       validate: {
         notEmpty: true,
         isUnique: function (value, next) {
@@ -57,7 +78,11 @@ module.exports = function (sequelize, DataTypes) {
     uid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
+      references: {
+        model: Message, // Can be both a string representing the table name, or a reference to the model
+        key:   "uuid"
+      }
     },
     isAdmin: {
       type:DataTypes.BOOLEAN,
@@ -69,7 +94,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function (models) {
-        // associations can be defined here
+        User.hasOne(Message,  { as: 'message' });
       },
       findByUserId: function (userid) {
         return this.find({where: {id: userid}});
@@ -78,6 +103,7 @@ module.exports = function (sequelize, DataTypes) {
     hooks: {
       beforeCreate: [hashPasswordHook, generateUID],
       beforeUpdate: hashPasswordHook
+      //afterCreate: CreateMessage,
     },
     instanceMethods: {
       comparePassword: function (password, done) {
