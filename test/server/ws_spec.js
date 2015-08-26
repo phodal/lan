@@ -28,11 +28,10 @@ describe('WebSocket Services Test', function () {
 
   describe('WebSocket', function () {
     it('basic connection', function (done) {
-      var ws = new WebSocket('ws://localhost:8898/');
+      var ws = new WebSocket('ws://root:root@localhost:8898/');
 
       ws.on('open', function open() {
         ws.send('something');
-        console.log('open');
       });
 
       ws.on('message', function(data) {

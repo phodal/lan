@@ -14,23 +14,30 @@ function getAuthInfo(req) {
 module.exports = function (app) {
   return function (server) {
     server.on('connection', function (socket) {
+      if(!socket.upgradeReq.headers.authorization){
+        socket.send({error: "no auth info"});
+        socket.close();
+      }
       var userInfo = getAuthInfo(socket.upgradeReq);
+      var authInfo = {};
+
       model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
         if (!user) {
           socket.close();
         }
         user.comparePassword(userInfo.password, function (err, result) {
           if (result) {
-            db.subscribe({name: result.name, token: result.uid}, function (dbResult) {
-              socket.send(JSON.stringify(dbResult));
-            });
+            socket.send("connection");
+            authInfo = result;
           } else {
             socket.close();
           }
         });
       });
       socket.on('subscribe', function (topic) {
-
+        db.subscribe({name: authInfo.name, token: authInfo.uid}, function (dbResult) {
+          socket.send(JSON.stringify(dbResult));
+        });
       });
       return socket.on('disconnect', function () {
         console.log('disconnect');
