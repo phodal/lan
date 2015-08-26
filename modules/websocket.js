@@ -14,23 +14,25 @@ function getAuthInfo(req) {
 module.exports = function (app) {
   return function (server) {
     server.on('connection', function (socket) {
-      if(!socket.upgradeReq.headers.authorization){
-        socket.send({error: "no auth info"});
-        socket.close();
+      if(!socket.upgradeReq.headers.authorization || socket.upgradeReq.headers.authorization === undefined){
+        socket.send(JSON.stringify({error: "no auth"}));
+        return socket.close();
       }
       var userInfo = getAuthInfo(socket.upgradeReq);
       var authInfo = {};
 
       model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
         if (!user) {
-          socket.close();
+          socket.send(JSON.stringify({error: "auth failure"}));
+          return socket.close();
         }
         user.comparePassword(userInfo.password, function (err, result) {
           if (result) {
             socket.send("connection");
             authInfo = result;
           } else {
-            socket.close();
+            socket.send(JSON.stringify({error: "auth failure"}));
+            return socket.close();
           }
         });
       });

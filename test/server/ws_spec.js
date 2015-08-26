@@ -34,8 +34,50 @@ describe('WebSocket Services Test', function () {
         ws.send('something');
       });
 
-      ws.on('message', function(data) {
-        if(data==="connection") {
+      ws.on('message', function (data) {
+        if (data === "connection") {
+          done();
+        }
+      });
+    });
+
+    it('auth failure', function (done) {
+      var ws = new WebSocket('ws://localhost:8898/');
+
+      ws.on('open', function open() {
+        ws.send('something');
+      });
+
+      ws.on('message', function (data) {
+        if (data === '{"error":"no auth"}') {
+          done();
+        }
+      });
+    });
+
+    it('auth failure when user not exist', function (done) {
+      var ws = new WebSocket('ws://phodal1:phodal@localhost:8898/');
+
+      ws.on('open', function open() {
+        ws.send('something');
+      });
+
+      ws.on('message', function (data) {
+        if (data === '{"error":"auth failure"}') {
+          done();
+        }
+      });
+    });
+
+    it('auth failure when password incorrect', function (done) {
+      var ws = new WebSocket('ws://phodal:phodal1@localhost:8898/');
+
+      ws.on('open', function open() {
+        ws.send('something');
+      });
+
+      ws.on('message', function (data) {
+        if (data === '{"error":"auth failure"}') {
           done();
         }
       });
