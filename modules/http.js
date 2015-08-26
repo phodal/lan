@@ -11,11 +11,11 @@ function getAuthInfo(req) {
   var password = decoded.split(':')[1];
   return {username: username, password: password};
 }
+
 module.exports = function (app) {
   app.get(/^\/topics\/(.+)$/, function (req, res) {
     if (!req.headers.authorization) {
       res.statusCode = 401;
-      res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
       return res.end('Unauthorized');
     }
 
