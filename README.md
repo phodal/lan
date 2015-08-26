@@ -20,17 +20,11 @@ Lan -> Server Layer:
 
 ##TODO
 
-2. pub/sub support (Phodal Ongoing)
+1. Sync token to Mongodb(MQ)(Phodal Ongoing..)
 
-3. Sync token to Mongodb(MQ or Cron)
+2. example for Arduino、NodeMCU、51 ...
 
-4. add Auth support for WebSocket
-
-5. example for Arduino、NodeMCU、51 ...
-
-6. add RSA Support for WebSocket、MQTT、HTTP、CoAP
-
-7. create docker image for deploy
+3. add RSA Support for WebSocket、MQTT、HTTP、CoAP
 
 ###Done
 
@@ -45,6 +39,14 @@ Lan -> Server Layer:
 5. configureable
 
 6. add get data support
+
+7. create docker image for deploy
+
+8. pub/sub support
+
+9. add Auth support for WebSocket
+
+10. Sync token to Mongodb(Cron)
 
 ##Configure(in design)
 
