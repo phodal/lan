@@ -1,7 +1,7 @@
 {
   "name": "lan",
-  "version": "0.0.1",
-  "description": "A Internet of Things Framework",
+  "version": "0.1.0",
+  "description": "Internet of Things Server Layer with CoAP, WebSocket, MQTT, HTTP Protocol.",
   "homepage": "https://github.com/phodal/lan",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   "files": [
     "dist"
   ],
-  "main": "index.js",
+  "main": "server.js",
   "keywords": [
     "iot",
     "lan"

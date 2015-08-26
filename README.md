@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/phodal/lan/badges/gpa.svg)](https://codeclimate.com/github/phodal/lan)
 [![Test Coverage](https://codeclimate.com/github/phodal/lan/badges/coverage.svg)](https://codeclimate.com/github/phodal/lan/coverage)
 
-> A CoAP,MQTT,HTTP,WebSocket Server of Internet of Things.
+> Internet of Things Server Layer with CoAP, WebSocket, MQTT, HTTP Protocol.
 
 Node Version: ``0.12.7``
 
@@ -137,14 +137,11 @@ Then.
 3.Run
 
     npm start
-    
 
 ##Test With Tool
 
 ###HTTP 
 
-
-    
 Get 
     
     curl --user root:root -X GET -H "Content-Type: application/json" http://localhost:8899/topics/root
@@ -174,13 +171,10 @@ PUT/POST - libcoap
 
     coap-client -m get coap://127.0.0.1:5683/topic/root:root
 
-
-Inspired by
-[https://github.com/mcollina/qest](https://github.com/mcollina/qest)
-
 ##License
 
-© 2015 [Phodal Huang][phodal]. This code is distributed under the MIT
-license.
+Inspired by [https://github.com/mcollina/qest](https://github.com/mcollina/qest)
+
+© 2015 [Phodal Huang][phodal]. This code is distributed under the MIT license.
 
 [phodal]:http://www.phodal.com/
