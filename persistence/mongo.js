@@ -3,7 +3,6 @@ var MongoClient = mongo.MongoClient;
 
 var config = require('config');
 
-//var url = 'mongodb://localhost:27017/myproject';
 var url = config.get('db_url');
 
 function MongoPersistence() {

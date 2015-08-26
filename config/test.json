@@ -2,6 +2,7 @@
   "encrypt": "crypto",
   "db_url": "mongodb://localhost:27017/lan_test",
   "db_collection": "documents",
+  "db_collection_user": "user",
   "modules": [
     "coap",
     "http",
