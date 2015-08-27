@@ -1,4 +1,4 @@
-# Lan
+# Lan Server Layer
 
 [![Build Status](https://travis-ci.org/phodal/lan.svg?branch=master)](https://travis-ci.org/phodal/lan)
 [![Code Climate](https://codeclimate.com/github/phodal/lan/badges/gpa.svg)](https://codeclimate.com/github/phodal/lan)
@@ -6,63 +6,28 @@
 
 > Internet of Things Server Layer with CoAP, WebSocket, MQTT, HTTP Protocol.
 
-Node Version: ``0.12.7``
+Similar to [Ponte](https://github.com/eclipse/ponte), 
 
-IoT Architecture: 
+Test on Node Version: ``0.12.7``
 
-![IoT Struct](docs/struct_full.png)
+##IoT Architecture: 
 
-A similar project before this: [Ponte](https://github.com/eclipse/ponte)
+![IoT Struct](docs/struct.jpg)
 
-Lan -> Server Layer:
+##Lan ``Server Layer``:
 
 ![Lan Struct](docs/iot.jpg)
 
-##TODO
+##Configure
 
-1. Sync token to Mongodb(MQ)(Phodal Ongoing..)
-
-2. example for Arduino、NodeMCU、51 ...
-
-3. add RSA Support for WebSocket、MQTT、HTTP、CoAP
-
-###Done
-
-1. basic auth for WebSocket,MQTT,HTTP,CoAP
-
-2. setup database
-
-3. module loader
-
-4. add account register/login
-
-5. configureable
-
-6. add get data support
-
-7. create docker image for deploy
-
-8. pub/sub support
-
-9. add Auth support for WebSocket
-
-10. Sync token to Mongodb(Cron)
-
-##Configure(in design)
-
-Change ``config/config.json`` to setup Database.
-
-Use ``bcrypt``, please install it .
-
-    npm install --save bcrypt
-
-Current design:
+Current Default Config:
 
 ```javascript
 {
   "encrypt": "crypto",
   "db_url": "mongodb://localhost:27017/lan",
   "db_collection": "documents",
+  "db_collection_user": "user",
   "modules": [
     "coap",
     "http",
@@ -78,7 +43,13 @@ Current design:
 }
 ```
 
-encrypt: ``crypto``, ``bcrypt``
+encrypt: ["crypto", "bcrypt"]
+
+modules: ["coap", "http", "mqtt", "websocket"]
+
+Use ``bcrypt``, please install it:
+
+    npm install --save bcrypt
 
 
 ##Docker
