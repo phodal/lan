@@ -115,7 +115,8 @@ router.post('/register', function (req, res) {
         models.Message.create({
           name: user.name,
           userId: user.id,
-          uuid: user.uid
+          uuid: user.uid,
+          status: "create"
         }).then(function(message, err){
           passport.authenticate('local')(req, res, function () {
             res.render('success', {

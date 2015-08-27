@@ -13,7 +13,7 @@ var Q = require("q");
 
 module.exports = function () {
   var start = function () {
-    sequelize.query('SELECT * FROM "messages";',
+    sequelize.query('SELECT * FROM messages WHERE status = "create" ;',
       {replacements: ['active'], type: sequelize.QueryTypes.SELECT}
     ).then(function (projects) {
         if (projects.length <= 0) {
@@ -54,7 +54,7 @@ module.exports = function () {
           };
 
           insertUser(db, projects, function (err) {
-            sequelize.query('DELETE FROM Messages');
+            sequelize.query('DELETE FROM Messages WHERE status = "create"');
             console.log("Mongodb Close");
             db.close();
           });
