@@ -125,7 +125,6 @@ PUT/POST - cUrl
 
 ###MQTT 
 
-
 Publish - Mosquitto
 
     mosquitto_pub -u root -P root -h localhost -d -t lettuce -m "Hello, MQTT. This is my first message."
@@ -136,13 +135,20 @@ Subscribe - Mosquitto
 
 ###CoAP 
 
-GET
+GET - libcoap
 
     coap-client -e "{message: 'hello,world}" -m put coap://127.0.0.1/topic?root:root
 
 PUT/POST - libcoap
 
-    coap-client -m get coap://127.0.0.1:5683/topic/root:root
+    coap-client -m get coap://127.0.0.1:5683/topic?root:root
+    
+GET/POST/PUT - Copper
+    
+1. Visit [coap://127.0.0.1:5683/topic?root:root](coap://127.0.0.1:5683/topic?root:root)
+
+GET: Click ``GET``
+POST: Type on ``Outgoing``, Click ``POST``
 
 ###WebSocket
 
