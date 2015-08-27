@@ -2,8 +2,9 @@ var CronJob = require('cron').CronJob;
 var migrate = require('./sqlite2mongodb');
 
 var job = new CronJob({
-  cronTime: '*/15 * * * * *',
+  cronTime: '*/5 * * * * *',
   onTick: function() {
+    console.log("Migrate Start");
     migrate();
   },
   start: false,
