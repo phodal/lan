@@ -9,9 +9,10 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 var db = {};
 var url = global_config.get('db_url');
 var _ = require("underscore");
+var Q = require("q");
 
 module.exports = function () {
-  var start = function (cb) {
+  var start = function () {
     sequelize.query('SELECT * FROM "messages";',
       {replacements: ['active'], type: sequelize.QueryTypes.SELECT}
     ).then(function (projects) {
@@ -20,44 +21,49 @@ module.exports = function () {
         }
         console.log("Find " + projects.length + " Users Need to Sync");
 
-        MongoClient.connect(url, function (err, db) {
-          var findUser = function (db, query, callback) {
-            var collection = db.collection(global_config.get('db_collection_user'));
-            collection.find(query, {'data': true, '_id': false}).toArray(function (err, docs) {
-              callback(docs);
-            });
-          };
+        //MongoClient.connect(url, function (err, db) {
+        //  var collection = db.collection(global_config.get('db_collection_user'));
+        //  var removeExistOldUser = function (cb) {
+        //    for (var i = 0; i < projects.length; i++) {
+        //      var user = projects[i];
+        //      collection.find({name: user.name}, {'data': true, '_id': false}).toArray(function (err, docs) {
+        //        console.log("User " + user.name + " already exist, try to update");
+        //        if (docs !== "undefined") {
+        //          collection.deleteOne({name: user.name}, function (err, result) {
+        //            console.log("Remove User: " + user.name);
+        //            console.log(err, result);
+        //            db.close();
+        //          });
+        //        }
+        //      });
+        //      cb();
+        //    }
+        //  };
+        //
+        //  removeExistOldUser(function () {
+        //    db.close();
+        //  });
+        //});
 
-          var insertUser = function (db, project, callback) {
-            var collection = db.collection(global_config.get('db_collection_user'));
-            collection.insert(project, function (err, result) {
+        MongoClient.connect(url, function (err, db) {
+          var collection = db.collection(global_config.get('db_collection_user'));
+          var insertUser = function (db, users, callback) {
+            collection.insert(users, function (err, result) {
               callback(err, result);
             });
           };
 
-          _.each(projects, function (project) {
-            findUser(db, {name: project.name}, function (result) {
-              if (result === undefined || result === []) {
-                insertUser(db, project, function (err) {
-                  if (!err) {
-                    sequelize.query('DELETE FROM Messages WHERE NAME = "' + project.name + '";').then(function (result) {
-                      console.log(result);
-                    });
-                  } else {
-                    console.log("--------------------------------------");
-                    console.log(err);
-                  }
-                });
-              }
-            });
+          insertUser(db, projects, function (err) {
+            sequelize.query('DELETE FROM Messages');
+            console.log("Mongodb Close");
+            db.close();
           });
-
-          console.log("Mongodb Close");
-          db.close();
         });
-      })
+      }
+    )
   };
   start(function (result) {
     console.log(result);
   });
-};
+}
+;
