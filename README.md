@@ -148,6 +148,7 @@ GET/POST/PUT - Copper
 1. Visit [coap://127.0.0.1:5683/topic?root:root](coap://127.0.0.1:5683/topic?root:root)
 
 GET: Click ``GET``
+
 POST: Type on ``Outgoing``, Click ``POST``
 
 ###WebSocket
@@ -155,6 +156,22 @@ POST: Type on ``Outgoing``, Click ``POST``
 Message
 
     node test_scripts/ws_test.js
+
+##Auth
+
+Standalone (单机)
+
+``User`` -> ``SQL Database`` (Auth)
+
+``SQL Database`` -> ``NoSQL`` (Save) 
+
+Multi 
+
+``User`` -> ``SQL Database`` (Save)
+
+``SQL Database`` -> ``NoSQL`` (Cron Job || MQ)
+ 
+``User`` -> ``NoSQL`` (Auth && Save)
 
 ##License
 
