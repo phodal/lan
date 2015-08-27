@@ -6,7 +6,7 @@
 
 > Internet of Things Server Layer with CoAP, WebSocket, MQTT, HTTP Protocol.
 
-Similar to [Ponte](https://github.com/eclipse/ponte), 
+Similar to [Ponte](https://github.com/eclipse/ponte) & Inspired by [Qest](https://github.com/mcollina/qest) 
 
 Test on Node Version: ``0.12.7``
 
@@ -120,8 +120,8 @@ Get
     curl --user root:root -X GET -H "Content-Type: application/json" http://localhost:8899/topics/root
 
 PUT/POST - cUrl
-    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
+    curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
 ###MQTT 
 
@@ -144,9 +144,13 @@ PUT/POST - libcoap
 
     coap-client -m get coap://127.0.0.1:5683/topic/root:root
 
-##License
+###WebSocket
 
-Inspired by [https://github.com/mcollina/qest](https://github.com/mcollina/qest)
+Message
+
+    node test_scripts/ws_test.js
+
+##License
 
 © 2015 [Phodal Huang][phodal]. This code is distributed under the MIT license.
 
