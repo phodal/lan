@@ -6,7 +6,8 @@ var WebSocketServer = require('ws').Server;
 var config = require('config');
 
 start = function (opts, callback) {
-  var app = configure();
+  var isLog = true;
+    var app = configure(isLog);
   app.listen(config.get('port.http'), function () {
     console.log("http server run on port %d", config.get('port.http'));
   });

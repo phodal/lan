@@ -60,10 +60,9 @@ passport.deserializeUser(function (uid, done) {
   });
 });
 
-configure = function () {
+configure = function (isLog) {
   app.set('views', path.join(__dirname + '/server', 'views'));
   app.set('view engine', 'jade');
-  app.use(require('morgan')('combined'));
   app.use(require('cookie-parser')());
   app.use(require('body-parser').urlencoded({ extended: true }));
   app.use(session({
@@ -76,7 +75,9 @@ configure = function () {
   app.use(passport.session());
 
 
-  app.use(logger('dev'));
+  if(isLog){
+    app.use(logger('dev'));
+  }
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(cookieParser());
