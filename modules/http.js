@@ -53,6 +53,6 @@ module.exports = function (app) {
   });
 
   return app.put(/^\/topics\/(.+)$/, function (req, res) {
-    update(req, res);
+    return update(req, res);
   });
 };
