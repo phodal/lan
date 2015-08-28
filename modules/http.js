@@ -2,6 +2,7 @@ var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
 var model = require('../models');
+var authCheck = require('../auth/basic');
 
 function getAuthInfo(req) {
   var encoded = req.headers.authorization.split(' ')[1];
@@ -9,7 +10,7 @@ function getAuthInfo(req) {
 
   var username = decoded.split(':')[0];
   var password = decoded.split(':')[1];
-  return {username: username, password: password};
+  return {name: username, password: password};
 }
 
 module.exports = function (app) {
@@ -21,23 +22,23 @@ module.exports = function (app) {
     }
 
     var userInfo = getAuthInfo(req);
-    model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
-      if (!user) {
-        return res.sendStatus(403);
-      }
-      user.comparePassword(userInfo.password, function (err, result) {
-        if (result) {
-          var userName = req.params[0];
-          var options = {name: userName, token: user.uid};
 
-          db.query(options, function (dbResult) {
-            return res.json({'username': userInfo.username, 'topic': dbResult});
-          });
-        } else {
-          return res.sendStatus(403);
-        }
+    var noUserCB = function () {
+      res.sendStatus(403);
+    };
+
+    var errorCB = function () {
+      res.sendStatus(403);
+    };
+
+    var successCB = function (user) {
+      var options = {name: userInfo.userName, token: user.uid};
+      db.query(options, function (dbResult) {
+        return res.json({'username': userInfo.username, 'topic': dbResult});
       });
-    });
+    };
+
+    authCheck(userInfo, noUserCB, successCB, errorCB);
   });
 
   function update(req, res) {
@@ -46,7 +47,7 @@ module.exports = function (app) {
     }
     var userInfo = getAuthInfo(req);
 
-    model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
+    model.User.findOne({where: {name: userInfo.name}}).then(function (user) {
       if (!user) {
         return res.sendStatus(403);
       }
