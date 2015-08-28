@@ -36,7 +36,7 @@ passport.use(new LocalStrategy(
           if (result) {
             done(null ,true);
           } else {
-            done(null, false, {message: "Password || Username error"})
+            done(null, false, {message: 'Password || Username error'})
           }
         });
       }
@@ -60,13 +60,13 @@ passport.deserializeUser(function (uid, done) {
   });
 });
 
-configure = function (isLog) {
+configure = function () {
   app.set('views', path.join(__dirname + '/server', 'views'));
   app.set('view engine', 'jade');
   app.use(require('cookie-parser')());
   app.use(require('body-parser').urlencoded({ extended: true }));
   app.use(session({
-    secret: 'keyboard cat',
+    secret: config.get('secret'),
     resave: true,
     saveUninitialized: true
   }));
@@ -82,13 +82,10 @@ configure = function (isLog) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(cookieParser());
-
   app.use(express.static(path.join(__dirname + '/server', 'public')));
-
   app.use('/', routes);
-  app.config = config;
 
-  var modules = app.config.get('modules');
+  var modules = config.get('modules');
   for (var i = 0; i < modules.length; i++) {
     app = loader(app, modules[i]);
   }
