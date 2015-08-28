@@ -21,7 +21,7 @@ module.exports = function (app) {
       auth['name'] = packet.username;
       auth['password'] = packet.password.toString();
       client.id = packet.client;
-      model.User.findOne({where: {name: auth.name}}).then(function (user) {
+      model.User.findOne({name: auth.name}).then(function (user) {
         if (!user) {
           return client.connack({
             returnCode: -1
