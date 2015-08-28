@@ -1,10 +1,8 @@
 ##TODO
 
-1. Sync token to Mongodb(MQ)(TBD)
+1. example for Arduino、NodeMCU、51 ...
 
-2. example for Arduino、NodeMCU、51 ...
-
-3. add RSA Support for WebSocket、MQTT、HTTP、CoAP
+2. add RSA Support for WebSocket、MQTT、HTTP、CoAP
 
 
 ###Done

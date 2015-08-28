@@ -103,6 +103,10 @@ Then.
 
     npm install
 
+Or Just Production only:
+
+    npm install --production
+
 2.Setup Database
 
     sequelize db:migrate 

@@ -46,4 +46,4 @@ RUN sequelize db:migrate
 
 
 # Define default command.
-CMD ["forever start server"]
+CMD ["bash"]
