@@ -3,6 +3,21 @@ var db = new Database();
 var isJson = require('../utils/common').isJson;
 var model = require('../models');
 
+var authCheck = function (userInfo, noUserCB, successCB, errorCB) {
+  model.User.findOne({where: {name: userInfo.name}}).then(function (user) {
+    if (!user) {
+      return noUserCB();
+    }
+    user.comparePassword(userInfo.password, function (err, result) {
+      if (result) {
+        return successCB(user);
+      } else {
+        return errorCB();
+      }
+    });
+  })
+};
+
 module.exports = function (app) {
   return function (req, res) {
     var other = function () {
@@ -31,26 +46,31 @@ module.exports = function (app) {
     var password = uriPathAuth.split(":")[1];
 
     var handlerGet = function () {
-      model.User.findOne({where: {name: username}}).then(function (user) {
-        if (!user) {
-          res.code = '4.03';
-          return res.end(JSON.stringify({method: "not auth"}));
-        }
-        user.comparePassword(password, function (err, result) {
-          if (result) {
-            var options = {name: username, token: user.uid};
+      var userInfo = {
+        password: password,
+        name: username
+      };
 
-            db.query(options, function (dbResult) {
-              console.log(dbResult);
-              res.code = '2.05';
-              return res.end(JSON.stringify({result: dbResult}));
-            });
-          } else {
-            res.code = '4.03';
-            return res.end({});
-          }
+      var noUserCB = function () {
+        res.code = '4.03';
+        res.end(JSON.stringify({method: "not auth"}));
+      };
+
+      var successCB = function (user) {
+        var options = {name: userInfo.name, token: user.uid};
+
+        db.query(options, function (dbResult) {
+          res.code = '2.05';
+          res.end(JSON.stringify({result: dbResult}));
         });
-      });
+      };
+
+      var errorCB = function () {
+        res.code = '4.03';
+        res.end({});
+      };
+
+      authCheck(userInfo, noUserCB, successCB, errorCB);
     };
 
     var handPost = function () {
