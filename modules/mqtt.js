@@ -24,12 +24,6 @@ module.exports = function (app) {
         password: packet.password.toString()
       };
 
-      var noUserCB = function () {
-        client.connack({
-          returnCode: -1
-        });
-      };
-
       var errorCB = function () {
         client.connack({
           returnCode: -1
@@ -43,7 +37,7 @@ module.exports = function (app) {
         });
       };
 
-      authCheck(reqUserInfo, noUserCB, successCB, errorCB);
+      authCheck(reqUserInfo, errorCB, successCB, errorCB);
     });
 
     client.on('subscribe', function (packet) {

@@ -31,11 +31,6 @@ module.exports = function (app) {
       name: username
     };
 
-    var noUserCB = function () {
-      res.code = '4.03';
-      res.end(JSON.stringify({method: "not auth"}));
-    };
-
     var errorCB = function () {
       res.code = '4.03';
       res.end({});
@@ -49,7 +44,7 @@ module.exports = function (app) {
           res.end(JSON.stringify({result: dbResult}));
         });
       };
-      authCheck(userInfo, noUserCB, successCB, errorCB);
+      authCheck(userInfo, errorCB, successCB, errorCB);
     };
 
     var handPost = function () {
@@ -60,7 +55,7 @@ module.exports = function (app) {
         res.end(JSON.stringify({method: 'post/put'}));
       };
 
-      authCheck(userInfo, noUserCB, successCB, errorCB);
+      authCheck(userInfo, errorCB, successCB, errorCB);
     };
 
     switch (req.method) {
