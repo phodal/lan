@@ -1,6 +1,7 @@
 var model = require('../models');
 var Database = require('../persistence/mongo');
 var db = new Database();
+var authCheck = require('../auth/basic');
 
 function getAuthInfo(req) {
   var encoded = req.headers.authorization.split(' ')[1];
@@ -8,7 +9,7 @@ function getAuthInfo(req) {
 
   var username = decoded.split(':')[0];
   var password = decoded.split(':')[1];
-  return {username: username, password: password};
+  return {name: username, password: password};
 }
 
 module.exports = function (app) {
@@ -21,21 +22,24 @@ module.exports = function (app) {
       var userInfo = getAuthInfo(socket.upgradeReq);
       var authInfo = {};
 
-      model.User.findOne({where: {name: userInfo.username}}).then(function (user) {
-        if (!user) {
-          socket.send(JSON.stringify({error: "auth failure"}));
-          return socket.close();
-        }
-        user.comparePassword(userInfo.password, function (err, result) {
-          if (result) {
-            socket.send("connection");
-            authInfo = result;
-          } else {
-            socket.send(JSON.stringify({error: "auth failure"}));
-            return socket.close();
-          }
-        });
-      });
+
+      var noUserCB = function () {
+        socket.send(JSON.stringify({error: "auth failure"}));
+        socket.close();
+      };
+
+      var errorCB = function () {
+        socket.send(JSON.stringify({error: "auth failure"}));
+        socket.close();
+      };
+
+      var successCB = function (result) {
+        socket.send("connection");
+        authInfo = result;
+      };
+
+      authCheck(userInfo, noUserCB, successCB, errorCB);
+
       socket.on('subscribe', function (topic) {
         db.subscribe({name: authInfo.name, token: authInfo.uid}, function (dbResult) {
           socket.send(JSON.stringify(dbResult));
