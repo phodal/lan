@@ -74,24 +74,29 @@ module.exports = function (app) {
     };
 
     var handPost = function () {
-      model.User.findOne({where: {name: username}}).then(function (user) {
-        if (!user) {
-          res.code = '4.03';
-          return res.end(JSON.stringify({error: "not auth"}));
-        }
-        user.comparePassword(password, function (err, result) {
-          if (result) {
-            var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
-            db.insert(payload);
-            res.code = '2.01';
-            return res.end(JSON.stringify({method: 'post/put'}));
-          } else {
-            res.code = '4.03';
-            return res.end(JSON.stringify({error: "not auth"}));
-          }
-        });
-      });
+      var userInfo = {
+        password: password,
+        name: username
+      };
 
+      var noUserCB = function () {
+        res.code = '4.03';
+        res.end(JSON.stringify({method: "not auth"}));
+      };
+
+      var successCB = function (user) {
+        var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
+        db.insert(payload);
+        res.code = '2.01';
+        res.end(JSON.stringify({method: 'post/put'}));
+      };
+
+      var errorCB = function () {
+        res.code = '4.03';
+        res.end({});
+      };
+
+      authCheck(userInfo, noUserCB, successCB, errorCB);
     };
 
     switch (req.method) {
