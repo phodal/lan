@@ -139,11 +139,11 @@ Subscribe - Mosquitto
 
 ###CoAP 
 
-GET - libcoap
+POST/PUT - libcoap
 
     coap-client -e "{message: 'hello,world}" -m put coap://127.0.0.1/topic?root:root
 
-PUT/POST - libcoap
+GET - libcoap
 
     coap-client -m get coap://127.0.0.1:5683/topic?root:root
     

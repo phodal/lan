@@ -22,12 +22,11 @@ module.exports = function (app) {
   return function (req, res) {
     var other = function () {
       res.code = '4.00';
-      return res.end(JSON.stringify({method: "not support"}));
+      res.end(JSON.stringify({method: "not support"}));
     };
 
     if (!req.options) {
-      other();
-      return;
+      return other();
     }
     var existBlock = false;
     var uriPathAuth = "";
@@ -39,23 +38,26 @@ module.exports = function (app) {
       }
     }
     if (!existBlock) {
-      other();
-      return;
+      return other();
     }
     var username = uriPathAuth.split(":")[0];
     var password = uriPathAuth.split(":")[1];
+    var userInfo = {
+      password: password,
+      name: username
+    };
+
+    var noUserCB = function () {
+      res.code = '4.03';
+      res.end(JSON.stringify({method: "not auth"}));
+    };
+
+    var errorCB = function () {
+      res.code = '4.03';
+      res.end({});
+    };
 
     var handlerGet = function () {
-      var userInfo = {
-        password: password,
-        name: username
-      };
-
-      var noUserCB = function () {
-        res.code = '4.03';
-        res.end(JSON.stringify({method: "not auth"}));
-      };
-
       var successCB = function (user) {
         var options = {name: userInfo.name, token: user.uid};
 
@@ -64,36 +66,16 @@ module.exports = function (app) {
           res.end(JSON.stringify({result: dbResult}));
         });
       };
-
-      var errorCB = function () {
-        res.code = '4.03';
-        res.end({});
-      };
-
       authCheck(userInfo, noUserCB, successCB, errorCB);
     };
 
     var handPost = function () {
-      var userInfo = {
-        password: password,
-        name: username
-      };
-
-      var noUserCB = function () {
-        res.code = '4.03';
-        res.end(JSON.stringify({method: "not auth"}));
-      };
 
       var successCB = function (user) {
         var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
         db.insert(payload);
         res.code = '2.01';
         res.end(JSON.stringify({method: 'post/put'}));
-      };
-
-      var errorCB = function () {
-        res.code = '4.03';
-        res.end({});
       };
 
       authCheck(userInfo, noUserCB, successCB, errorCB);
@@ -108,7 +90,7 @@ module.exports = function (app) {
         handPost();
         break;
       default:
-        other();
+        return other();
         break;
     }
   };
