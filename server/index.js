@@ -25,7 +25,6 @@ router.get('/login', function (req, res) {
   }
 });
 
-
 router.post('/login', function (req, res) {
   'use strict';
 

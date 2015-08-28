@@ -23,7 +23,7 @@ module.exports = function (app) {
     var successCB = function (user) {
       var options = {name: userInfo.name, token: user.uid};
       db.query(options, function (dbResult) {
-        return res.json({'username': userInfo.name, 'topic': dbResult});
+        return res.json({username: userInfo.name, topic: dbResult});
       });
     };
 
@@ -41,7 +41,7 @@ module.exports = function (app) {
     };
 
     var successCB = function (user) {
-      var payload = {'name': user.name, 'token': user.uid, 'data': req.body};
+      var payload = {name: user.name, token: user.uid, data: req.body};
       db.insert(payload);
       res.sendStatus(204);
     };

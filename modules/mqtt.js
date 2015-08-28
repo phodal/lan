@@ -43,14 +43,14 @@ module.exports = function (app) {
 
     client.on('subscribe', function (packet) {
       db.subscribe({name: userInfo.name, token: userInfo.uid}, function (result) {
-         return client.publish({
-           topic: userInfo.name.toString(),
-           payload: JSON.stringify(result)
-         });
+        return client.publish({
+          topic: userInfo.name.toString(),
+          payload: JSON.stringify(result)
+        });
       });
     });
     client.on('publish', function (packet) {
-      var payload = {'name': userInfo.name, 'token': userInfo.uid, 'data': packet.payload.toString()};
+      var payload = {name: userInfo.name, token: userInfo.uid, data: packet.payload.toString()};
       db.insert(payload);
     });
     client.on('pingreq', function (packet) {

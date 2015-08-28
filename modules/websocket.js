@@ -8,7 +8,7 @@ module.exports = function (app) {
   'use strict';
   return function (server) {
     server.on('connection', function (socket) {
-      if(!socket.upgradeReq.headers.authorization || socket.upgradeReq.headers.authorization === undefined){
+      if (!socket.upgradeReq.headers.authorization || socket.upgradeReq.headers.authorization === undefined) {
         socket.send(JSON.stringify({error: 'no auth'}));
         return socket.close();
       }

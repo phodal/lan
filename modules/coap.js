@@ -50,7 +50,7 @@ module.exports = function (app) {
 
     var handPost = function () {
       var successCB = function (user) {
-        var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
+        var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
         db.insert(payload);
         res.code = '2.01';
         res.end(JSON.stringify({method: 'post/put'}));

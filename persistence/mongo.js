@@ -29,7 +29,7 @@ MongoPersistence.prototype.query = function (queryOptions, queryCB) {
   MongoClient.connect(url, function (err, db) {
     var findDocuments = function (db, query, callback) {
       var collection = db.collection(config.get('db_collection'));
-      collection.find(query, {'data': true, '_id': false}).toArray(function (err, docs) {
+      collection.find(query, {data: true, _id: false}).toArray(function (err, docs) {
         callback(docs);
       });
     };
@@ -57,6 +57,5 @@ MongoPersistence.prototype.subscribe = function (queryOptions, queryCB) {
     });
   });
 };
-
 
 module.exports = MongoPersistence;
