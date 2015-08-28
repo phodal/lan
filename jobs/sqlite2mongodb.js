@@ -8,10 +8,11 @@ var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var db = {};
 var url = global_config.get('db_url');
-var _ = require("underscore");
-var Q = require("q");
+var _ = require('underscore');
+var Q = require('q');
 
 module.exports = function () {
+  'use strict';
   var start = function () {
     sequelize.query('SELECT * FROM messages WHERE status = "create" ;',
       {replacements: ['active'], type: sequelize.QueryTypes.SELECT}
@@ -19,7 +20,7 @@ module.exports = function () {
         if (projects.length <= 0) {
           return;
         }
-        console.log("Find " + projects.length + " Users Need to Sync");
+        console.log('Find ' + projects.length + ' Users Need to Sync');
 
         //MongoClient.connect(url, function (err, db) {
         //  var collection = db.collection(global_config.get('db_collection_user'));
@@ -55,12 +56,11 @@ module.exports = function () {
 
           insertUser(db, projects, function (err) {
             sequelize.query('DELETE FROM Messages WHERE status = "create"');
-            console.log("Mongodb Close");
+            console.log('Mongodb Close');
             db.close();
           });
         });
-      }
-    )
+      });
   };
   start(function (result) {
     console.log(result);

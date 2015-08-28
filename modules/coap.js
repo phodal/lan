@@ -4,17 +4,18 @@ var isJson = require('../utils/common').isJson;
 var authCheck = require('../auth/basic');
 
 module.exports = function (app) {
+  'use strict';
   return function (req, res) {
     var other = function () {
       res.code = '4.00';
-      res.end(JSON.stringify({method: "not support"}));
+      res.end(JSON.stringify({method: 'not support'}));
     };
 
     if (!req.options) {
       return other();
     }
     var existBlock = false;
-    var uriPathAuth = "";
+    var uriPathAuth = '';
     for (var i = 1; i < req.options.length; i++) {
       if (req.options[i].name === 'Uri-Query') {
         uriPathAuth = req.options[i].value.toString();
@@ -24,8 +25,8 @@ module.exports = function (app) {
     if (!existBlock) {
       return other();
     }
-    var username = uriPathAuth.split(":")[0];
-    var password = uriPathAuth.split(":")[1];
+    var username = uriPathAuth.split(':')[0];
+    var password = uriPathAuth.split(':')[1];
     var userInfo = {
       password: password,
       name: username
@@ -59,16 +60,15 @@ module.exports = function (app) {
     };
 
     switch (req.method) {
-      case "GET":
+      case 'GET':
         handlerGet();
         break;
-      case "PUT":
-      case "POST":
+      case 'PUT':
+      case 'POST':
         handPost();
         break;
       default:
         return other();
-        break;
     }
   };
 }

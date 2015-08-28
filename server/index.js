@@ -113,8 +113,8 @@ router.post('/register', function (req, res) {
           name: user.name,
           userId: user.id,
           uuid: user.uid,
-          status: "create"
-        }).then(function(message, err){
+          status: 'create'
+        }).then(function (message, err) {
           passport.authenticate('local')(req, res, function () {
             res.render('success', {
               title: 'Create Success,' + user.name,

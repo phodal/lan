@@ -22,12 +22,12 @@ var handleErr = function (err) {
 };
 
 gulp.task('static', function () {
-  return gulp.src('server/**/*.js')
+  return gulp.src(['server/**/*.js', 'modules/**/*.js', 'jobs/**/*.js', 'auth/**/*.js', 'persistence/**/*.js'])
     .pipe(excludeGitignore())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
-    //.pipe(jshint.reporter('fail'))
-    //.pipe(jscs())
+    .pipe(jshint.reporter('fail'))
+    .pipe(jscs())
     .on('error', handleErr);
 });
 

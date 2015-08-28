@@ -6,6 +6,7 @@ var authCheck = require('../auth/basic');
 var getAuthInfo = require('./utils/getAuth');
 
 module.exports = function (app) {
+  'use strict';
   app.get(/^\/topics\/(.+)$/, function (req, res) {
     if (!req.headers.authorization) {
       res.statusCode = 401;

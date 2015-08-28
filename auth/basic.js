@@ -1,6 +1,7 @@
 var model = require('../models');
 
 module.exports = function (userInfo, noUserCB, successCB, errorCB) {
+  'use strict';
   model.User.findOne({where: {name: userInfo.name}}).then(function (user) {
     if (!user) {
       return noUserCB();
@@ -12,5 +13,5 @@ module.exports = function (userInfo, noUserCB, successCB, errorCB) {
         return errorCB();
       }
     });
-  })
+  });
 };

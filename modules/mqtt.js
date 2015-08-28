@@ -5,6 +5,7 @@ var model = require('../models');
 var authCheck = require('../auth/basic');
 
 module.exports = function (app) {
+  'use strict';
   return function (client) {
     var userInfo = {};
     var unsubscribeAll = function () {

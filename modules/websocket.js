@@ -5,27 +5,28 @@ var authCheck = require('../auth/basic');
 var getAuthInfo = require('./utils/getAuth');
 
 module.exports = function (app) {
+  'use strict';
   return function (server) {
     server.on('connection', function (socket) {
       if(!socket.upgradeReq.headers.authorization || socket.upgradeReq.headers.authorization === undefined){
-        socket.send(JSON.stringify({error: "no auth"}));
+        socket.send(JSON.stringify({error: 'no auth'}));
         return socket.close();
       }
       var userInfo = getAuthInfo(socket.upgradeReq);
       var authInfo = {};
 
       var noUserCB = function () {
-        socket.send(JSON.stringify({error: "auth failure"}));
+        socket.send(JSON.stringify({error: 'auth failure'}));
         socket.close();
       };
 
       var errorCB = function () {
-        socket.send(JSON.stringify({error: "auth failure"}));
+        socket.send(JSON.stringify({error: 'auth failure'}));
         socket.close();
       };
 
       var successCB = function (result) {
-        socket.send("connection");
+        socket.send('connection');
         authInfo = result;
       };
 
@@ -39,6 +40,6 @@ module.exports = function (app) {
       return socket.on('disconnect', function () {
         console.log('disconnect');
       });
-    })
+    });
   };
 };
