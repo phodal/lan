@@ -2,10 +2,10 @@ var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
 var model = require('../models');
+var authCheck = require('../auth/basic');
 
 module.exports = function (app) {
   return function (client) {
-    var auth = {};
     var userInfo = {};
     var unsubscribeAll = function () {
 
@@ -18,22 +18,32 @@ module.exports = function (app) {
           returnCode: -1
         });
       }
-      auth['name'] = packet.username;
-      auth['password'] = packet.password.toString();
       client.id = packet.client;
-      model.User.findOne({name: auth.name}).then(function (user) {
-        if (!user) {
-          return client.connack({
-            returnCode: -1
-          });
-        }
-        userInfo = user;
-        user.comparePassword(auth.password, function (err, result) {
-          return client.connack({
-            returnCode: 0
-          });
+      var reqUserInfo = {
+        name: packet.username,
+        password: packet.password.toString()
+      };
+
+      var noUserCB = function () {
+        client.connack({
+          returnCode: -1
         });
-      });
+      };
+
+      var errorCB = function () {
+        client.connack({
+          returnCode: -1
+        });
+      };
+
+      var successCB = function (user) {
+        userInfo = user;
+        client.connack({
+          returnCode: 0
+        });
+      };
+
+      authCheck(reqUserInfo, noUserCB, successCB, errorCB);
     });
 
     client.on('subscribe', function (packet) {

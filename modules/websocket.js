@@ -22,7 +22,6 @@ module.exports = function (app) {
       var userInfo = getAuthInfo(socket.upgradeReq);
       var authInfo = {};
 
-
       var noUserCB = function () {
         socket.send(JSON.stringify({error: "auth failure"}));
         socket.close();
