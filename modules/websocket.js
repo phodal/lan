@@ -2,15 +2,7 @@ var model = require('../models');
 var Database = require('../persistence/mongo');
 var db = new Database();
 var authCheck = require('../auth/basic');
-
-function getAuthInfo(req) {
-  var encoded = req.headers.authorization.split(' ')[1];
-  var decoded = new Buffer(encoded, 'base64').toString('utf8');
-
-  var username = decoded.split(':')[0];
-  var password = decoded.split(':')[1];
-  return {name: username, password: password};
-}
+var getAuthInfo = require('./utils/getAuth');
 
 module.exports = function (app) {
   return function (server) {

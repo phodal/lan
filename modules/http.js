@@ -3,15 +3,7 @@ var db = new Database();
 var isJson = require('../utils/common').isJson;
 var model = require('../models');
 var authCheck = require('../auth/basic');
-
-function getAuthInfo(req) {
-  var encoded = req.headers.authorization.split(' ')[1];
-  var decoded = new Buffer(encoded, 'base64').toString('utf8');
-
-  var username = decoded.split(':')[0];
-  var password = decoded.split(':')[1];
-  return {name: username, password: password};
-}
+var getAuthInfo = require('./utils/getAuth');
 
 module.exports = function (app) {
   app.get(/^\/topics\/(.+)$/, function (req, res) {
@@ -23,22 +15,18 @@ module.exports = function (app) {
 
     var userInfo = getAuthInfo(req);
 
-    var noUserCB = function () {
-      res.sendStatus(403);
-    };
-
     var errorCB = function () {
       res.sendStatus(403);
     };
 
     var successCB = function (user) {
-      var options = {name: userInfo.userName, token: user.uid};
+      var options = {name: userInfo.name, token: user.uid};
       db.query(options, function (dbResult) {
-        return res.json({'username': userInfo.username, 'topic': dbResult});
+        return res.json({'username': userInfo.name, 'topic': dbResult});
       });
     };
 
-    authCheck(userInfo, noUserCB, successCB, errorCB);
+    authCheck(userInfo, errorCB, successCB, errorCB);
   });
 
   function update(req, res) {
@@ -46,10 +34,6 @@ module.exports = function (app) {
       return res.sendStatus(403);
     }
     var userInfo = getAuthInfo(req);
-
-    var noUserCB = function () {
-      res.sendStatus(403);
-    };
 
     var errorCB = function () {
       res.sendStatus(403);
@@ -61,7 +45,7 @@ module.exports = function (app) {
       res.sendStatus(204);
     };
 
-    authCheck(userInfo, noUserCB, successCB, errorCB);
+    authCheck(userInfo, errorCB, successCB, errorCB);
   }
 
   app.post(/^\/topics\/(.+)$/, function (req, res) {
