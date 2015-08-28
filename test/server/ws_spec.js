@@ -26,61 +26,59 @@ describe('WebSocket Services Test', function () {
     server.close();
   });
 
-  describe('WebSocket', function () {
-    it('basic connection', function (done) {
-      var ws = new WebSocket('ws://root:root@localhost:8898/');
+  it('basic connection', function (done) {
+    var ws = new WebSocket('ws://root:root@localhost:8898/');
 
-      ws.on('open', function open() {
-        ws.send('something');
-      });
-
-      ws.on('message', function (data) {
-        if (data === "connection") {
-          done();
-        }
-      });
+    ws.on('open', function open() {
+      ws.send('something');
     });
 
-    it('auth failure', function (done) {
-      var ws = new WebSocket('ws://localhost:8898/');
+    ws.on('message', function (data) {
+      if (data === "connection") {
+        done();
+      }
+    });
+  });
 
-      ws.on('open', function open() {
-        ws.send('something');
-      });
+  it('auth failure', function (done) {
+    var ws = new WebSocket('ws://localhost:8898/');
 
-      ws.on('message', function (data) {
-        if (data === '{"error":"no auth"}') {
-          done();
-        }
-      });
+    ws.on('open', function open() {
+      ws.send('something');
     });
 
-    it('auth failure when user not exist', function (done) {
-      var ws = new WebSocket('ws://phodal1:phodal@localhost:8898/');
+    ws.on('message', function (data) {
+      if (data === '{"error":"no auth"}') {
+        done();
+      }
+    });
+  });
 
-      ws.on('open', function open() {
-        ws.send('something');
-      });
+  it('auth failure when user not exist', function (done) {
+    var ws = new WebSocket('ws://phodal1:phodal@localhost:8898/');
 
-      ws.on('message', function (data) {
-        if (data === '{"error":"auth failure"}') {
-          done();
-        }
-      });
+    ws.on('open', function open() {
+      ws.send('something');
     });
 
-    it('auth failure when password incorrect', function (done) {
-      var ws = new WebSocket('ws://phodal:phodal1@localhost:8898/');
+    ws.on('message', function (data) {
+      if (data === '{"error":"auth failure"}') {
+        done();
+      }
+    });
+  });
 
-      ws.on('open', function open() {
-        ws.send('something');
-      });
+  it('auth failure when password incorrect', function (done) {
+    var ws = new WebSocket('ws://phodal:phodal1@localhost:8898/');
 
-      ws.on('message', function (data) {
-        if (data === '{"error":"auth failure"}') {
-          done();
-        }
-      });
+    ws.on('open', function open() {
+      ws.send('something');
+    });
+
+    ws.on('message', function (data) {
+      if (data === '{"error":"auth failure"}') {
+        done();
+      }
     });
   });
 });

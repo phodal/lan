@@ -24,152 +24,150 @@ describe('CoAP Services Test', function () {
   });
 
 
-  describe("CoAP Server", function () {
-    it('should able connect to coap server', function (done) {
-      var request = coap.request;
-      var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'GET', query: 'root:root'});
+  it('should able connect to coap server', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'GET', query: 'root:root'});
 
-      req.on('response', function (res) {
-        if (res.code === '2.05') {
-          done();
-        }
-      });
-
-      req.end();
+    req.on('response', function (res) {
+      if (res.code === '2.05') {
+        done();
+      }
     });
 
-    it('should unable connect to coap server when username error', function (done) {
-      var req = coap.request('coap://localhost/topic?phodal1:phodal');
+    req.end();
+  });
 
-      req.on('response', function (res) {
-        if (res.code === '4.03') {
-          done();
-        }
-      });
+  it('should unable connect to coap server when username error', function (done) {
+    var req = coap.request('coap://localhost/topic?phodal1:phodal');
 
-      req.end();
+    req.on('response', function (res) {
+      if (res.code === '4.03') {
+        done();
+      }
     });
 
-    it('should unable connect to coap server when not exist auth', function (done) {
-      var req = coap.request('coap://localhost/hello');
+    req.end();
+  });
 
-      req.on('response', function (res) {
-        if (res.code === '4.00') {
-          done();
-        }
-      });
+  it('should unable connect to coap server when not exist auth', function (done) {
+    var req = coap.request('coap://localhost/hello');
 
-      req.end();
+    req.on('response', function (res) {
+      if (res.code === '4.00') {
+        done();
+      }
     });
 
-    it('should unable connect to coap server when password error', function (done) {
-      var req = coap.request('coap://localhost/topic?phodal:root');
+    req.end();
+  });
 
-      req.on('response', function (res) {
-        if (res.code === '4.03') {
-          done();
-        }
-      });
+  it('should unable connect to coap server when password error', function (done) {
+    var req = coap.request('coap://localhost/topic?phodal:root');
 
-      req.end();
+    req.on('response', function (res) {
+      if (res.code === '4.03') {
+        done();
+      }
     });
 
-    it('should return not support when try delete method', function (done) {
-      var request = coap.request;
-      var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'DELETE'});
+    req.end();
+  });
 
-      req.on('response', function (res) {
-        if (JSON.parse(res.payload.toString()).method === "not support") {
-          done();
-        }
-      });
+  it('should return not support when try delete method', function (done) {
+    var request = coap.request;
+    var req = request({hostname: 'localhost', port: 5683, pathname: '', method: 'DELETE'});
 
-      req.end();
+    req.on('response', function (res) {
+      if (JSON.parse(res.payload.toString()).method === "not support") {
+        done();
+      }
     });
 
-    it('should able to post data with auth', function (done) {
-      var request = coap.request;
-      var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:phodal'});
+    req.end();
+  });
 
-      var payload = {
-        title: 'this is a test payload',
-        body: 'containing nothing useful'
-      };
+  it('should able to post data with auth', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:phodal'});
 
-      req.setHeader("Accept", "application/json");
-      req.write(JSON.stringify(payload));
-      req.on('response', function (res) {
-        if (res.code === '2.01') {
-          done();
-        }
-      });
+    var payload = {
+      title: 'this is a test payload',
+      body: 'containing nothing useful'
+    };
 
-      req.end();
+    req.setHeader("Accept", "application/json");
+    req.write(JSON.stringify(payload));
+    req.on('response', function (res) {
+      if (res.code === '2.01') {
+        done();
+      }
     });
 
-    it('should not able to post data with auth', function (done) {
-      var request = coap.request;
-      var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:root'});
+    req.end();
+  });
 
-      var payload = {
-        title: 'this is a test payload',
-        body: 'containing nothing useful'
-      };
+  it('should not able to post data with auth', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'POST', query: 'phodal:root'});
 
-      req.setHeader("Accept", "application/json");
-      req.write(JSON.stringify(payload));
-      req.on('response', function (res) {
-        if (res.code === '4.03') {
-          done();
-        }
-      });
+    var payload = {
+      title: 'this is a test payload',
+      body: 'containing nothing useful'
+    };
 
-      req.end();
+    req.setHeader("Accept", "application/json");
+    req.write(JSON.stringify(payload));
+    req.on('response', function (res) {
+      if (res.code === '4.03') {
+        done();
+      }
     });
 
-    it('should able to put data with auth', function (done) {
-      var request = coap.request;
-      var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'phodal:phodal'});
+    req.end();
+  });
 
-      var payload = {
-        title: 'this is a test payload',
-        body: 'containing nothing useful'
-      };
+  it('should able to put data with auth', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'phodal:phodal'});
 
-      req.setHeader("Accept", "application/json");
-      req.write(JSON.stringify(payload));
-      req.on('response', function (res) {
-        if (res.code === '2.01') {
-          done();
-        }
-      });
+    var payload = {
+      title: 'this is a test payload',
+      body: 'containing nothing useful'
+    };
 
-      req.end();
+    req.setHeader("Accept", "application/json");
+    req.write(JSON.stringify(payload));
+    req.on('response', function (res) {
+      if (res.code === '2.01') {
+        done();
+      }
     });
 
-    it('should able to put data with username error', function (done) {
-      var request = coap.request;
-      var bl = require('bl');
-      var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'root:phodal'});
+    req.end();
+  });
 
-      var payload = {
-        title: 'this is a test payload',
-        body: 'containing nothing useful'
-      };
+  it('should able to put data with username error', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'PUT', query: 'root:phodal'});
 
-      req.setHeader("Accept", "application/json");
-      req.write(JSON.stringify(payload));
-      req.on('response', function (res) {
-        if (res.code === '4.03') {
-          done();
-        }
-      });
+    var payload = {
+      title: 'this is a test payload',
+      body: 'containing nothing useful'
+    };
 
-      req.end();
+    req.setHeader("Accept", "application/json");
+    req.write(JSON.stringify(payload));
+    req.on('response', function (res) {
+      if (res.code === '4.03') {
+        done();
+      }
     });
+
+    req.end();
   });
 });

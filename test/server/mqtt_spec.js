@@ -23,21 +23,18 @@ describe('MQTT Services Test', function () {
     mqttServer.close();
   });
 
-  describe("MQTT Server", function () {
-    it('should able connect to mqtt server', function (done) {
-      var client = mqtt.createClient(1883, '127.0.0.1', {
-        username: 'root',
-        password: 'root'
-      });
-
-      client.on('connect', function () {
-        client.publish('root', 'coap');
-        //client.subscribe('root');
-        //client.unsubscribe('root');
-        client.end();
-        done();
-      });
+  it('should able connect to mqtt server', function (done) {
+    var client = mqtt.createClient(1883, '127.0.0.1', {
+      username: 'root',
+      password: 'root'
     });
 
+    client.on('connect', function () {
+      client.publish('root', 'coap');
+      //client.subscribe('root');
+      //client.unsubscribe('root');
+      client.end();
+      done();
+    });
   });
 });

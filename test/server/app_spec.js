@@ -33,74 +33,72 @@ describe('Application Services Test', function () {
     server.close();
   });
 
-  describe("Authenticate", function () {
-    var agent = supertest.agent(app);
-    var agent2 = supertest.agent(app);
+  var agent = supertest.agent(app);
+  var agent2 = supertest.agent(app);
 
-    it("should able load the home page", function (done) {
-      agent
-        .get('/')
-        .expect('Content-Type', /html/)
-        .expect(200, done);
-    });
+  it("should able load the home page", function (done) {
+    agent
+      .get('/')
+      .expect('Content-Type', /html/)
+      .expect(200, done);
+  });
 
-    it("should able goto register page", function (done) {
-      agent
-        .get('/register')
-        .expect('Content-Type', /html/)
-        .expect(200, done);
-    });
+  it("should able goto register page", function (done) {
+    agent
+      .get('/register')
+      .expect('Content-Type', /html/)
+      .expect(200, done);
+  });
 
-    it("should redirect when visit profile without login", function (done) {
-      agent
-        .get('/users/root')
-        .expect(302, done);
-    });
+  it("should redirect when visit profile without login", function (done) {
+    agent
+      .get('/users/root')
+      .expect(302, done);
+  });
 
-    it("should able to register with lan", function (done) {
-      agent
-        .post('/register')
-        .send({name: 'lan', password: 'lan', phone: '1234567890', alias: "something"})
-        .expect(200, done);
-    });
+  it("should able to register with lan", function (done) {
+    agent
+      .post('/register')
+      .send({name: 'lan', password: 'lan', phone: '1234567890', alias: "something"})
+      .expect(200, done);
+  });
 
-    it("should unable to register with lan", function (done) {
-      agent
-        .post('/register')
-        .send({name: 'root', password: 'root', phone: '1234567890', alias: "something"})
-        .end(function (err, res){
-          done();
-        })
-    });
+  it("should unable to register with lan", function (done) {
+    agent
+      .post('/register')
+      .send({name: 'root', password: 'root', phone: '1234567890', alias: "something"})
+      .end(function (err, res) {
+        done();
+      })
+  });
 
-    it("should able to login with lan", function (done) {
-      agent
-        .post('/login')
-        .send({name: 'lan', password: 'lan'})
-        .expect(200, done);
-    });
+  it("should able to login with lan", function (done) {
+    agent
+      .post('/login')
+      .send({name: 'lan', password: 'lan'})
+      .expect(200, done);
+  });
 
 
-    it("should unable to login with lanting", function (done) {
-      agent
-        .post('/login')
-        .send({name: 'lanting', password: 'lan'})
-        .expect(302, done);
-    });
+  it("should unable to login with lanting", function (done) {
+    agent
+      .post('/login')
+      .send({name: 'lanting', password: 'lan'})
+      .expect(302, done);
+  });
 
-    it("should able to visit user profile", function (done) {
-      agent
-        .get('/users/lan')
-        .end(function (err, res) {
-          res.statusCode.should.be.equal(200);
-          done();
-        });
-    });
+  it("should able to visit user profile", function (done) {
+    agent
+      .get('/users/lan')
+      .end(function (err, res) {
+        res.statusCode.should.be.equal(200);
+        done();
+      });
+  });
 
-    it("should redirect to homepage", function (done) {
-      agent2
-        .get('/logout')
-        .expect(302, done);
-    });
+  it("should redirect to homepage", function (done) {
+    agent2
+      .get('/logout')
+      .expect(302, done);
   });
 });
