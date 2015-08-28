@@ -1,22 +1,7 @@
 var Database = require('../persistence/mongo');
 var db = new Database();
 var isJson = require('../utils/common').isJson;
-var model = require('../models');
-
-var authCheck = function (userInfo, noUserCB, successCB, errorCB) {
-  model.User.findOne({where: {name: userInfo.name}}).then(function (user) {
-    if (!user) {
-      return noUserCB();
-    }
-    user.comparePassword(userInfo.password, function (err, result) {
-      if (result) {
-        return successCB(user);
-      } else {
-        return errorCB();
-      }
-    });
-  })
-};
+var authCheck = require('../auth/basic');
 
 module.exports = function (app) {
   return function (req, res) {
@@ -60,7 +45,6 @@ module.exports = function (app) {
     var handlerGet = function () {
       var successCB = function (user) {
         var options = {name: userInfo.name, token: user.uid};
-
         db.query(options, function (dbResult) {
           res.code = '2.05';
           res.end(JSON.stringify({result: dbResult}));
@@ -70,7 +54,6 @@ module.exports = function (app) {
     };
 
     var handPost = function () {
-
       var successCB = function (user) {
         var payload = {'name': user.name, 'token': user.uid, 'data': req.payload.toString()};
         db.insert(payload);
