@@ -47,20 +47,21 @@ module.exports = function (app) {
     }
     var userInfo = getAuthInfo(req);
 
-    model.User.findOne({where: {name: userInfo.name}}).then(function (user) {
-      if (!user) {
-        return res.sendStatus(403);
-      }
-      user.comparePassword(userInfo.password, function (err, result) {
-        if (result) {
-          var payload = {'name': user.name, 'token': user.uid, 'data': req.body};
-          db.insert(payload);
-          return res.sendStatus(204);
-        } else {
-          return res.sendStatus(403);
-        }
-      });
-    });
+    var noUserCB = function () {
+      res.sendStatus(403);
+    };
+
+    var errorCB = function () {
+      res.sendStatus(403);
+    };
+
+    var successCB = function (user) {
+      var payload = {'name': user.name, 'token': user.uid, 'data': req.body};
+      db.insert(payload);
+      res.sendStatus(204);
+    };
+
+    authCheck(userInfo, noUserCB, successCB, errorCB);
   }
 
   app.post(/^\/topics\/(.+)$/, function (req, res) {
