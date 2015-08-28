@@ -75,9 +75,10 @@ configure = function (isLog) {
   app.use(passport.session());
 
 
-  if(isLog){
+  if(config.get('logging')){
     app.use(logger('dev'));
   }
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(cookieParser());

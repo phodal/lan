@@ -39,7 +39,8 @@ Current Default Config:
     "websocket": 8898,
     "coap": 5683,
     "mqtt": 1883
-  }
+  },
+  "logging" :false
 }
 ```
 
