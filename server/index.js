@@ -44,9 +44,6 @@ router.post('/login', function (req, res) {
 
           passport.authenticate('local')(req, res, function () {
             req.logIn(user, function (err) {
-              console.log('----------------');
-              console.log(err);
-
               req.session.messages = 'Login successfully';
               return res.render('login/success', {
                 title: 'Welcome ' + user.name,

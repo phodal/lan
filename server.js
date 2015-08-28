@@ -25,7 +25,7 @@ start = function (opts, callback) {
   }
 
   if (_.include(app.config.get('modules'), 'mqtt')) {
-    mqtt.createServer(app.mqtt).listen(config.get('port.mqtt'), function () {
+    mqtt.MqttServer(app.mqtt).listen(config.get('port.mqtt'), function () {
       console.log("mqtt server listening on port %d", config.get('port.mqtt'));
     });
   }

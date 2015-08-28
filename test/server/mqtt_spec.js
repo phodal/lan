@@ -15,7 +15,7 @@ describe('MQTT Services Test', function () {
   app = env.configure();
 
   before(function () {
-    mqttServer = mqtt.createServer(app.mqtt).listen(1883, function () {
+    mqttServer = mqtt.MqttServer(app.mqtt).listen(1883, function () {
     });
   });
 
@@ -24,7 +24,7 @@ describe('MQTT Services Test', function () {
   });
 
   it('should able connect to mqtt server', function (done) {
-    var client = mqtt.createClient(1883, '127.0.0.1', {
+    var client = mqtt.connect('http://127.0.0.1', {
       username: 'root',
       password: 'root'
     });
