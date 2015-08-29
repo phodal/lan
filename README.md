@@ -182,4 +182,4 @@ Multi
 
 © 2015 [Phodal Huang][phodal]. This code is distributed under the MIT license.
 
-[phodal]:http://www.phodal.com/
+[phodal]: http://www.phodal.com/

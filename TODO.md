@@ -4,7 +4,6 @@
 
 2. add RSA Support for WebSocket、MQTT、HTTP、CoAP
 
-
 ###Done
 
 1. basic auth for WebSocket,MQTT,HTTP,CoAP
@@ -13,7 +12,7 @@
 
 3. module loader
 
-4. add account register/login
+4. account register/login
 
 5. configurable
 
