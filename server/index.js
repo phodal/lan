@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var models = require('../models/');
+var authCheck = require('../auth/basic');
 
 router.get('/', function (req, res) {
   'use strict';
@@ -32,33 +33,31 @@ router.post('/login', function (req, res) {
     name: req.body.name,
     password: req.body.password
   };
+  var errorCB = function () {
+    req.session.messages = 'not such user';
+    return res.redirect('/login');
+  };
 
-  models.User.findOne({where: {name: userInfo.name}}).then(function (user) {
-    if (!user) {
-      req.session.messages = 'not such user';
-      return res.redirect('/login');
-    }
-    user.comparePassword(userInfo.password, function (err, result) {
-        if (result) {
+  var successCB = function (user) {
+    passport.authenticate('local')(req, res, function () {
+      req.logIn(user, function (err) {
+        req.session.messages = 'Login successfully';
+        return res.render('login/success', {
+          title: 'Welcome ' + user.name,
+          uid: user.uid,
+          userName: user.name,
+          phone: user.phone,
+          alias: user.alias
+        });
+      });
+    });
+  };
 
-          passport.authenticate('local')(req, res, function () {
-            req.logIn(user, function (err) {
-              req.session.messages = 'Login successfully';
-              return res.render('login/success', {
-                title: 'Welcome ' + user.name,
-                uid: user.uid,
-                userName: user.name,
-                phone: user.phone,
-                alias: user.alias
-              });
-            });
-          });
-        } else {
-          return res.sendStatus(404);
-        }
-      }
-    );
-  });
+  var failureCB = function () {
+    return res.sendStatus(404);
+  };
+
+  authCheck(userInfo, errorCB, successCB, failureCB);
 });
 
 router.get('/logout', function (req, res) {
