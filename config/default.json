@@ -15,6 +15,6 @@
     "coap": 5683,
     "mqtt": 1883
   },
-  "logging": false,
+  "logging": true,
   "secret": "keyboard cat"
 }

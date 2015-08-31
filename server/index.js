@@ -64,7 +64,6 @@ router.get('/logout', function (req, res) {
   'use strict';
   if (req.isAuthenticated()) {
     req.logout();
-    //req.session.messages = req.i18n.__("Log out successfully");
     req.session.messages = 'Log out successfully';
   }
   res.redirect('/');

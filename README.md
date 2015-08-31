@@ -20,7 +20,7 @@ Test on Node Version: ``0.12.7``
 
 ##Configure
 
-Current Default Config:
+Default Config:
 
 ```javascript
 {
@@ -40,9 +40,12 @@ Current Default Config:
     "coap": 5683,
     "mqtt": 1883
   },
-  "logging" :false
+  "logging" :true,
+  "secret": "keyboard cat"
 }
 ```
+
+###**Import** make sure change secret
 
 encrypt: ["crypto", "bcrypt"]
 
@@ -51,7 +54,6 @@ modules: ["coap", "http", "mqtt", "websocket"]
 Use ``bcrypt``, please install it:
 
     npm install --save bcrypt
-
 
 ##Docker
 
@@ -63,8 +65,8 @@ Use ``bcrypt``, please install it:
 
 ``必装``:
 
-1. MongoDB
-2. Sqlite 或者 MySQL
+1. MongoDB -> NoSQL: 数据存储
+2. Sqlite || MySQL || PostgreSQL || MariaDB || MSSQL -> SQL: 存储用户信息
 
 然后:
 
@@ -87,7 +89,11 @@ Use ``bcrypt``, please install it:
     npm install -g sequelize-cli
     sequelize db:migrate
     
-5.运行
+5.Start Cron
+ 
+    npm jobs/cron.js
+    
+6.运行
  
     npm start    
     
@@ -96,7 +102,7 @@ Use ``bcrypt``, please install it:
 ``require``: Install
 
 1. ``MongoDB``
-2. ``Sqlite`` or ``MySQL``
+2. Sqlite || MySQL || PostgreSQL || MariaDB || MSSQL -> SQL: save user info
 
 Then.
 
@@ -112,7 +118,12 @@ Or Just Production only:
 
     sequelize db:migrate 
 
-3.Run
+    
+3.Start Cron
+ 
+    npm jobs/cron.js
+
+4.Run
 
     npm start
 
