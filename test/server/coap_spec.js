@@ -23,7 +23,6 @@ describe('CoAP Services Test', function () {
     coapServer.close();
   });
 
-
   it('should able connect to coap server', function (done) {
     var request = coap.request;
     var bl = require('bl');
@@ -132,11 +131,10 @@ describe('CoAP Services Test', function () {
   it('should able to put data with auth', function (done) {
     var request = coap.request;
     var bl = require('bl');
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'PUT', query: 'phodal:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'PUT', query: 'phodal:phodal'});
 
     var payload = {
-      title: 'this is a test payload',
-      body: 'containing nothing useful'
+      topic: "this is topic 2"
     };
 
     req.setHeader("Accept", "application/json");
@@ -150,14 +148,13 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-  it('should able to put data with username error', function (done) {
+  it('should unable to put data with username error', function (done) {
     var request = coap.request;
     var bl = require('bl');
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'PUT', query: 'root:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/1', method: 'PUT', query: 'root:phodal'});
 
     var payload = {
-      title: 'this is a test payload',
-      body: 'containing nothing useful'
+      topic: 'this is a topic 1'
     };
 
     req.setHeader("Accept", "application/json");
@@ -170,4 +167,36 @@ describe('CoAP Services Test', function () {
 
     req.end();
   });
+
+  it('should return phodal"s topic 2 result', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'phodal:phodal'});
+
+    req.on('response', function (res) {
+      var topicResult = JSON.parse(res.payload.toString()).result[0].data;
+      if (JSON.parse(topicResult).topic === "this is topic 2") {
+        done();
+      }
+    });
+
+    req.end();
+  });
+
+  it('should not return root"s topic 2 result', function (done) {
+    var request = coap.request;
+    var bl = require('bl');
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'root:root'});
+
+    req.on('response', function (res) {
+      var topicResult = JSON.parse(res.payload.toString()).result;
+      if (topicResult.toString() === "") {
+        done();
+      }
+    });
+
+    req.end();
+  });
+
+
 });

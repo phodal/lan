@@ -40,6 +40,9 @@ module.exports = function (app) {
     var handlerGet = function () {
       var successCB = function (user) {
         var options = {name: userInfo.name, token: user.uid};
+        if((/^\/topic\/(.*)\?/.test(req.url))) {
+          options.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        }
         db.query(options, function (dbResult) {
           res.code = '2.05';
           res.end(JSON.stringify({result: dbResult}));
@@ -68,7 +71,7 @@ module.exports = function (app) {
         if((/^\/topic\/(.*)\?/.test(req.url))) {
           payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
         }
-        
+
         db.insert(payload);
         res.code = '2.01';
         res.end(JSON.stringify({method: 'POST'}));
