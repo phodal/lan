@@ -85,6 +85,7 @@ configure = function () {
   app.use(express.static(path.join(__dirname + '/server', 'public')));
   app.use('/', routes);
 
+  app.config = config;
   var modules = config.get('modules');
   for (var i = 0; i < modules.length; i++) {
     app = loader(app, modules[i]);
