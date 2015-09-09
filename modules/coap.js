@@ -51,9 +51,12 @@ module.exports = function (app) {
     var handPut = function () {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
+        if((/^\/topic\/(.*)\?/.test(req.url))) {
+          payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        }
         db.insert(payload);
         res.code = '2.01';
-        res.end(JSON.stringify({method: 'post/put'}));
+        res.end(JSON.stringify({method: 'PUT'}));
       };
 
       authCheck(userInfo, errorCB, successCB, errorCB);
@@ -62,9 +65,13 @@ module.exports = function (app) {
     var handPost = function () {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
+        if((/^\/topic\/(.*)\?/.test(req.url))) {
+          payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        }
+        
         db.insert(payload);
         res.code = '2.01';
-        res.end(JSON.stringify({method: 'post/put'}));
+        res.end(JSON.stringify({method: 'POST'}));
       };
 
       authCheck(userInfo, errorCB, successCB, errorCB);
