@@ -24,6 +24,22 @@ MongoPersistence.prototype.insert = function (payload) {
   });
 };
 
+MongoPersistence.prototype.update = function (payload) {
+  'use strict';
+  MongoClient.connect(url, function (err, db) {
+    var updateDocument = function (db, callback) {
+      var collection = db.collection(config.get('db_collection'));
+      var oldPayload = {name: payload.name, topic: payload.topic, token: payload.token};
+      collection.update(oldPayload, {$set: {data: payload.data}}, function (err, result) {
+        callback(result);
+      });
+    };
+    updateDocument(db, function () {
+      db.close();
+    });
+  });
+};
+
 MongoPersistence.prototype.query = function (queryOptions, queryCB) {
   'use strict';
   MongoClient.connect(url, function (err, db) {

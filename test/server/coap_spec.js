@@ -9,6 +9,7 @@ var supertest = require('supertest');
 var WebSocket = require('ws');
 var WebSocketServer = WebSocket.Server;
 var env = require("../../app.js");
+var bl = require('bl');
 
 describe('CoAP Services Test', function () {
   var app, server, coapServer;
@@ -25,7 +26,6 @@ describe('CoAP Services Test', function () {
 
   it('should able connect to coap server', function (done) {
     var request = coap.request;
-    var bl = require('bl');
     var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'GET', query: 'root:root'});
 
     req.on('response', function (res) {
@@ -88,7 +88,6 @@ describe('CoAP Services Test', function () {
 
   it('should able to post data with auth', function (done) {
     var request = coap.request;
-    var bl = require('bl');
     var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'POST', query: 'phodal:phodal'});
 
     var payload = {
@@ -109,7 +108,6 @@ describe('CoAP Services Test', function () {
 
   it('should not able to post data with auth', function (done) {
     var request = coap.request;
-    var bl = require('bl');
     var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'POST', query: 'phodal:root'});
 
     var payload = {
@@ -128,10 +126,9 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-  it('should able to put data with auth', function (done) {
+  it('should able to POST data with auth', function (done) {
     var request = coap.request;
-    var bl = require('bl');
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'PUT', query: 'phodal:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'POST', query: 'phodal:phodal'});
 
     var payload = {
       topic: "this is topic 2"
@@ -148,10 +145,9 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-  it('should unable to put data with username error', function (done) {
+  it('should unable to POST data with username error', function (done) {
     var request = coap.request;
-    var bl = require('bl');
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/1', method: 'PUT', query: 'root:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/1', method: 'POST', query: 'root:phodal'});
 
     var payload = {
       topic: 'this is a topic 1'
@@ -170,7 +166,6 @@ describe('CoAP Services Test', function () {
 
   it('should return phodal"s topic 2 result', function (done) {
     var request = coap.request;
-    var bl = require('bl');
     var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'phodal:phodal'});
 
     req.on('response', function (res) {
@@ -185,7 +180,6 @@ describe('CoAP Services Test', function () {
 
   it('should not return root"s topic 2 result', function (done) {
     var request = coap.request;
-    var bl = require('bl');
     var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'root:root'});
 
     req.on('response', function (res) {
@@ -198,5 +192,15 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-
+  it('should able to update data with auth', function (done) {
+    var request = coap.request;
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'PUT', query: 'phodal:phodal'});
+    req.write(JSON.stringify({topic: "this is topic UPDATE"}));
+    req.on('response', function (res) {
+      if (res.code === '2.00') {
+        done();
+      }
+    });
+    req.end();
+  });
 });

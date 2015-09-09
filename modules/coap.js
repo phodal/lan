@@ -52,13 +52,16 @@ module.exports = function (app) {
     };
 
     var handPut = function () {
+      if(!(/^\/topic\/(.*)\?/.test(req.url))){
+        res.code = '4.03';
+        res.end(JSON.stringify({"topic": "no exist"}));
+      }
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        if((/^\/topic\/(.*)\?/.test(req.url))) {
-          payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
-        }
-        db.insert(payload);
-        res.code = '2.01';
+        payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+
+        db.update(payload);
+        res.code = '2.00';
         res.end(JSON.stringify({method: 'PUT'}));
       };
 
