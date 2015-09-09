@@ -48,6 +48,17 @@ module.exports = function (app) {
       authCheck(userInfo, errorCB, successCB, errorCB);
     };
 
+    var handPut = function () {
+      var successCB = function (user) {
+        var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
+        db.insert(payload);
+        res.code = '2.01';
+        res.end(JSON.stringify({method: 'post/put'}));
+      };
+
+      authCheck(userInfo, errorCB, successCB, errorCB);
+    };
+
     var handPost = function () {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
@@ -64,6 +75,8 @@ module.exports = function (app) {
         handlerGet();
         break;
       case 'PUT':
+        handPut();
+        break;
       case 'POST':
         handPost();
         break;
