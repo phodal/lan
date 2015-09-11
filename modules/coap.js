@@ -6,6 +6,8 @@ var authCheck = require('../auth/basic');
 module.exports = function (app) {
   'use strict';
   return function (req, res) {
+    var deviceRex = /^\/device\/(.*)\?/;
+
     var other = function () {
       res.code = '4.00';
       res.end(JSON.stringify({method: 'not support'}));
@@ -39,11 +41,11 @@ module.exports = function (app) {
 
     var handlerGet = function () {
       var successCB = function (user) {
-        var options = {name: userInfo.name, token: user.uid};
-        if((/^\/topic\/(.*)\?/.test(req.url))) {
-          options.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        var payload = {name: userInfo.name, token: user.uid};
+        if((deviceRex.test(req.url))) {
+          payload.device = deviceRex.exec(req.url)[1];
         }
-        db.query(options, function (dbResult) {
+        db.query(payload, function (dbResult) {
           res.code = '2.05';
           res.end(JSON.stringify({result: dbResult}));
         });
@@ -52,13 +54,13 @@ module.exports = function (app) {
     };
 
     var handPut = function () {
-      if(!(/^\/topic\/(.*)\?/.test(req.url))){
+      if(!(deviceRex.test(req.url))){
         res.code = '4.03';
         res.end(JSON.stringify({"topic": "no exist"}));
       }
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        payload.device = deviceRex.exec(req.url)[1];
 
         db.update(payload);
         res.code = '2.00';
@@ -71,8 +73,8 @@ module.exports = function (app) {
     var handPost = function () {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        if((/^\/topic\/(.*)\?/.test(req.url))) {
-          payload.topic = /^\/topic\/(.*)\?/.exec(req.url)[1];
+        if((deviceRex.test(req.url))) {
+          payload.device = deviceRex.exec(req.url)[1];
         }
 
         db.insert(payload);

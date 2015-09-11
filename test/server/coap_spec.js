@@ -26,7 +26,7 @@ describe('CoAP Services Test', function () {
 
   it('should able connect to coap server', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic', method: 'GET', query: 'root:root'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device', method: 'GET', query: 'root:root'});
 
     req.on('response', function (res) {
       if (res.code === '2.05') {
@@ -38,7 +38,7 @@ describe('CoAP Services Test', function () {
   });
 
   it('should unable connect to coap server when username error', function (done) {
-    var req = coap.request('coap://localhost/topic?phodal1:phodal');
+    var req = coap.request('coap://localhost/device?phodal1:phodal');
 
     req.on('response', function (res) {
       if (res.code === '4.03') {
@@ -62,7 +62,7 @@ describe('CoAP Services Test', function () {
   });
 
   it('should unable connect to coap server when password error', function (done) {
-    var req = coap.request('coap://localhost/topic?phodal:root');
+    var req = coap.request('coap://localhost/device?phodal:root');
 
     req.on('response', function (res) {
       if (res.code === '4.03') {
@@ -88,7 +88,7 @@ describe('CoAP Services Test', function () {
 
   it('should able to post data with auth', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'POST', query: 'phodal:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/phodal', method: 'POST', query: 'phodal:phodal'});
 
     var payload = {
       title: 'this is a test payload',
@@ -108,7 +108,7 @@ describe('CoAP Services Test', function () {
 
   it('should not able to post data with auth', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/phodal', method: 'POST', query: 'phodal:root'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/phodal', method: 'POST', query: 'phodal:root'});
 
     var payload = {
       title: 'this is a test payload',
@@ -128,10 +128,10 @@ describe('CoAP Services Test', function () {
 
   it('should able to POST data with auth', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'POST', query: 'phodal:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/2', method: 'POST', query: 'phodal:phodal'});
 
     var payload = {
-      topic: "this is topic 2"
+      device: "this is device 2"
     };
 
     req.setHeader("Accept", "application/json");
@@ -147,10 +147,10 @@ describe('CoAP Services Test', function () {
 
   it('should unable to POST data with username error', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/1', method: 'POST', query: 'root:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/1', method: 'POST', query: 'root:phodal'});
 
     var payload = {
-      topic: 'this is a topic 1'
+      device: 'this is a device 1'
     };
 
     req.setHeader("Accept", "application/json");
@@ -164,13 +164,13 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-  it('should return phodal"s topic 2 result', function (done) {
+  it('should return phodal"s device 2 result', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'phodal:phodal'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/2', method: 'GET', query: 'phodal:phodal'});
 
     req.on('response', function (res) {
       var topicResult = JSON.parse(res.payload.toString()).result[0].data;
-      if (JSON.parse(topicResult).topic === "this is topic 2") {
+      if (JSON.parse(topicResult).device === "this is device 2") {
         done();
       }
     });
@@ -178,9 +178,9 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
-  it('should not return root"s topic 2 result', function (done) {
+  it('should not return root"s device 2 result', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'GET', query: 'root:root'});
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/2', method: 'GET', query: 'root:root'});
 
     req.on('response', function (res) {
       var topicResult = JSON.parse(res.payload.toString()).result;
@@ -194,8 +194,8 @@ describe('CoAP Services Test', function () {
 
   it('should able to update data with auth', function (done) {
     var request = coap.request;
-    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'PUT', query: 'phodal:phodal'});
-    req.write(JSON.stringify({topic: "this is topic UPDATE"}));
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'device/2', method: 'PUT', query: 'phodal:phodal'});
+    req.write(JSON.stringify({topic: "this is device UPDATE"}));
     req.on('response', function (res) {
       if (res.code === '2.00') {
         done();
