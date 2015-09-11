@@ -7,7 +7,7 @@ var getAuthInfo = require('./utils/getAuth');
 
 module.exports = function (app) {
   'use strict';
-  app.get(/^\/topics\/(.+)$/, function (req, res) {
+  app.get(/^\/(.*)\/(.*)$/, function (req, res) {
     if (!req.headers.authorization) {
       res.statusCode = 401;
       res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
@@ -22,6 +22,7 @@ module.exports = function (app) {
 
     var successCB = function (user) {
       var options = {name: userInfo.name, token: user.uid};
+      options[req.param[0]] = req.params[1];
       db.query(options, function (dbResult) {
         return res.json({username: userInfo.name, topic: dbResult});
       });
@@ -42,6 +43,7 @@ module.exports = function (app) {
 
     var successCB = function (user) {
       var payload = {name: user.name, token: user.uid, data: req.body};
+      payload[req.param[0]] = req.params[1];
       db.insert(payload);
       res.sendStatus(204);
     };
@@ -49,11 +51,11 @@ module.exports = function (app) {
     authCheck(userInfo, errorCB, successCB, errorCB);
   }
 
-  app.post(/^\/topics\/(.+)$/, function (req, res) {
+  app.post(/^\/(.*)\/(.*)$/, function (req, res) {
     return update(req, res);
   });
 
-  return app.put(/^\/topics\/(.+)$/, function (req, res) {
+  return app.put(/^\/(.*)\/(.*)$/, function (req, res) {
     return update(req, res);
   });
 };

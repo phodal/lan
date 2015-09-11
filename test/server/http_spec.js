@@ -161,4 +161,20 @@ describe('HTTP Services Test', function () {
       }
     })
   });
+
+  it('should able post response', function (done) {
+    request({
+      uri: 'http://localhost:8899/device/test',
+      method: 'POST',
+      'auth': {
+        'username': 'phodal',
+        'password': 'phodal',
+        'sendImmediately': true
+      }
+    }, function (error, response) {
+      if (response.statusCode === 204) {
+        done();
+      }
+    })
+  });
 });
