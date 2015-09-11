@@ -145,6 +145,25 @@ describe('CoAP Services Test', function () {
     req.end();
   });
 
+  it('should able to POST data with auth', function (done) {
+    var request = coap.request;
+    var req = request({hostname: 'localhost', port: 5683, pathname: 'topic/2', method: 'POST', query: 'phodal:phodal'});
+
+    var payload = {
+      topic: "this is topic 2"
+    };
+
+    req.setHeader("Accept", "application/json");
+    req.write(JSON.stringify(payload));
+    req.on('response', function (res) {
+      if (res.code === '2.01') {
+        done();
+      }
+    });
+
+    req.end();
+  });
+
   it('should unable to POST data with username error', function (done) {
     var request = coap.request;
     var req = request({hostname: 'localhost', port: 5683, pathname: 'device/1', method: 'POST', query: 'root:phodal'});

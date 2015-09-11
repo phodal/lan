@@ -43,7 +43,8 @@ module.exports = function (app) {
       var successCB = function (user) {
         var payload = {name: userInfo.name, token: user.uid};
         if((deviceRex.test(req.url))) {
-          payload[deviceRex.exec(req.url)[1]] = deviceRex.exec(req.url)[2];
+          var deviceID = deviceRex.exec(req.url)[1];
+          payload[deviceID] = deviceRex.exec(req.url)[2];
         }
         db.query(payload, function (dbResult) {
           res.code = '2.05';
@@ -60,7 +61,8 @@ module.exports = function (app) {
       }
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        payload[payload[deviceRex.exec(req.url)[1]]] = deviceRex.exec(req.url)[2];
+        var deviceID = payload[deviceRex.exec(req.url)[1]];
+        payload[deviceID] = deviceRex.exec(req.url)[2];
 
         db.update(payload);
         res.code = '2.00';
@@ -74,7 +76,8 @@ module.exports = function (app) {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
         if((deviceRex.test(req.url))) {
-          payload[deviceRex.exec(req.url)[1]] = deviceRex.exec(req.url)[2];
+          var deviceID = deviceRex.exec(req.url)[1];
+          payload[deviceID] = deviceRex.exec(req.url)[2];
         }
 
         db.insert(payload);
