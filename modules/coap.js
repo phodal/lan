@@ -6,7 +6,7 @@ var authCheck = require('../auth/basic');
 module.exports = function (app) {
   'use strict';
   return function (req, res) {
-    var deviceRex = /^\/device\/(.*)\?/;
+    var deviceRex = /^\/(.*)\/(.*)\?/;
 
     var other = function () {
       res.code = '4.00';
@@ -43,7 +43,7 @@ module.exports = function (app) {
       var successCB = function (user) {
         var payload = {name: userInfo.name, token: user.uid};
         if((deviceRex.test(req.url))) {
-          payload.device = deviceRex.exec(req.url)[1];
+          payload[deviceRex.exec(req.url)[1]] = deviceRex.exec(req.url)[2];
         }
         db.query(payload, function (dbResult) {
           res.code = '2.05';
@@ -60,7 +60,7 @@ module.exports = function (app) {
       }
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        payload.device = deviceRex.exec(req.url)[1];
+        payload[payload[deviceRex.exec(req.url)[1]]] = deviceRex.exec(req.url)[2];
 
         db.update(payload);
         res.code = '2.00';
@@ -74,7 +74,7 @@ module.exports = function (app) {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
         if((deviceRex.test(req.url))) {
-          payload.device = deviceRex.exec(req.url)[1];
+          payload[deviceRex.exec(req.url)[1]] = deviceRex.exec(req.url)[2];
         }
 
         db.insert(payload);
