@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "test": "gulp test",
+    "install": "npm install && bower install && npm install -g sequelize-cli && sequelize db:migrate",
     "start": "node server.js"
   },
   "license": "MIT",
