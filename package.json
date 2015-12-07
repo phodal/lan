@@ -7,7 +7,9 @@
     "type": "git",
     "url": "https://github.com/phodal/lan.git"
   },
-  "engines": {"node": "0.12.x"},
+  "engines": {
+    "node": "0.12.x"
+  },
   "author": "Phodal Huang",
   "files": [
     "dist"

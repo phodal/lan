@@ -1,4 +1,3 @@
-var model = require('../models');
 var Database = require('../persistence/mongo');
 var db = new Database();
 var authCheck = require('../auth/basic');

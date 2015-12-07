@@ -1,7 +1,5 @@
 var Database = require('../persistence/mongo');
 var db = new Database();
-var isJson = require('../utils/common').isJson;
-var model = require('../models');
 var authCheck = require('../auth/basic');
 var getAuthInfo = require('./utils/getAuth');
 
