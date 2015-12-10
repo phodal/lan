@@ -1,13 +1,9 @@
-var helper = require('../spec_helper');
 var mqtt = require('mqtt');
 var request = require('request');
 var coap = require('coap');
-var website = "http://localhost:8899/";
 var assert = require('chai').assert;
 var should = require('should');
 var supertest = require('supertest');
-var WebSocket = require('ws');
-var WebSocketServer = WebSocket.Server;
 var env = require("../../app.js");
 
 describe('MQTT Services Test', function () {
@@ -31,8 +27,8 @@ describe('MQTT Services Test', function () {
 
     client.on('connect', function () {
       client.publish('root', 'coap');
-      //client.subscribe('root');
-      //client.unsubscribe('root');
+      client.subscribe('root');
+      client.unsubscribe('root');
       client.end();
       done();
     });
