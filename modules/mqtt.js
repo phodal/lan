@@ -65,7 +65,9 @@ module.exports = function (app) {
       });
     });
     client.on('publish', function (packet) {
-      var k, i, _client, subscription, payload = {
+      var k;
+      var i;
+      var payload = {
         name: userInfo.name,
         token: userInfo.uid,
         data: packet.payload.toString()
@@ -73,10 +75,10 @@ module.exports = function (app) {
       db.insert(payload);
 
       for (k in self.clients) {
-        _client = self.clients[k];
+        var _client = self.clients[k];
 
         for (i = 0; i < _client.subscriptions.length; i++) {
-          subscription = _client.subscriptions[i];
+          var subscription = _client.subscriptions[i];
 
           if (subscription.test(packet.topic)) {
             _client.publish({
