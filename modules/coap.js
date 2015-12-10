@@ -41,7 +41,7 @@ module.exports = function (app) {
     var handlerGet = function () {
       var successCB = function (user) {
         var payload = {name: userInfo.name, token: user.uid};
-        if((deviceRex.test(req.url))) {
+        if ((deviceRex.test(req.url))) {
           var deviceID = deviceRex.exec(req.url)[1];
           payload[deviceID] = deviceRex.exec(req.url)[2];
         }
@@ -54,9 +54,9 @@ module.exports = function (app) {
     };
 
     var handPut = function () {
-      if(!(deviceRex.test(req.url))){
+      if (!(deviceRex.test(req.url))) {
         res.code = '4.03';
-        res.end(JSON.stringify({"topic": "no exist"}));
+        res.end(JSON.stringify({topic: 'no exist'}));
       }
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
@@ -74,7 +74,7 @@ module.exports = function (app) {
     var handPost = function () {
       var successCB = function (user) {
         var payload = {name: user.name, token: user.uid, data: req.payload.toString()};
-        if((deviceRex.test(req.url))) {
+        if ((deviceRex.test(req.url))) {
           var deviceID = deviceRex.exec(req.url)[1];
           payload[deviceID] = deviceRex.exec(req.url)[2];
         }
