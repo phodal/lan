@@ -6,11 +6,11 @@
 
 > Internet of Things Server Layer with CoAP, WebSocket, MQTT, HTTP Protocol.
 
-Similar to [Ponte](https://github.com/eclipse/ponte) & Inspired by [Qest](https://github.com/mcollina/qest) 
+Inspired by [Qest](https://github.com/mcollina/qest) 
 
 Test on Node Version: ``0.12.7``
 
-##IoT Architecture: 
+##物联网架构: 
 
 ![IoT Struct](docs/struct.jpg)
 
@@ -18,9 +18,9 @@ Test on Node Version: ``0.12.7``
 
 ![Lan Struct](docs/iot.jpg)
 
-##Configure
+##配置
 
-Default Config:
+默认配置:
 
 ```javascript
 {
@@ -45,7 +45,7 @@ Default Config:
 }
 ```
 
-###**Import** make sure change secret
+###**Import** 确保修改加密方式
 
 encrypt: ["crypto", "bcrypt"]
 
