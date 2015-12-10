@@ -44,11 +44,12 @@ module.exports = function (app) {
     });
 
     client.on('subscribe', function (packet) {
-      var granted = [], i, qos, topic, reg;
+      var granted = [];
+      var i;
       for (i = 0; i < packet.subscriptions.length; i++) {
-        qos = packet.subscriptions[i].qos;
-        topic = packet.subscriptions[i].topic;
-        reg = new RegExp(topic.replace('+', '[^\/]+').replace('#', '.+') + '$');
+        var qos = packet.subscriptions[i].qos;
+        var topic = packet.subscriptions[i].topic;
+        var reg = new RegExp(topic.replace('+', '[^\/]+').replace('#', '.+') + '$');
 
         granted.push(qos);
         client.subscriptions.push(reg);
