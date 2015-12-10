@@ -21,7 +21,6 @@
   ],
   "scripts": {
     "test": "gulp test",
-    "install": "npm install",
     "start": "node server.js"
   },
   "license": "MIT",
