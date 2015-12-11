@@ -25,12 +25,23 @@ describe('MQTT Services Test', function () {
       });
 
       client.on('connect', function (packet) {
-        if(packet.returnCode === 0){
+        if (packet.returnCode === 0) {
           client.end();
           done();
         }
       });
     });
+
+    //it('should unable connect to mqtt server when lost password', function (done) {
+    //  var client = mqtt.connect('http://127.0.0.1', {
+    //    username: 'root'
+    //  });
+    //
+    //  client.on('error', function () {
+    //    client.end();
+    //    done();
+    //  });
+    //});
     //
     //it('should unable connect to mqtt server when username & password error', function (done) {
     //  var client = mqtt.connect('http://127.0.0.1', {
@@ -38,17 +49,13 @@ describe('MQTT Services Test', function () {
     //    password: 'password'
     //  });
     //
-    //  client.on('connect', function (packet) {
-    //    console.log("================");
-    //    console.log(packet);
-    //    if(packet.returnCode === -1){
-    //      client.end();
-    //      done();
-    //    }
+    //  client.on('error', function () {
+    //    client.end();
+    //    done();
     //  });
     //});
-
   });
+
   it('should able to sub/pub message', function (done) {
     var client = mqtt.connect('http://127.0.0.1', {
       username: 'root',
@@ -58,9 +65,9 @@ describe('MQTT Services Test', function () {
     client.on('connect', function () {
       client.subscribe('device/1');
       var payload = '{"temperature": 3"}';
-        client.publish('device/1', payload);
-      client.on('message', function(topic, message) {
-        if((message.toString()) === payload){
+      client.publish('device/1', payload);
+      client.on('message', function (topic, message) {
+        if ((message.toString()) === payload) {
           client.end();
           done();
         }

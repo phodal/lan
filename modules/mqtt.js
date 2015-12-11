@@ -27,7 +27,7 @@ module.exports = function (app) {
       };
 
       var errorCB = function () {
-        client.connack({
+        return client.connack({
           returnCode: -1
         });
       };
