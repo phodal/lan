@@ -8,7 +8,7 @@
 
 Inspired by [Qest](https://github.com/mcollina/qest) 
 
-Test on Node Version: ``0.12.7``
+Test on Node Version: ``0.12``,``0.10``,``v4``,``v5``
 
 ##物联网架构: 
 
