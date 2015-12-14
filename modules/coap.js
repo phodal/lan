@@ -8,7 +8,7 @@ module.exports = function (app) {
     var deviceRex = /^\/(.*)\/(.*)\?/;
 
     var other = function () {
-      res.code = '4.00';
+      res.code = '4.05';
       res.end(JSON.stringify({method: 'not support'}));
     };
 
@@ -55,7 +55,7 @@ module.exports = function (app) {
 
     var handPut = function () {
       if (!(deviceRex.test(req.url))) {
-        res.code = '4.03';
+        res.code = '4.04';
         res.end(JSON.stringify({topic: 'no exist'}));
       }
       var successCB = function (user) {
@@ -64,7 +64,7 @@ module.exports = function (app) {
         payload[deviceID] = deviceRex.exec(req.url)[2];
 
         db.update(payload);
-        res.code = '2.00';
+        res.code = '2.01';
         res.end(JSON.stringify({method: 'PUT'}));
       };
 

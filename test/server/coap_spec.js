@@ -53,7 +53,7 @@ describe('CoAP Services Test', function () {
     var req = coap.request('coap://localhost/hello');
 
     req.on('response', function (res) {
-      if (res.code === '4.00') {
+      if (res.code === '4.05') {
         done();
       }
     });
@@ -216,7 +216,7 @@ describe('CoAP Services Test', function () {
     var req = request({hostname: 'localhost', port: 5683, pathname: 'device/2', method: 'PUT', query: 'phodal:phodal'});
     req.write(JSON.stringify({topic: "this is device UPDATE"}));
     req.on('response', function (res) {
-      if (res.code === '2.00') {
+      if (res.code === '2.01') {
         done();
       }
     });
