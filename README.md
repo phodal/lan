@@ -45,8 +45,6 @@ Test on Node Version: ``0.12``,``v4``,``v5``
 }
 ```
 
-###**Import** 确保修改加密方式
-
 encrypt: ["crypto", "bcrypt"]
 
 modules: ["coap", "http", "mqtt", "websocket"]
