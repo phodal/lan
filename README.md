@@ -119,7 +119,7 @@ Or Just Production only:
     
 3.Start Cron
  
-    npm jobs/cron.js
+    node jobs/cron.js
 
 4.Run
 
