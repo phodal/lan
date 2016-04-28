@@ -12,7 +12,7 @@ Test on Node Version: ``0.12``,``v4``,``v5``
 
 ##物联网架构: 
 
-![IoT Struct](docs/struct.jpg)
+![IoT Struct](docs/struct.png)
 
 ##Lan ``Server Layer``:
 
