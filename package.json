@@ -47,7 +47,7 @@
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.0.9",
     "underscore": "^1.8.3",
-    "ws": "^0.8.1"
+    "ws": "^1.1.0"
   },
   "devDependencies": {
     "sequelize-cli": "^1.9.1",
