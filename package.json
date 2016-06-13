@@ -39,7 +39,7 @@
     "jade": "~1.11.0",
     "mongodb": "^2.0.42",
     "morgan": "~1.6.1",
-    "mqtt": "^1.6.0",
+    "mqtt": "^1.11.0",
     "node-uuid": "^1.4.3",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
