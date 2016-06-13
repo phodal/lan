@@ -1,4 +1,4 @@
-# Lan Server Layer
+# Lan IoT Server
 
 [![Build Status](https://travis-ci.org/phodal/lan.svg?branch=master)](https://travis-ci.org/phodal/lan)
 [![Code Climate](https://codeclimate.com/github/phodal/lan/badges/gpa.svg)](https://codeclimate.com/github/phodal/lan)
@@ -10,7 +10,7 @@ Inspired by [Qest](https://github.com/mcollina/qest)
 
 Test on Node Version: ``0.12``,``v4``,``v5``
 
-##物联网架构: 
+##Architecture: 
 
 ![IoT Struct](docs/struct.png)
 
@@ -189,6 +189,4 @@ Multi
 
 ##License
 
-© 2015 [Phodal Huang][phodal]. This code is distributed under the MIT license.
-
-[phodal]: http://www.phodal.com/
+© 2015~2016 [Phodal][https://www.phodal.com/]. This code is distributed under the MIT license.
