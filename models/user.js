@@ -1,6 +1,6 @@
 var config = require('config');
 var encrypt = require('./encrypt/' + config.get('encrypt'));
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 
 'use strict';
 module.exports = function (sequelize, DataTypes) {

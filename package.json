@@ -40,13 +40,13 @@
     "mongodb": "^2.0.42",
     "morgan": "~1.6.1",
     "mqtt": "^1.11.0",
-    "node-uuid": "^1.4.3",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "sequelize": "^3.5.1",
     "serve-favicon": "~2.3.0",
     "sqlite3": "^3.0.9",
     "underscore": "^1.8.3",
+    "uuid": "^3.0.0",
     "ws": "^1.1.1"
   },
   "devDependencies": {
