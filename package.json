@@ -7,9 +7,6 @@
     "type": "git",
     "url": "https://github.com/phodal/lan.git"
   },
-  "engines": {
-    "node": "0.12.x"
-  },
   "author": "Phodal Huang",
   "files": [
     "dist"
@@ -29,7 +26,7 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
-    "coap": "^0.17.0",
+    "coap": "^0.18.0",
     "config": "^1.15.0",
     "cookie-parser": "~1.3.5",
     "cron": "^1.0.9",
