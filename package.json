@@ -33,7 +33,7 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "express-session": "^1.11.3",
-    "jade": "~1.11.0",
+    "pug": "2.0.0-beta6",
     "mongodb": "^2.0.42",
     "morgan": "~1.6.1",
     "mqtt": "^1.11.0",
