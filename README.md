@@ -8,7 +8,7 @@
 
 Inspired by [Qest](https://github.com/mcollina/qest) 
 
-Test on Node Version: ``v4``,``v5``,``v6``
+Test on Node Version: ``v5``,``v6``
 
 ##Architecture: 
 
