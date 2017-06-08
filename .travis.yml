@@ -1,6 +1,8 @@
 sudo: false
 language: node_js
 node_js:
+  - v8
+  - v7
   - v6
   - v5
 notifications:
