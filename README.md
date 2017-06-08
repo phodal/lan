@@ -10,7 +10,7 @@ Inspired by [Qest](https://github.com/mcollina/qest)
 
 Test on Node Version: ``v5``,``v6``
 
-##Architecture: 
+## Architecture: 
 
 ![IoT Struct](docs/struct.png)
 
@@ -20,11 +20,11 @@ Test on Node Version: ``v5``,``v6``
 
 立即购买：[亚马逊](https://www.amazon.cn/dp/B01IBZWTWW/ref=wl_it_dp_o_pC_nS_ttl?_encoding=UTF8&colid=BDXF90QZX6WX&coliid=I19EB97K0GNLW8)、[京东](http://search.jd.com/Search?keyword=%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E8%AE%BE%E8%AE%A1%E7%89%A9%E8%81%94%E7%BD%91&enc=utf-8&wq=%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E8%AE%BE%E8%AE%A1%E7%89%A9%E8%81%94%E7%BD%91&pvid=k24y6hri.l4xi28)
 
-##Lan Server Layer:
+## Lan Server Layer:
 
 ![Lan Struct](docs/iot.jpg)
 
-##配置
+## 配置
 
 默认配置:
 
@@ -59,13 +59,13 @@ Use ``bcrypt``, please install it:
 
     npm install --save bcrypt
 
-##Docker
+## Docker
 
 ``Require``: Docker
 
     docker build .
 
-##安装(Setup)
+## 安装(Setup)
 
 ``必装``:
 
@@ -101,7 +101,7 @@ Use ``bcrypt``, please install it:
  
     npm start    
     
-##Setup
+## Setup
 
 ``require``: Install
 
@@ -131,9 +131,9 @@ Or Just Production only:
 
     npm start
 
-##Test With Tool
+## Test With Tool
 
-###HTTP 
+### HTTP 
 
 Get 
     
@@ -143,7 +143,7 @@ PUT/POST - cUrl
 
     curl --user root:root -X PUT -d '{ "dream": 1 }' -H "Content-Type: application/json" http://localhost:8899/topics/root
 
-###MQTT 
+### MQTT 
 
 Publish - Mosquitto
 
@@ -153,7 +153,7 @@ Subscribe - Mosquitto
 
     mosquitto_sub -t message -h localhost -u root -P root
 
-###CoAP 
+### CoAP 
 
 POST/PUT - libcoap
 
@@ -171,13 +171,13 @@ GET: Click ``GET``
 
 POST: Type on ``Outgoing``, Click ``POST``
 
-###WebSocket
+### WebSocket
 
 Message
 
     node test_scripts/ws_test.js
 
-##Auth
+## Auth
 
 Standalone (单机)
 
@@ -193,6 +193,7 @@ Multi
  
 ``User`` -> ``NoSQL`` (Auth && Save)
 
-##License
+## License
 
 © 2015~2016 [Phodal](https://www.phodal.com/). This code is distributed under the MIT license.
+
