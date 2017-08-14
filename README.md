@@ -76,7 +76,7 @@ Use ``bcrypt``, please install it:
 
 1.Clone
 
-	git clone https://github.com/phodal/lan
+	git clone https://github.com/phodal/lan --recursive
 
 2.安装依赖
 
