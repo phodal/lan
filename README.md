@@ -93,9 +93,9 @@ Use ``bcrypt``, please install it:
     npm install -g sequelize-cli
     sequelize db:migrate
     
-5.Start Cron
- 
-    npm jobs/cron.js
+5.Start Cron 
+    
+    node jobs/cron.js
     
 6.运行
  
